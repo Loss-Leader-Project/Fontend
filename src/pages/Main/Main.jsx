@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../../Components/Header';
 
 // const Test = styled.div`
 //   color: ${({ theme }) => {
@@ -13,7 +14,11 @@ import React from 'react';
 /> */
 }
 const Main = () => {
-  return <div>메인페이지</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 };
 
 export default Main;
