@@ -4,24 +4,6 @@ import styled from 'styled-components';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-let Logo = styled('img')`
-  display: block;
-  margin-left: -2.5rem;
-  ${({ theme }) => theme.media.pc} {
-    width: 300px;
-  }
-  ${({ theme }) => theme.media.tab} {
-    width: 200px;
-    margin-left: 0px;
-  }
-`;
-
-let User = styled(Grid)`
-  ${({ theme }) => theme.media.mobile} {
-    display: none;
-  }
-`;
-
 const Header = () => {
   return (
     <Container>
@@ -63,5 +45,23 @@ const Header = () => {
     </Container>
   );
 };
+
+const Logo = styled('img')`
+  display: block;
+  margin-left: -2.5rem;
+  ${({ theme }) => theme.media.pc} {
+    width: 18.75rem;
+  }
+  ${({ theme }) => theme.media.tab} {
+    width: 12.5rem;
+    margin-left: 0px;
+  }
+`;
+
+const User = styled(Grid)`
+  ${({ theme }) => theme.media.mobile} {
+    display: none;
+  }
+`;
 
 export default Header;
