@@ -6,6 +6,7 @@ import My from './pages/My/My';
 import SignUp from './pages/SignUp/SignUp';
 import Detail from './pages/Detail/Detail';
 import { Redirect } from 'react-router';
+import List from 'pages/List/List';
 
 const Routers = () => {
   return (
@@ -17,6 +18,14 @@ const Routers = () => {
         <Route exact path='/signup' component={SignUp} />
         <Route exact path='/product' component={Detail} />
         <Route exact path='/apply' component={Apply} />
+        <Route
+          exact
+          path={['/list/:name', '/list']}
+          render={({ match: { params } }) => {
+            const { name } = params;
+            return <List name={name} />;
+          }}
+        />
         <Route path='*' render={() => <Redirect to='/' />} />
       </Switch>
     </BrowserRouter>
