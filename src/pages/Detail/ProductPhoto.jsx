@@ -1,32 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
-function ProductPhoto() {
-  const [imageData, setImageData] = useState([]);
-  const [mainImage, setMainImage] = useState('');
-
-  useEffect(() => {
-    axios
-      .get('/data/detailPhoto.json')
-      .then(res => {
-        setMainImage(res.data.PhotoData.images[0].image);
-        setImageData(res.data.PhotoData.images);
-      })
-      .catch(() => {
-        console.log('FAIL!!');
-      });
-  }, []);
-
+function ProductPhoto({ imageData, mainImage, setMainImage }) {
   const hoverChangeImage = e => {
     setMainImage(e.target.currentSrc);
   };
 
   return (
     <Contain>
-      <MainPhoto>
-        <MainImage alt='thumnail' src={mainImage} />
-      </MainPhoto>
+      <MainImage alt='thumnail' src={mainImage} />
       <SubPhoto>
         {imageData?.map(({ id, name, image }) => {
           return (
@@ -43,35 +25,44 @@ function ProductPhoto() {
 export default ProductPhoto;
 
 const Contain = styled.div`
-  width: 37rem;
-  height: 48rem;
-  border: 5px solid red;
-`;
-
-const MainPhoto = styled.main`
-  display: flex;
-  align-items: center;
+  width: 25rem;
+  height: 32rem;
+  ${({ theme }) => theme.media.mobile} {
+    width: 20rem;
+    height: 26rem;
+  }
+  & .asd {
+    border: 5px solid red;
+  }
 `;
 
 const MainImage = styled.img`
-  width: 36rem;
-  height: 36rem;
+  width: 25rem;
+  height: 25rem;
+  ${({ theme }) => theme.media.mobile} {
+    width: 20rem;
+    height: 20rem;
+  }
 `;
 
 const SubPhoto = styled.ul`
   display: flex;
-  margin: 2rem 0 0 0;
+  margin: 0.5rem 0 0 0;
 `;
 
 const SubImageWrapper = styled.li`
-  margin: 0 1rem 0 0;
+  margin: 0 0.5rem 0 0;
 `;
 
 const SubImage = styled.img`
-  width: 8.2rem;
-  height: 8rem;
+  width: 5.8rem;
+  height: 5.8rem;
   cursor: pointer;
   &:hover {
     transform: scale(1.05);
+  }
+  ${({ theme }) => theme.media.mobile} {
+    width: 4.6rem;
+    height: 4.6rem;
   }
 `;
