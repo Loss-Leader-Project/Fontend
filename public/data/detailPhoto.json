@@ -1,0 +1,26 @@
+{
+  "PhotoData": {
+    "images": [
+      {
+        "id": 1,
+        "name": "mainImage",
+        "image": "https://ifh.cc/g/ypTs93.jpg"
+      },
+      {
+        "id": 2,
+        "name": "subImage",
+        "image": "https://ifh.cc/g/HH0EzH.jpg"
+      },
+      {
+        "id": 3,
+        "name": "subImage",
+        "image": "https://ifh.cc/g/jODxtp.jpg"
+      },
+      {
+        "id": 4,
+        "name": "subImage",
+        "image": "https://ifh.cc/g/smWyl6.jpg"
+      }
+    ]
+  }
+}

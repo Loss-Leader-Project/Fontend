@@ -1,8 +1,8 @@
 import { css } from 'styled-components';
 const Size = {
-  pc: '75em', // 1200px
-  tab: '56.25em', // 900px
-  mobile: '31.25em', // 500px
+  pc: '1200px', // 1200px
+  tab: '900px', // 900px
+  mobile: '600px', // 600px
 };
 
 const theme = {
