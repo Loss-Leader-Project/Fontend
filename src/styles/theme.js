@@ -7,10 +7,10 @@ const Size = {
 
 const theme = {
   colors: {
-    0: '#707070',
-    1: '#FF422E',
-    2: '#B9B9B9',
-    3: '#4A4646',
+    gray: '#707070',
+    brandColor: '#FF422E',
+    lightGray: '#B9B9B9',
+    lightDark: '#4A4646',
   },
   media: {
     pc: `@media screen and (max-width: ${Size.pc})`,
