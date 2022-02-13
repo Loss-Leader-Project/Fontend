@@ -1,8 +1,13 @@
 import React from 'react';
 import Routers from './Routers';
 import GlobalStyle from './styles/globalStyle';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, {
+  ThemeProvider as StyledThemeProvider,
+} from 'styled-components';
+import { ThemeProvider as MaterialThemeProvider } from '@mui/material/styles';
+
 import theme from './styles/theme';
+import materialThme from './styles/muiTheme';
 
 let Layout = styled('main')`
   max-width: 1200px;
@@ -12,12 +17,14 @@ let Layout = styled('main')`
 function App() {
   return (
     <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Layout>
-          <Routers />
-        </Layout>
-      </ThemeProvider>
+      <MaterialThemeProvider theme={materialThme}>
+        <StyledThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Layout>
+            <Routers />
+          </Layout>
+        </StyledThemeProvider>
+      </MaterialThemeProvider>
     </React.StrictMode>
   );
 }
