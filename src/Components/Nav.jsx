@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 
 const Nav = () => {
@@ -37,15 +37,15 @@ const Nav = () => {
       <NavTop>
         <NavRouters>
           {routerLinks.map(({ id, path, text }) => (
-            <Link key={id} to={path}>
+            <CustomLink key={id} to={path}>
               <span>{text}</span>
-            </Link>
+            </CustomLink>
           ))}
         </NavRouters>
-        <NavSearch>
-          <SearchIcon />
-          <input type='text' placeholder='오늘의 나를 달래줄 음식은?' />
-        </NavSearch>
+        <NavSearchWrapper>
+          <CoustomSearchIcon />
+          <NavSearchInput type='text' placeholder='오늘의 나를 달래줄 음식은?' />
+        </NavSearchWrapper>
       </NavTop>
     </NavWrapper>
   );
@@ -55,7 +55,7 @@ const NavWrapper = styled.nav`
   margin-top: 0.9375rem;
   padding: 0 1.5rem;
   ${({ theme }) => theme.media.mobile} {
-    padding: 0 0.9375rem;
+    padding: 0;
   }
 `;
 
@@ -69,25 +69,20 @@ const NavTop = styled.div`
 
 const NavRouters = styled.div`
   display: flex;
-  & > a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 6.25rem;
-    font-weight: 600;
-    font-size: 1.125rem;
-    padding: 0 0.625rem;
-    color: ${({ theme }) => theme.colors.gray};
-    position: relative;
-    ${({ theme }) => theme.media.mobile} {
-      flex: 1;
-      width: auto;
-    }
-    :hover {
-      opacity: 0.8;
-    }
+
+  ${({ theme }) => theme.media.mobile} {
+    flex: 1;
   }
-  & > a::before {
+`;
+
+const CustomLinkHover = () => css`
+  :hover {
+    opacity: 0.8;
+  }
+`;
+
+const CustomLinkBefore = () => css`
+  ::before {
     content: '';
     border-left: 1px solid ${({ theme }) => theme.colors.gray};
     width: 1px;
@@ -98,43 +93,67 @@ const NavRouters = styled.div`
     height: 60%;
     margin: auto;
   }
-
-  ${({ theme }) => theme.media.mobile} {
-    flex: 1;
-    & > a:first-child::before {
-      display: none;
-    }
+`;
+const CustomLinkBeforeNone = () => css`
+  &:first-child::before {
+    display: none;
   }
 `;
 
-const NavSearch = styled.div`
-  background: rgba(226, 221, 221, 0.4);
+const CustomLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 6.25rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  padding: 0 0.625rem;
+  color: ${({ theme }) => theme.colors.gray};
+  position: relative;
+
+  ${CustomLinkHover()}
+  ${CustomLinkBefore()}
+  ${({ theme }) => theme.media.mobile} {
+    flex: 1;
+    width: auto;
+    ${CustomLinkBeforeNone()}
+  }
+`;
+
+const NavSearchWrapper = styled.div`
+  background: #e2dddd;
   border-radius: 3.125rem;
-  padding: 0.468rem 2.1875rem 0.468rem 0.9375rem;
+  padding: 7.5px 35px 7.5px 15px;
   position: relative;
   ${({ theme }) => theme.media.mobile} {
     width: 100%;
   }
-  & > input {
-    border: none;
-    background: transparent;
+`;
+
+const CoustomSearchIcon = styled(SearchIcon)`
+  position: absolute;
+  right: 2%;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+`;
+
+const NavSearchInputPlaceholder = () => css`
+  ::placeholder {
     color: ${({ theme }) => theme.colors.gray};
-    letter-spacing: 0.02rem;
-    width: 13.75rem;
-    &::placeholder {
-      color: ${({ theme }) => theme.colors.gray};
-      font-weight: 600;
-    }
-    ${({ theme }) => theme.media.mobile} {
-      width: 100%;
-    }
+    font-weight: 600;
   }
-  & > svg {
-    position: absolute;
-    right: 2%;
-    top: 0;
-    bottom: 0;
-    margin: auto;
+`;
+
+const NavSearchInput = styled.input`
+  border: none;
+  background: transparent;
+  color: ${({ theme }) => theme.colors.gray};
+  letter-spacing: 0.02rem;
+  width: 13.75rem;
+  ${NavSearchInputPlaceholder()}
+  ${({ theme }) => theme.media.mobile} {
+    width: 100%;
   }
 `;
 

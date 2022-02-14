@@ -1,26 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Card = ({ rank, imgUrl, discount, title }) => {
+  const rankText = rank === '골드' ? `${discount}% 할인` : `${discount} 서비스`;
+
   return (
     <CardWrapper>
-      <div>
-        <img src={`${process.env.PUBLIC_URL}${imgUrl}`} alt='cardImg' />
-      </div>
-      <div
-        className={`card__rank card__${rank === '골드' ? 'gold' : 'silver'}`}
-      >
-        <span>{rank}</span>
-        <img
-          className='card__service'
-          src={`${process.env.PUBLIC_URL}/images/food-removebg.png`}
-          alt='card_service_img'
-        />
-      </div>
-      <div className='card__title'>{title}</div>
-      <p className='card__discount'>
-        {rank === '골드' ? `${discount}% 할인` : `${discount} 서비스`}
-      </p>
+      <CardImgWrapper>
+        <img src={`${imgUrl}`} alt='cardImg' />
+      </CardImgWrapper>
+      <CardRankWrapper>
+        <CardRank rank={rank}>{rank}</CardRank>
+        <CardSeviceImg src={`${process.env.PUBLIC_URL}/images/food-removebg.png`} alt='card_service_img' />
+      </CardRankWrapper>
+      <CardTitle>{title}</CardTitle>
+      <CardDiscount>{rankText}</CardDiscount>
     </CardWrapper>
   );
 };
@@ -32,49 +26,6 @@ const CardWrapper = styled.div`
   flex-direction: column;
   display: flex;
   gap: 0.313rem;
-  img {
-    width: 100%;
-    height: 12.5rem;
-  }
-  .card__rank {
-    margin-bottom: 0.313rem;
-    display: flex;
-    gap: 0.625rem;
-    span {
-      padding: 0.313rem 0.625rem;
-      border-radius: 0.313rem;
-      font-weight: 600;
-      display: inline-block;
-      font-size: 0.813rem;
-      max-width: 3.125rem;
-      text-align: center;
-    }
-  }
-  .card__gold > span {
-    background: ${({ theme }) => theme.colors.lightDark};
-    color: rgba(240, 230, 140, 1);
-  }
-  .card__silver > span {
-    background: ${({ theme }) => theme.colors.lightGray};
-    color: ${({ theme }) => theme.colors.lightDark};
-    font-weight: 900;
-  }
-
-  .card__title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.gray};
-  }
-  .card__discount {
-    color: ${({ theme }) => theme.colors.brandColor};
-  }
-  .card__service {
-    height: 1.563rem;
-    width: 6.25rem;
-  }
 
   ${({ theme }) => theme.media.tab} {
     width: 33.333%;
@@ -91,10 +42,62 @@ const CardWrapper = styled.div`
     &:nth-child(n) {
       padding: 0;
     }
-    img {
-      height: 15.625rem;
-    }
   }
+`;
+
+const CardRankWrapper = styled.div`
+  margin-bottom: 0.313rem;
+  display: flex;
+  gap: 0.625rem;
+`;
+
+const CardRank = styled.span`
+  padding: 0.313rem 0.625rem;
+  border-radius: 0.313rem;
+  font-weight: 600;
+  display: inline-block;
+  font-size: 0.813rem;
+  max-width: 3.125rem;
+  text-align: center;
+
+  ${({ rank }) => {
+    return rank === '골드'
+      ? css`
+          background: ${({ theme }) => theme.colors.lightDark};
+          color: rgba(240, 230, 140, 1);
+        `
+      : css`
+          background: ${({ theme }) => theme.colors.lightGray};
+          color: ${({ theme }) => theme.colors.lightDark};
+          font-weight: 900;
+        `;
+  }}
+`;
+
+const CardImgWrapper = styled.div`
+  img {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+`;
+
+const CardSeviceImg = styled.img`
+  width: 6.25rem;
+  height: 100%;
+`;
+
+const CardTitle = styled.h6`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.gray};
+`;
+
+const CardDiscount = styled.div`
+  color: ${({ theme }) => theme.colors.brandColor};
 `;
 
 export default Card;

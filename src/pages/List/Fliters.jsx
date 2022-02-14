@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FormControl, MenuItem, Select } from '@mui/material';
-import { styled as mStyled } from '@mui/system';
 
 const Fliters = ({ handleChange, limit }) => {
   const [path] = useState('/list');
@@ -39,10 +38,8 @@ const Fliters = ({ handleChange, limit }) => {
       <FiltersTop>
         <FiltersTopFirst>
           {filters.map(({ id, path, text }) => (
-            <CoustomLink key={id} to={path}>
-              <span className={id === 1 ? 'filters__first--selected' : ''}>
-                {text}
-              </span>
+            <CoustomLink key={id} to={path} id={id}>
+              <span>{text}</span>
             </CoustomLink>
           ))}
         </FiltersTopFirst>
@@ -78,44 +75,34 @@ const CoustomLink = styled(Link).attrs(({ to }) => ({
   &:first-child {
     padding-left: 0;
   }
+  ${({ id }) =>
+    id === 1 &&
+    css`
+      span {
+        color: ${({ theme }) => theme.colors.brandColor};
+      }
+    `}
+`;
 
-  .filters__first--selected {
-    color: ${({ theme }) => theme.colors.brandColor};
+const CoustomFormControl = styled(FormControl)`
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
   }
 `;
 
-const CoustomFormControl = mStyled(FormControl)(({ theme }) => {
-  const { palette } = theme;
-  return {
-    '& label.Mui-focused': {
-      color: palette.primary,
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: palette.primary,
-    },
-    '& .MuiFilledInput-underline:after': {
-      borderBottomColor: palette.primary,
-    },
-    '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-    '& .MuiOutlinedInput-root': {
-      '&.Mui-focused fieldset': {
-        borderColor: palette.primary,
-        borderWidth: '1px',
-        border: 'none',
-      },
-    },
-  };
-});
+const CoustomSelect = styled(Select)`
+  &&& {
+    height: 1.875rem;
+    font-size: 0.813rem;
+  }
+`;
 
-const CoustomSelect = mStyled(Select)({
-  height: '1.875em',
-  fontSize: '0.813em',
-});
-
-const CoustomMenuItem = mStyled(MenuItem)({
-  fontSize: '0.813em',
-  justifyContent: 'center',
-});
+const CoustomMenuItem = styled(MenuItem)`
+  &&& {
+    font-size: 0.813rem;
+    justify-content: center;
+  }
+`;
 
 const FlitersWrapper = styled.div`
   padding: 0.3rem;
