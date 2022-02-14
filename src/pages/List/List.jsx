@@ -10,10 +10,7 @@ const List = ({ name = 'gold' }) => {
   const [items, setItems] = useState([]);
   const [limit, setLimit] = useState(20);
 
-  const handleChange = useCallback(
-    ({ target: { value } }) => setLimit(value),
-    []
-  );
+  const handleChange = useCallback(({ target: { value } }) => setLimit(value), []);
 
   useEffect(() => {
     const fetchList = async () => {
@@ -33,11 +30,7 @@ const List = ({ name = 'gold' }) => {
     <ListWrapper>
       <Nav />
       <Fliters handleChange={handleChange} limit={limit} />
-      <CardsWrapper>
-        {items.map(
-          (item, idx) => limit > idx && <Card key={item.id} {...item} />
-        )}
-      </CardsWrapper>
+      <CardsWrapper>{items.map((item, idx) => limit > idx && <Card key={item.id} {...item} />)}</CardsWrapper>
     </ListWrapper>
   );
 };
@@ -49,8 +42,8 @@ const ListWrapper = styled.section`
 const CardsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-top: 0.9375rem;
   justify-content: center;
+  margin-top: 0.625rem;
 `;
 
 export default List;
