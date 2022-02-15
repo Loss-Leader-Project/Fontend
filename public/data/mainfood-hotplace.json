@@ -1,0 +1,144 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "location": "사우동",
+      "storeName": "214족발보쌈",
+      "imgUrl": "https://ifh.cc/g/ypTs93.jpg",
+      "couponContent": "20퍼센트할인"
+    },
+    {
+      "id": 2,
+      "location": "장기동",
+      "storeName": "홍스시",
+      "imgUrl": "https://ifh.cc/g/mmawVT.jpg",
+      "couponContent": "음료수"
+    },
+    {
+      "id": 3,
+      "location": "구래동",
+      "storeName": "고구려짬뽕10101",
+      "imgUrl": "https://ifh.cc/g/UxuyCL.jpg",
+      "couponContent": "콜라 사이다"
+    },
+    {
+      "id": 4,
+      "location": "장기동",
+      "storeName": "곱창끼리",
+      "imgUrl": "https://ifh.cc/g/cWrlei.jpg",
+      "couponContent": "대창 100g 추가"
+    },
+    {
+      "id": 5,
+      "location": "양촌읍",
+      "storeName": "소삿벌갈비랑냉면",
+      "imgUrl": "https://ifh.cc/g/0xpdXn.jpg",
+      "couponContent": "25%할인"
+    },
+    {
+      "id": 6,
+      "location": "풍무동",
+      "storeName": "위풍당당쭈꾸미",
+      "imgUrl": "https://ifh.cc/g/dRFB9M.jpg",
+      "couponContent": "치즈사리"
+    },
+    {
+      "id": 7,
+      "location": "운양동",
+      "storeName": "카페바운티",
+      "imgUrl": "https://ifh.cc/g/I6SmQS.jpg",
+      "couponContent": "스콘"
+    },
+    {
+      "id": 8,
+      "location": "구래동",
+      "storeName": "육개장인",
+      "imgUrl": "https://ifh.cc/g/tialUF.jpg",
+      "couponContent": "음료수"
+    },
+    {
+      "id": 9,
+      "location": "구래동",
+      "storeName": "캉스비어",
+      "imgUrl": "https://ifh.cc/g/Gmhfld.jpg",
+      "couponContent": "20%할인"
+    },
+    {
+      "id": 10,
+      "location": "걸포동",
+      "storeName": "피자쿠치나",
+      "imgUrl": "https://ifh.cc/g/XZtSgk.jpg",
+      "couponContent": "초코&고구마볼 8pcs"
+    },
+    {
+      "id": 11,
+      "location": "사우동",
+      "storeName": "214족발보쌈",
+      "imgUrl": "https://ifh.cc/g/ypTs93.jpg",
+      "couponContent": "20퍼센트할인"
+    },
+    {
+      "id": 12,
+      "location": "장기동",
+      "storeName": "홍스시",
+      "imgUrl": "https://ifh.cc/g/mmawVT.jpg",
+      "couponContent": "음료수"
+    },
+    {
+      "id": 13,
+      "location": "구래동",
+      "storeName": "고구려짬뽕10101",
+      "imgUrl": "https://ifh.cc/g/UxuyCL.jpg",
+      "couponContent": "콜라 사이다"
+    },
+    {
+      "id": 14,
+      "location": "장기동",
+      "storeName": "곱창끼리",
+      "imgUrl": "https://ifh.cc/g/cWrlei.jpg",
+      "couponContent": "대창 100g 추가"
+    },
+    {
+      "id": 15,
+      "location": "양촌읍",
+      "storeName": "소삿벌갈비랑냉면",
+      "imgUrl": "https://ifh.cc/g/0xpdXn.jpg",
+      "couponContent": "25%할인"
+    },
+    {
+      "id": 16,
+      "location": "풍무동",
+      "storeName": "위풍당당쭈꾸미",
+      "imgUrl": "https://ifh.cc/g/dRFB9M.jpg",
+      "couponContent": "치즈사리"
+    },
+    {
+      "id": 17,
+      "location": "운양동",
+      "storeName": "카페바운티",
+      "imgUrl": "https://ifh.cc/g/I6SmQS.jpg",
+      "couponContent": "스콘"
+    },
+    {
+      "id": 18,
+      "location": "구래동",
+      "storeName": "육개장인",
+      "imgUrl": "https://ifh.cc/g/tialUF.jpg",
+      "couponContent": "음료수"
+    },
+    {
+      "id": 19,
+      "location": "구래동",
+      "storeName": "캉스비어",
+      "imgUrl": "https://ifh.cc/g/Gmhfld.jpg",
+      "couponContent": "20%할인"
+    },
+    {
+      "id": 20,
+      "location": "걸포동",
+      "storeName": "피자쿠치나",
+      "imgUrl": "https://ifh.cc/g/XZtSgk.jpg",
+      "couponContent": "초코&고구마볼 8pcs"
+    }
+  ]
+}
