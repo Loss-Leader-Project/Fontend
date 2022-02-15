@@ -7,10 +7,12 @@ import SignUp from './pages/SignUp/SignUp';
 import Detail from './pages/Detail/Detail';
 import { Redirect } from 'react-router';
 import List from 'pages/List/List';
+import Header from 'Components/Header';
 
 const Routers = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Switch>
         <Route exact path='/' component={Main} />
         <Route exact path='/my' component={My} />
