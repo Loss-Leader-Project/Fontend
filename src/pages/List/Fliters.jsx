@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { FormControl, MenuItem, Select } from '@mui/material';
+import { brandColor, gray } from 'styles/theme';
 
 const Fliters = ({ handleChange, limit }) => {
   const [path] = useState('/list');
@@ -65,7 +66,7 @@ const CoustomLink = styled(Link).attrs(({ to }) => ({
   font-weight: 500;
   transition: font-weight 0.25s ease;
   span {
-    color: ${({ theme }) => theme.colors.gray};
+    color: ${gray};
     text-align: left;
   }
   :hover {
@@ -78,7 +79,7 @@ const CoustomLink = styled(Link).attrs(({ to }) => ({
     id === 1 &&
     css`
       span {
-        color: ${({ theme }) => theme.colors.brandColor};
+        color: ${brandColor};
       }
     `}
 `;
@@ -122,7 +123,7 @@ const FiltersTopFirst = styled.div`
 `;
 
 const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
   font-weight: 500;
   font-size: 1.2rem;
   margin-top: 2rem;

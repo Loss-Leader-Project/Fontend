@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
+import { gray, mobile, tab } from 'styles/theme';
 
 const Nav = () => {
   const [path] = useState('/list');
@@ -53,8 +54,7 @@ const Nav = () => {
 
 const NavWrapper = styled.nav`
   margin-top: 0.9375rem;
-  padding: 0 1.5rem;
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     padding: 0;
   }
 `;
@@ -70,7 +70,7 @@ const NavTop = styled.div`
 const NavRouters = styled.div`
   display: flex;
 
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     flex: 1;
   }
 `;
@@ -84,8 +84,8 @@ const CustomLinkHover = () => css`
 const CustomLinkBefore = () => css`
   ::before {
     content: '';
-    border-left: 1px solid ${({ theme }) => theme.colors.gray};
-    width: 1px;
+    border-left: 0.0625rem solid ${gray};
+    width: 0.0625rem;
     top: 0;
     bottom: 0;
     position: absolute;
@@ -108,24 +108,25 @@ const CustomLink = styled(Link)`
   font-weight: 600;
   font-size: 1.125rem;
   padding: 0 0.625rem;
-  color: ${({ theme }) => theme.colors.gray};
   position: relative;
 
+  color: ${gray};
   ${CustomLinkHover()}
   ${CustomLinkBefore()}
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     flex: 1;
     width: auto;
     ${CustomLinkBeforeNone()}
+    font-size: 1rem;
   }
 `;
 
 const NavSearchWrapper = styled.div`
   background: #e2dddd;
   border-radius: 3.125rem;
-  padding: 7.5px 35px 7.5px 15px;
+  padding: 0.4688rem 2.1875rem 0.4688rem 0.9375rem;
   position: relative;
-  ${({ theme }) => theme.media.mobile} {
+  ${tab} {
     width: 100%;
   }
 `;
@@ -140,7 +141,7 @@ const CoustomSearchIcon = styled(SearchIcon)`
 
 const NavSearchInputPlaceholder = () => css`
   ::placeholder {
-    color: ${({ theme }) => theme.colors.gray};
+    color: ${gray};
     font-weight: 600;
   }
 `;
@@ -148,11 +149,11 @@ const NavSearchInputPlaceholder = () => css`
 const NavSearchInput = styled.input`
   border: none;
   background: transparent;
-  color: ${({ theme }) => theme.colors.gray};
   letter-spacing: 0.02rem;
   width: 13.75rem;
+  color: ${gray};
   ${NavSearchInputPlaceholder()}
-  ${({ theme }) => theme.media.mobile} {
+  ${tab} {
     width: 100%;
   }
 `;

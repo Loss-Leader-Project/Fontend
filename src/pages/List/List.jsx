@@ -4,7 +4,6 @@ import { useState } from 'react';
 import axios from 'axios';
 import Fliters from 'pages/List/Fliters';
 import Card from 'pages/List/Card';
-import Nav from 'Components/Nav';
 
 const List = ({ name = 'gold' }) => {
   const [items, setItems] = useState([]);
@@ -28,7 +27,6 @@ const List = ({ name = 'gold' }) => {
 
   return (
     <ListWrapper>
-      <Nav />
       <Fliters handleChange={handleChange} limit={limit} />
       <CardsWrapper>{items.map((item, idx) => limit > idx && <Card key={item.id} {...item} />)}</CardsWrapper>
     </ListWrapper>
