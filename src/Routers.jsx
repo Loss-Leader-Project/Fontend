@@ -10,11 +10,13 @@ import List from 'pages/List/List';
 import LoginSearchID from './pages/LogIn/LoginSearchID';
 import LoginSearchPW from './pages/LogIn/LoginSearchPW';
 import Header from 'Components/Header';
+import Nav from 'Components/Nav';
 
 const Routers = () => {
   return (
     <BrowserRouter>
       <Header />
+      <Nav />
       <Switch>
         <Route exact path='/' component={Main} />
         <Route exact path='/my' component={My} />

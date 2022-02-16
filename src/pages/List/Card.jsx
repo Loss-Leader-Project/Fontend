@@ -33,6 +33,7 @@ const CardWrapper = styled.div`
       padding: 0 0.35rem;
     }
   }
+
   @media screen and (max-width: 700px) {
     width: 50%;
   }
