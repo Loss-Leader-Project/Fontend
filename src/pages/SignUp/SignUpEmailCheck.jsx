@@ -1,6 +1,7 @@
 import { Checkbox, FormControlLabel, Grid } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
+import { brandColor, gray, lightDark } from 'styles/theme';
 
 const SignUpEmailCheck = props => {
   return (
@@ -21,7 +22,7 @@ const SignUpEmailCheck = props => {
 export default SignUpEmailCheck;
 
 const Text = styled.p`
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const CustomGridContainer = styled(Grid).attrs(props => ({
@@ -33,12 +34,12 @@ const CustomGridContainer = styled(Grid).attrs(props => ({
   &&& {
     margin-top: 1rem;
   }
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const CheckAgree = styled(FormControlLabel)`
   &&& {
-    color: ${({ theme }) => theme.colors.lightDark};
+    color: ${lightDark};
   }
 
   span {
@@ -50,7 +51,7 @@ const CheckBox = styled(Checkbox)`
   &&& {
     color: ${({ theme, checked }) => (checked ? theme.colors.brandColor : theme.colors.lightGray)};
     &:hover {
-      color: ${({ theme }) => theme.colors.brandColor};
+      color: ${brandColor};
     }
   }
 `;

@@ -1,6 +1,7 @@
 import { Grid, TextField } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
+import { gray } from 'styles/theme';
 import SignUpInput from './SignUpInput';
 
 const SignUpAdressInput = ({ SignupFormData, flag, handleValue }) => {
@@ -51,7 +52,7 @@ const CustomGridContainer = styled(Grid).attrs(props => ({
   &&& {
     margin-top: 1rem;
   }
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const ColoredTextField = styled(TextField)`

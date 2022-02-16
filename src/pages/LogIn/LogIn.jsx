@@ -1,15 +1,10 @@
-import {
-  Button,
-  Checkbox,
-  Container,
-  Divider,
-  FormControlLabel,
-  Grid,
-  Stack,
-  TextField,
-} from '@mui/material';
+import { Button, Checkbox, Container, Divider, FormControlLabel, Grid, Stack } from '@mui/material';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { brandColor, gray, lightDark, lightGray } from 'styles/theme';
+import { checkBlank, checkFlag } from 'pages/LogIn/check';
+import LoginInput from './LoginInput';
 
 const LogIn = () => {
   const [checked, setChecked] = useState(false);
@@ -32,6 +27,8 @@ const LogIn = () => {
     setLoginFormData(previousState => {
       return { ...previousState, [name]: value };
     });
+
+    handleFlag(name, value === '');
   };
 
   const [flag, SetFlag] = useState({
@@ -45,49 +42,21 @@ const LogIn = () => {
     });
   };
 
-  const checkBlank = () => {
-    for (let [key, value] of Object.entries(loginFormData)) {
-      if (value === '') handleFlag(key, true);
-      else handleFlag(key, false);
-    }
-  };
+  const history = useHistory();
 
   return (
     <>
       <Container maxWidth='sm' style={{ marginTop: '80px' }}>
         <Grid container direction='row' justifyContent='space-between'>
           <Grid item sm={8.5} xs={8.5}>
-            <Stack
-              direction='column'
-              justifyContent='center'
-              alignItems='center'
-              spacing={2}
-            >
-              <TextField
-                name='id'
-                label='아이디'
-                variant='outlined'
-                fullWidth
-                InputLabelProps={{
-                  style: { color: '#B9B9B9' },
-                }}
-                {...(flag.id
-                  ? { helperText: '아이디를 입력하세요', error: true }
-                  : {})}
-                onChange={handleValue}
-              />
-              <TextField
+            <Stack direction='column' justifyContent='center' alignItems='center' spacing={2}>
+              <LoginInput name='id' label='아이디' flag={flag.id} onChange={handleValue} />
+              <LoginInput
                 name='password'
                 label='비밀번호'
                 type='password'
                 autoComplete='current-password'
-                fullWidth
-                InputLabelProps={{
-                  style: { color: '#B9B9B9' },
-                }}
-                {...(flag.password
-                  ? { helperText: '비밀번호를 입력하세요', error: true }
-                  : {})}
+                flag={flag.password}
                 onChange={handleValue}
               />
             </Stack>
@@ -96,7 +65,8 @@ const LogIn = () => {
             <LoginButton
               variant='contained'
               onClick={async () => {
-                await checkBlank();
+                if (await checkBlank(loginFormData, flag, handleFlag)) return;
+                if (await checkFlag(flag)) return;
               }}
             >
               로그인
@@ -104,10 +74,7 @@ const LogIn = () => {
           </Grid>
         </Grid>
         <Grid container direction='row' alignItems='center'>
-          <CheckID
-            control={<CheckBox checked={checked} onChange={handleChange} />}
-            label='아이디 저장'
-          />
+          <CheckID control={<CheckBox checked={checked} onChange={handleChange} />} label='아이디 저장' />
         </Grid>
         <Stack
           direction='column'
@@ -132,20 +99,33 @@ const LogIn = () => {
           </div>
 
           <div className='stack'>
-            <div className='left'>회원가입 ▸</div>
+            <Pointer
+              className='left'
+              onClick={() => {
+                history.push('/signup');
+              }}
+            >
+              회원가입 ▸
+            </Pointer>
             <Stack
               direction='row'
-              divider={
-                <Divider
-                  orientation='vertical'
-                  sx={{ borderColor: '#4A4646' }}
-                  flexItem
-                />
-              }
+              divider={<Divider orientation='vertical' sx={{ borderColor: '#4A4646' }} flexItem />}
               spacing={2}
             >
-              <div>아이디 찾기</div>
-              <div>비밀번호 찾기</div>
+              <Pointer
+                onClick={() => {
+                  history.push('/login/searchID');
+                }}
+              >
+                아이디 찾기
+              </Pointer>
+              <Pointer
+                onClick={() => {
+                  history.push('/login/searchPW');
+                }}
+              >
+                비밀번호 찾기
+              </Pointer>
             </Stack>
           </div>
         </SignUp>
@@ -156,16 +136,15 @@ const LogIn = () => {
 
 const CheckID = styled(FormControlLabel)`
   &&& {
-    color: ${({ theme }) => theme.colors.lightGray};
+    color: ${lightGray};
   }
 `;
 
 const CheckBox = styled(Checkbox)`
   &&& {
-    color: ${({ theme, checked }) =>
-      checked ? theme.colors.brandColor : theme.colors.lightGray};
+    color: ${({ checked }) => (checked ? brandColor : lightGray)};
     &:hover {
-      color: ${({ theme }) => theme.colors.brandColor};
+      color: ${brandColor};
     }
   }
 `;
@@ -187,7 +166,7 @@ const KakaoBar = styled('div')`
   justify-content: center;
   background-color: #fee102;
   width: 100%;
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
   height: 3.125rem;
 `;
 
@@ -198,7 +177,7 @@ const SignUp = styled('div')`
   .bigFont {
     padding: 1.25rem;
     font-size: 1.5rem;
-    color: ${({ theme }) => theme.colors.lightDark};
+    color: ${lightDark};
   }
 
   .stack {
@@ -206,11 +185,11 @@ const SignUp = styled('div')`
     justify-content: space-between;
     padding: 1.25rem;
     font-size: 0.8rem;
-    color: ${({ theme }) => theme.colors.gray};
+    color: ${gray};
   }
 
   .left {
-    color: ${({ theme }) => theme.colors.lightDark};
+    color: ${lightDark};
   }
 `;
 
@@ -218,8 +197,12 @@ const LoginButton = styled(Button)`
   &&& {
     height: 8rem;
     width: 100%;
-    background-color: ${({ theme }) => theme.colors.brandColor};
+    background-color: ${brandColor};
   }
+`;
+
+const Pointer = styled.div`
+  cursor: pointer;
 `;
 
 export default LogIn;

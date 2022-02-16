@@ -2,6 +2,8 @@ import { Button, Container, Grid, Stack, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { brandColor, gray, lightGray } from 'styles/theme';
+import { checkBlank, checkFlag } from 'pages/LogIn/check';
 
 const LoginSearchPW = () => {
   const [SearchFromData, SetSearchFromData] = useState({
@@ -14,6 +16,8 @@ const LoginSearchPW = () => {
     SetSearchFromData(previousState => {
       return { ...previousState, [name]: value };
     });
+
+    handleFlag(name, value === '');
   };
 
   const [flag, SetFlag] = useState({
@@ -24,13 +28,6 @@ const LoginSearchPW = () => {
     SetFlag(previousState => {
       return { ...previousState, [key]: boolean };
     });
-  };
-
-  const checkBlank = () => {
-    for (let [key, value] of Object.entries(SearchFromData)) {
-      if (value === '') handleFlag(key, true);
-      else handleFlag(key, false);
-    }
   };
 
   const history = useHistory();
@@ -50,17 +47,16 @@ const LoginSearchPW = () => {
               InputLabelProps={{
                 style: { color: '#B9B9B9' },
               }}
-              {...(flag.id
-                ? { helperText: '아이디를 입력하세요', error: true }
-                : {})}
+              {...(flag.id ? { helperText: '아이디를 입력하세요', error: true } : {})}
               onChange={handleValue}
             />
           </Grid>
           <Grid item sm={3} xs={3}>
             <SearchButton
               variant='contained'
-              onClick={() => {
-                checkBlank();
+              onClick={async () => {
+                if (await checkBlank(SearchFromData, flag, handleFlag)) return;
+                if (await checkFlag(flag)) return;
               }}
             >
               비밀번호 찾기
@@ -97,12 +93,12 @@ const CustomContainer = styled(Container)`
 const Title = styled.div`
   font-size: 1.5rem;
   padding: 0.625rem 0;
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const SubTitle = styled.div`
   padding: 0.625rem 0;
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const CustomStack2 = styled(Stack)`
@@ -115,17 +111,17 @@ const CustomStack2 = styled(Stack)`
   }
 
   .leftBtn {
-    border: 1px solid ${({ theme }) => theme.colors.lightGray};
-    color: ${({ theme }) => theme.colors.gray};
+    border: 1px solid ${lightGray};
+    color: ${gray};
   }
 
   .rightBtn {
-    background-color: ${({ theme }) => theme.colors.brandColor};
+    background-color: ${brandColor};
     color: white;
   }
 
   .rightBtn:hover {
-    background-color: ${({ theme }) => theme.colors.brandColor};
+    background-color: ${brandColor};
   }
 `;
 
@@ -133,7 +129,7 @@ const SearchButton = styled(Button)`
   &&& {
     height: 3.5rem;
     width: 100%;
-    background-color: ${({ theme }) => theme.colors.gray};
+    background-color: ${gray};
   }
 `;
 

@@ -1,7 +1,7 @@
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React from 'react';
 
-const SignUpEmail = ({ email, flag, handleValue, mailHandleChange }) => {
+const SignUpEmail = ({ email, flag, handleValue, mailHandleChange, helpTextEmail }) => {
   return (
     <>
       {email === '직접입력' ? (
@@ -14,11 +14,11 @@ const SignUpEmail = ({ email, flag, handleValue, mailHandleChange }) => {
           InputLabelProps={{
             style: { color: '#B9B9B9' },
           }}
-          {...(flag.email ? { helperText: '메일 주소를 입력하세요', error: true } : {})}
+          {...(flag ? { helperText: helpTextEmail, error: true } : {})}
           onChange={handleValue}
         />
       ) : (
-        <FormControl fullWidth {...(flag.email ? { error: true } : {})}>
+        <FormControl fullWidth {...(flag ? { error: true } : {})}>
           <InputLabel id='demo-simple-select-label' sx={{ marginTop: '-0.4375rem' }}>
             주소를 선택하세요
           </InputLabel>

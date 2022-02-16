@@ -6,38 +6,8 @@ import SignUpEmailCheck from './SignUpEmailCheck';
 import SignUpAdressInput from './SignUpAdressInput';
 import SignUpEmailLayout from './SignUpEmailLayout';
 import SignUpPostNumberLayout from './SignUpPostNumberLayout';
-
-const inputLayoutData = [
-  {
-    itemText: '아이디',
-    name: 'id',
-    label: '아이디를 입력하세요',
-    helperText: '아이디를 입력하세요',
-  },
-  {
-    itemText: '비밀번호',
-    name: 'password',
-    label: '숫자 및 특수문자를 조합하여 입력하세요',
-    helperText: '비밀번호를 입력하세요',
-    password: true,
-    autoComplete: true,
-  },
-  {
-    itemText: '비밀번호 확인',
-    name: 'passwordCheck',
-    label: '비밀번호를 재입력하세요',
-    helperText: '비밀번호를 재입력하세요',
-    password: true,
-    autoComplete: true,
-    NotMust: true,
-  },
-  {
-    itemText: '이름',
-    name: 'name',
-    label: '이름을 입력하세요',
-    helperText: '이름을 입력하세요',
-  },
-];
+import { checkBlank, checkFlag, regExpCheck } from 'pages/SignUp/check';
+import { brandColor, lightDark } from 'styles/theme';
 
 const SignUp = props => {
   const [email, setEmail] = useState('');
@@ -50,7 +20,6 @@ const SignUp = props => {
   const [checkedAgreeSMS, setCheckedAgreeSMS] = useState(false);
 
   const handleChangeAgree = event => {
-    console.log(event.target);
     if (event.target.name === 'agreeMail') setCheckedAgreeMail(event.target.checked);
     if (event.target.name === 'agreeSMS') setCheckedAgreeSMS(event.target.checked);
 
@@ -82,6 +51,8 @@ const SignUp = props => {
     setSignupFormData(previousState => {
       return { ...previousState, [name]: value };
     });
+
+    handleFlag(name, value === '');
   };
 
   const [flag, SetFlag] = useState({
@@ -104,21 +75,71 @@ const SignUp = props => {
     });
   };
 
-  const checkBlank = () => {
-    for (let [key, value] of Object.entries(SignupFormData)) {
-      if ((value === '' || value === '직접입력') && key in flag) handleFlag(key, true);
-      else if (value !== '' && key in flag) handleFlag(key, false);
+  const [helpTextID, sethelpTextID] = useState('아이디를 입력하세요');
+  const [helpTextPW, sethelpTextPW] = useState('비밀번호를 입력하세요');
+  const [helpTextPWCheck, sethelpTextPWCheck] = useState('비밀번호를 재입력하세요');
+  const [helpTextEmail, sethelpTextEmail] = useState('메일 주소를 입력하세요');
+  const [helpTextMailID, sethelpTextMailID] = useState('메일아이디를 입력하세요');
+
+  const checkSamePW = () => {
+    let returnFlag = false;
+    if (SignupFormData.password !== SignupFormData.passwordCheck) {
+      handleFlag('passwordCheck', true);
+      sethelpTextPWCheck('입력하신 비밀번호와 일치하지 않습니다. 다시 한번 입력해주세요.');
+      returnFlag = true;
     }
+    return returnFlag;
   };
 
   return (
     <div>
       <CustomContainer maxWidth='sm'>
         <Title>기본정보</Title>
-        {inputLayoutData.map(item => (
-          <SignUpInput {...item} flag={flag} handleValue={handleValue} key={item.name} />
-        ))}
-        <SignUpEmailLayout email={email} flag={flag} handleValue={handleValue} mailHandleChange={mailHandleChange} />
+        <SignUpInput
+          itemText='아이디'
+          name='id'
+          label='아이디를 입력하세요 (공백미포함 영문,숫자포함 5 ~ 19자)'
+          flag={flag.id}
+          handleValue={handleValue}
+          helperText={helpTextID}
+        />
+        <SignUpInput
+          itemText='비밀번호'
+          name='password'
+          label='비밀번호를 입력하세요 (공백미포함 숫자,특수문자포함 8 ~ 16자)'
+          flag={flag.password}
+          password
+          autoComplete
+          handleValue={handleValue}
+          helperText={helpTextPW}
+        />
+        <SignUpInput
+          itemText='비밀번호 확인'
+          name='passwordCheck'
+          label='비밀번호를 재입력하세요'
+          flag={flag.passwordCheck}
+          password
+          autoComplete
+          handleValue={handleValue}
+          helperText={helpTextPWCheck}
+        />
+        <SignUpInput
+          itemText='이름'
+          name='name'
+          label='이름을 입력하세요'
+          flag={flag.name}
+          handleValue={handleValue}
+          helperText='이름을 입력하세요'
+        />
+
+        <SignUpEmailLayout
+          email={email}
+          flag={flag.email}
+          handleValue={handleValue}
+          mailHandleChange={mailHandleChange}
+          helpTextEmail={helpTextEmail}
+          helpTextMailID={helpTextMailID}
+        />
         <SignUpEmailCheck
           name='agreeMail'
           checkedAgree={checkedAgreeMail}
@@ -129,7 +150,7 @@ const SignUp = props => {
           itemText='휴대폰번호'
           name='phone'
           label='- 없이 입력하세요'
-          flag={flag}
+          flag={flag.phone}
           handleValue={handleValue}
           helperText='휴대폰번호를 입력하세요'
         />
@@ -142,15 +163,15 @@ const SignUp = props => {
         <SignUpInput itemText='전화번호' name='tel' label='- 없이 입력하세요' handleValue={handleValue} NotMust />
         <SignUpPostNumberLayout
           SignupFormData={SignupFormData}
-          flag={flag}
+          flag={flag.postNumber}
           handleValue={handleValue}
           setSignupFormData={setSignupFormData}
         />
-        <SignUpAdressInput SignupFormData={SignupFormData} flag={flag} handleValue={handleValue} />
+        <SignUpAdressInput SignupFormData={SignupFormData} flag={flag.address} handleValue={handleValue} />
         <SignUpInput
           name='detailAddress'
           label='상세주소를 입력하세요'
-          flag={flag}
+          flag={flag.detailAddress}
           handleValue={handleValue}
           helperText='상세주소를 입력하세요'
           NotMust
@@ -161,7 +182,7 @@ const SignUp = props => {
           itemText='생일'
           name='birthday'
           label='생일을 입력하세요 (ex 20191202)'
-          flag={flag}
+          flag={flag.birthday}
           handleValue={handleValue}
           helperText='생일을 입력하세요'
         />
@@ -175,7 +196,19 @@ const SignUp = props => {
         <SubmitButton
           fullWidth
           onClick={async () => {
-            await checkBlank();
+            const mail = SignupFormData.mailId + '@' + SignupFormData.email;
+
+            if (await checkBlank(SignupFormData, flag, handleFlag)) return;
+
+            if (await regExpCheck('id', SignupFormData.id, handleFlag, sethelpTextID)) return;
+
+            if (await regExpCheck('password', SignupFormData.password, handleFlag, sethelpTextPW)) return;
+
+            if (await checkSamePW()) return;
+
+            if (await regExpCheck('email', mail, handleFlag, sethelpTextMailID, sethelpTextEmail)) return;
+
+            if (await checkFlag(flag)) return;
           }}
         >
           확인
@@ -188,9 +221,9 @@ const SignUp = props => {
 export default SignUp;
 
 const Title = styled.div`
-  color: ${({ theme }) => theme.colors.lightDark};
+  color: ${lightDark};
   font-size: 1.25rem;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.lightDark};
+  border-bottom: 1px solid ${lightDark};
   padding: 0.625rem 0;
 `;
 
@@ -200,7 +233,7 @@ const CustomContainer = styled(Container)`
 
 const SubmitButton = styled(Button)`
   &&& {
-    background-color: ${({ theme }) => theme.colors.brandColor};
+    background-color: ${brandColor};
     color: white;
     margin: 1.25rem 0;
     height: 3.125rem;

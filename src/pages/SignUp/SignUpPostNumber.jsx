@@ -1,6 +1,7 @@
 import { Button, Grid, Stack, TextField } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
+import { brandColor } from 'styles/theme';
 
 const SignUpPostNumber = ({ SignupFormData, flag, handleValue, setSignupFormData }) => {
   const { daum } = window;
@@ -18,7 +19,7 @@ const SignUpPostNumber = ({ SignupFormData, flag, handleValue, setSignupFormData
             InputLabelProps={{
               style: { color: '#B9B9B9' },
             }}
-            {...(flag.postNumber ? { helperText: '우편번호를 입력하세요', error: true } : {})}
+            {...(flag ? { helperText: '우편번호를 입력하세요', error: true } : {})}
             onChange={handleValue}
           />
         ) : (
@@ -33,7 +34,7 @@ const SignUpPostNumber = ({ SignupFormData, flag, handleValue, setSignupFormData
               style: { color: '#B9B9B9' },
               shrink: true,
             }}
-            {...(flag.postNumber ? { helperText: '우편번호를 입력하세요', error: true } : {})}
+            {...(flag ? { helperText: '우편번호를 입력하세요', error: true } : {})}
             onChange={handleValue}
           />
         )}
@@ -64,7 +65,7 @@ export default SignUpPostNumber;
 
 const PostNumButton = styled(Button)`
   &&& {
-    background-color: ${({ theme }) => theme.colors.brandColor};
+    background-color: ${brandColor};
     color: white;
     font-size: 0.75rem;
     height: 2.5rem;

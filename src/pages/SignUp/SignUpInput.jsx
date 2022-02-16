@@ -3,6 +3,7 @@ import React from 'react';
 import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
+import { brandColor, gray } from 'styles/theme';
 
 const SignUpInput = props => {
   return (
@@ -25,7 +26,7 @@ const SignUpInput = props => {
           InputLabelProps={{
             style: { color: '#B9B9B9' },
           }}
-          {...(props.flag?.name ? { helperText: `${props.helperText}`, error: true } : {})}
+          {...(props.flag ? { helperText: `${props.helperText}`, error: true } : {})}
           onChange={props.handleValue}
         />
       </Grid>
@@ -44,7 +45,7 @@ const CustomGridContainer = styled(Grid).attrs(props => ({
   &&& {
     margin-top: 1rem;
   }
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const MustItem = styled(Grid)`
@@ -59,6 +60,6 @@ const MustItemText = styled.div`
 `;
 
 const ColorMustIcon = styled.span`
-  color: ${({ theme }) => theme.colors.brandColor};
+  color: ${brandColor};
   opacity: ${({ NotMust }) => (NotMust ? 0 : 1)};
 `;

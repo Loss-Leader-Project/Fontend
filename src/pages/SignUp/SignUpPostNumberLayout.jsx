@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SignUpPostNumber from './SignUpPostNumber';
 import styled from 'styled-components';
 import { Grid } from '@mui/material';
+import { gray } from 'styles/theme';
 
 const SignUpPostNumberLayout = props => {
   return (
@@ -30,7 +31,7 @@ const CustomGridContainer = styled(Grid).attrs(props => ({
   &&& {
     margin-top: 1rem;
   }
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const MustItem = styled(Grid)`
