@@ -3,55 +3,62 @@ import ProductPhoto from './ProductPhoto';
 import ProductInfo from './ProductInfo';
 import styled from 'styled-components';
 import axios from 'axios';
+import MenuBar from './MenuBar';
 
 function Detail() {
-  const [imageData, setImageData] = useState([]);
   const [mainImage, setMainImage] = useState('');
-  const [infoData, setInfoData] = useState([]);
+  const [newData, setNewData] = useState({});
 
   useEffect(() => {
-    getDetailRQ();
+    newDataRQ();
   }, []);
 
-  const getDetailRQ = async () => {
-    const response = await axios.all([
-      axios.get('/data/detailPhoto.json'),
-      axios.get('/data/detailInfo.json'),
-    ]);
-    const photoData = response[0].data.PhotoData.images;
-    const mainImageURL = response[0].data.PhotoData.images[0].image;
-    const infoData = response[1].data.InfoData;
-    setImageData(photoData);
-    setMainImage(mainImageURL);
-    setInfoData(infoData);
+  const newDataRQ = async () => {
+    const response = await axios.get('/data/newDetailData.json');
+    const newData = response.data;
+    setNewData(newData);
+    setMainImage(newData.storeFoodImage[0].image);
   };
 
   return (
-    <div>
+    <Contain>
       <TopWrapper>
-        <ProductPhoto {...{ imageData, mainImage, setMainImage }} />
-        <ProductInfo {...{ infoData }} />
+        <ProductPhoto {...{ newData, mainImage, setMainImage }} />
+        <ProductInfo {...{ newData }} />
       </TopWrapper>
-    </div>
+      <BottomWrapper>
+        <MenuBar {...{ newData }} />
+      </BottomWrapper>
+    </Contain>
   );
 }
 
 export default Detail;
 
+const Contain = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 10rem;
+  padding: 0 2rem;
+  ${({ theme }) => theme.media.tab} {
+    padding: 0 2rem;
+  }
+  ${({ theme }) => theme.media.mobile} {
+    padding: 0;
+  }
+`;
+
 const TopWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  border: 5px solid red;
-  width: 55rem;
-  margin: 0 auto;
   ${({ theme }) => theme.media.tab} {
     flex-direction: column;
-    width: 35rem;
-    align-items: center;
   }
-  ${({ theme }) => theme.media.mobile} {
-    flex-direction: column;
-    width: 27rem;
-    align-items: center;
-  }
+`;
+
+const BottomWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 5px solid red;
 `;

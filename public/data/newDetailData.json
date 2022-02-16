@@ -1,0 +1,76 @@
+{
+  "id": 1,
+  "briefAddress": "마전동",
+  "storeName": "이동복 쉐프의 고기생각",
+  "hashTag": [
+    { "id": 1, "name": "한식" },
+    { "id": 2, "name": "족발" },
+    { "id": 3, "name": "연인과 함께" },
+    { "id": 4, "name": "맛집" },
+    { "id": 5, "name": "족발" }
+  ],
+  "reviewCount": 123,
+  "ratingTotal": 2.5,
+  "cuponCondition": "만원이상 주문시",
+  "cuponBenefit": "20% 할인",
+  "cuponPrice": 2000,
+  "leftCoupon": 0,
+  "storeFoodImage": [
+    {
+      "id": 1,
+      "name": "mainImage",
+      "image": "https://ifh.cc/g/ypTs93.jpg"
+    },
+    {
+      "id": 2,
+      "name": "subImage",
+      "image": "https://ifh.cc/g/HH0EzH.jpg"
+    },
+    {
+      "id": 3,
+      "name": "subImage",
+      "image": "https://ifh.cc/g/HH0EzH.jpg"
+    },
+    {
+      "id": 4,
+      "name": "subImage",
+      "image": "https://ifh.cc/g/HH0EzH.jpg"
+    }
+  ],
+  "storePhoneNumber": "031-989-2149",
+  "operatingTime": "16:00 ~ 00:00",
+  "operatingPeriod": "두번째 주 월요일 휴무",
+  "roadAddress": "경기 김포시 봉화로21번길 18",
+  "latitude": 123.45,
+  "longitude": 123.45,
+  "serviceMethod": "매장식사, 포장, 배달",
+  "storeMenu": [
+    {
+      "id": 1,
+      "name": "소한판",
+      "price": 10000
+    },
+    {
+      "id": 2,
+      "name": "소한판",
+      "price": 10000
+    }
+  ],
+  "storeMenuImage": "https://ifh.cc/g/ypTs93.jpg",
+  "reviews": [
+    {
+      "id": 1,
+      "star": "5.0",
+      "name": "서영빈",
+      "reviewContent": "추천 드려요",
+      "reviewImage": "https://ifh.cc/g/ypTs93.jpg"
+    },
+    {
+      "id": 1,
+      "star": "5.0",
+      "name": "서영빈",
+      "reviewContent": "추천 드려요",
+      "reviewImage": "www.dwkdowdo"
+    }
+  ]
+}

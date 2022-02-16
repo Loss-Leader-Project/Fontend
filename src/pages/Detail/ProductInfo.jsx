@@ -5,13 +5,13 @@ import { Rating } from '@mui/material';
 import { css } from 'styled-components';
 import Tag from './Tag';
 
-function ProductInfo({ infoData }) {
+function ProductInfo({ newData }) {
   const history = useHistory();
+  const { briefAddress, storeName, ratingTotal, cuponCondition, cuponBenefit, cuponPrice, leftCoupon, hashTag } =
+    newData;
 
-  const isApply = infoData.productCount === 0;
-  const applyButtonURL = `/images/DetailPageApply${
-    infoData.productCount === 0 ? 'Block' : ''
-  }.png`;
+  const isApply = leftCoupon === 0;
+  const applyButtonURL = `/images/DetailPageApply${leftCoupon === 0 ? 'Block' : ''}.png`;
 
   const applyPageMove = () => {
     isApply ? alert('상품 준비중 입니다.') : history.push('/apply');
@@ -21,15 +21,13 @@ function ProductInfo({ infoData }) {
     <Contain>
       <Wrapper>
         <TopInfo>
-          <LocationCuponName marginValue='0.5rem 0 1.5rem 1rem'>
-            {infoData?.location}
-          </LocationCuponName>
-          <TitlePrice color='lightDark'>{infoData?.title}</TitlePrice>
-          <Tag infoData={infoData} />
+          <LocationCuponName marginValue='1rem 0 2rem 1rem'>{briefAddress}</LocationCuponName>
+          <TitlePrice color='lightDark'>{storeName}</TitlePrice>
+          <Tag hashTag={hashTag} className='tag' />
           <Rating
             name='rating'
             defaultValue={0}
-            value={infoData?.ratingTotal || null}
+            value={ratingTotal || null}
             precision={0.5} //백에서 ratingTotal 값 받기
             size='large'
             className='rating'
@@ -38,17 +36,13 @@ function ProductInfo({ infoData }) {
         </TopInfo>
         <TabSizeChange>
           <BottomInfo>
-            <LocationCuponName marginValue='0.5rem 0 1.5rem 0'>
-              {infoData?.cuponName}
-            </LocationCuponName>
-            <TitlePrice color='brandColor'>{`${infoData?.cuponPrice} 원`}</TitlePrice>
-            <ResidualCoupons>{`${infoData?.residualCoupons}팀 남음`}</ResidualCoupons>
+            <LocationCuponName marginValue='0 0 2rem 0'>{`${cuponCondition} ${cuponBenefit}`}</LocationCuponName>
+            <TitlePrice color='brandColor'>{`${cuponPrice} 원`}</TitlePrice>
           </BottomInfo>
-          <ApplyButton
-            onClick={applyPageMove}
-            applyButtonURL={applyButtonURL}
-            isApply={isApply}
-          />
+          <div>
+            <ResidualCoupons>{`${leftCoupon}팀 남음`}</ResidualCoupons>
+            <ApplyButton onClick={applyPageMove} applyButtonURL={applyButtonURL} isApply={isApply} />
+          </div>
         </TabSizeChange>
       </Wrapper>
     </Contain>
@@ -58,15 +52,15 @@ function ProductInfo({ infoData }) {
 export default ProductInfo;
 
 const Contain = styled.div`
-  width: 28rem;
+  height: 39rem;
   margin-left: 2rem;
   ${({ theme }) => theme.media.tab} {
-    height: 25rem;
+    height: 30rem;
+    margin: 0 4rem 8rem 4rem;
   }
   ${({ theme }) => theme.media.mobile} {
-    width: 20rem;
-    margin-left: 0rem;
     height: 22rem;
+    margin: 0 0 4rem 0;
   }
 `;
 
@@ -80,44 +74,49 @@ const Wrapper = styled.section`
 const TopInfo = styled.header`
   display: flex;
   flex-direction: column;
-  margin: 0.5rem 0 3rem 0;
+
+  & .tag {
+    margin-top: 1rem;
+    ${({ theme }) => theme.media.mobile} {
+      font-size: 0.6rem;
+    }
+  }
   & .rating {
     color: ${({ theme }) => theme.colors.brandColor};
   }
 `;
 
 const LocationCuponName = styled.h3`
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 700;
   margin: ${({ marginValue }) => marginValue};
   color: ${({ theme }) => theme.colors.lightDark};
   ${({ theme }) => theme.media.mobile} {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 `;
 
 const TitlePrice = styled.h1`
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 900;
-  margin: 0 0 0.8rem 0;
   color: ${({ theme, color }) => theme.colors[color]};
   ${({ theme }) => theme.media.mobile} {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
   }
 `;
 
-const ResidualCoupons = styled.h5`
-  font-size: 1rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.brandColor};
-  ${({ theme }) => theme.media.mobile} {
-    font-size: 0.8rem;
+const TabSizeChange = styled.div`
+  display: flex;
+  flex-direction: column;
+  ${({ theme }) => theme.media.tab} {
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 2rem 0;
   }
 `;
 
 const BottomInfo = styled.article`
-  display: flex;
-  flex-direction: column;
+  margin: auto 0;
 `;
 
 const CuponImgHover = () => css`
@@ -127,30 +126,31 @@ const CuponImgHover = () => css`
   }
 `;
 
+const ResidualCoupons = styled.h5`
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.brandColor};
+  margin: 1rem 0;
+  ${({ theme }) => theme.media.mobile} {
+    font-size: 1rem;
+  }
+`;
+
 const ApplyButton = styled.img.attrs(({ applyButtonURL }) => ({
   alt: 'ApplyButton',
   src: applyButtonURL,
 }))`
-  width: 11rem;
-  margin: 3rem 0 1.5rem 1rem;
+  width: 13rem;
+  margin: 2rem 0;
   ${({ theme }) => theme.media.tab} {
-    margin: 2rem 1rem 0 0;
-    width: 8rem;
-    height: 4rem;
+    width: 10rem;
+    height: 5rem;
+    margin: 0;
   }
   ${({ theme }) => theme.media.mobile} {
-    width: 6rem;
-    height: 3rem;
+    width: 8rem;
+    height: 4rem;
+    margin-right: 1rem;
   }
   ${({ isApply }) => isApply || CuponImgHover()}
-`;
-
-const TabSizeChange = styled.div`
-  display: flex;
-  flex-direction: column;
-  ${({ theme }) => theme.media.tab} {
-    flex-direction: row;
-    justify-content: space-around;
-    margin-bottom: 2rem;
-  }
 `;

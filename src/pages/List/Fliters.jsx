@@ -71,7 +71,6 @@ const CoustomLink = styled(Link).attrs(({ to }) => ({
   :hover {
     font-weight: bold;
   }
-
   &:first-child {
     padding-left: 0;
   }

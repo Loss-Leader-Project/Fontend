@@ -2,20 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Chip } from '@mui/material';
 
-function Tag({ infoData }) {
+function Tag({ hashTag }) {
   return (
     <TagWrapper>
-      {infoData?.labels?.map(({ id, label }) => {
-        return (
-          <Chip
-            key={id}
-            label={label} //태그는 백에서 데이터 넣을수 있는지 확인하고 하기
-            variant='outlined'
-            color='warning'
-            size='small'
-            className='tag'
-          />
-        );
+      {hashTag?.map(({ id, name }) => {
+        return <Chip key={id} label={name} variant='outlined' color='warning' size='small' className='tag' />;
       })}
     </TagWrapper>
   );
