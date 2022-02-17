@@ -9,7 +9,7 @@ import { Redirect } from 'react-router';
 import List from 'pages/List/List';
 import LoginSearchID from './pages/LogIn/LoginSearchID';
 import LoginSearchPW from './pages/LogIn/LoginSearchPW';
-import Header from 'Components/Header';
+import Header from './Components/Header';
 import Nav from 'Components/Nav';
 
 const Routers = () => {
