@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AvailabilityMeals from './AvailabilityMeals';
 import DescriptionMenuInfo from './DescriptionMenuInfo';
+import NaverMapApi from './NaverMapApi';
 
-function DescriptionColumn({ icon, content, url, serviceMethod, storeMenu }) {
+function DescriptionColumn({ icon, content, url, serviceMethod, storeMenu, longitude, latitude }) {
   return (
     <Wrapper>
       <InfoWrapper>
@@ -14,6 +15,7 @@ function DescriptionColumn({ icon, content, url, serviceMethod, storeMenu }) {
       {content === '메뉴정보' && <DescriptionMenuInfo {...{ storeMenu }} />}
       {content === '식사유무' && <AvailabilityMeals {...{ serviceMethod }} />}
       {content === '메뉴이미지' && <MenuImage src={url} alt={content} />}
+      {content === '지도' && <NaverMapApi {...{ longitude, latitude }} />}
     </Wrapper>
   );
 }
@@ -56,7 +58,8 @@ const InfoContent = styled.div`
 `;
 
 const MenuImage = styled.img`
-  width: 80%;
+  align-self: center;
+  width: 70%;
   margin-left: 4rem;
   margin-bottom: 3rem;
   ${({ theme }) => theme.media.mobile} {
