@@ -4,8 +4,17 @@ import { faPhoneVolume, faCalendar, faClock, faMap, faStore, faBookmark } from '
 import DescriptionColumn from './DescriptionColumn';
 
 function Description({ newData }) {
-  const { storePhoneNumber, operatingTime, operatingPeriod, roadAddress, serviceMethod, storeMenu, storeMenuImage } =
-    newData;
+  const {
+    storePhoneNumber,
+    operatingTime,
+    operatingPeriod,
+    roadAddress,
+    serviceMethod,
+    storeMenu,
+    storeMenuImage,
+    latitude,
+    longitude,
+  } = newData;
 
   return (
     <Contain>
@@ -16,6 +25,7 @@ function Description({ newData }) {
       <DescriptionColumn icon={faStore} content='식사유무' {...{ serviceMethod }} />
       <DescriptionColumn icon={faBookmark} content='메뉴정보' {...{ storeMenu }} />
       <DescriptionColumn icon={faBookmark} content='메뉴이미지' url={storeMenuImage} />
+      <DescriptionColumn icon={faMap} content='지도' {...{ longitude, latitude }} />
     </Contain>
   );
 }

@@ -41,8 +41,8 @@
   "operatingTime": "16:00 ~ 00:00",
   "operatingPeriod": "두번째 주 월요일 휴무",
   "roadAddress": "경기 김포시 봉화로21번길 18",
-  "latitude": 123.45,
-  "longitude": 123.45,
+  "latitude": 38.551229,
+  "longitude": 126.988205,
   "serviceMethod": "매장식사, 포장, 배달",
   "storeMenu": [
     {

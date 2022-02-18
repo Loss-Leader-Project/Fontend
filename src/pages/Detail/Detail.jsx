@@ -60,5 +60,4 @@ const BottomWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 5px solid red;
 `;
