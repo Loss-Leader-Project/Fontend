@@ -6,9 +6,10 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 
 const Layout = styled('main')`
-  max-width: 1200px;
+  max-width: 75rem;
+  min-width: 23.4375rem;
   margin: 0 auto;
-  min-width: 375px;
+  min-width: 23.4375rem;
 `;
 
 function App() {

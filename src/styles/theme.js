@@ -17,20 +17,20 @@ const theme = {
     tab: `@media screen and (max-width: ${Size.tab})`,
     mobile: `@media screen and (max-width: ${Size.mobile})`,
   },
-
-  paddingStyleGroup: padding => {
-    return css`
-      padding: ${padding};
-    `;
-  },
-  flexStyleGroup: (justify, align, direction) => {
-    return css`
-      display: flex;
-      justify-content: ${justify};
-      align-items: ${align};
-      flex-direction: ${direction};
-    `;
-  },
 };
+
+export const pc = ({ theme }) => theme.media.pc;
+export const tab = ({ theme }) => theme.media.tab;
+export const mobile = ({ theme }) => theme.media.mobile;
+export const gray = ({ theme }) => theme.colors.gray;
+export const brandColor = ({ theme }) => theme.colors.brandColor;
+export const lightGray = ({ theme }) => theme.colors.lightGray;
+export const lightDark = ({ theme }) => theme.colors.lightDark;
+export const flexStyleGroup = (justify, align, direction = 'row') => css`
+  display: flex;
+  justify-content: ${justify};
+  align-items: ${align};
+  flex-direction: ${direction};
+`;
 
 export default theme;

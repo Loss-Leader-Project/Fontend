@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { brandColor, gray, lightDark, lightGray, mobile, tab } from 'styles/theme';
 
 const Card = ({ rank, imgUrl, discount, title }) => {
   const rankText = rank === '골드' ? `${discount}% 할인` : `${discount} 서비스`;
@@ -27,7 +28,7 @@ const CardWrapper = styled.div`
   display: flex;
   gap: 0.313rem;
 
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     width: 33.333%;
     &:nth-child(n) {
       padding: 0 0.35rem;
@@ -38,7 +39,7 @@ const CardWrapper = styled.div`
     width: 50%;
   }
 
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     width: 100%;
     &:nth-child(n) {
       padding: 0;
@@ -64,12 +65,12 @@ const CardRank = styled.span`
   ${({ rank }) => {
     return rank === '골드'
       ? css`
-          background: ${({ theme }) => theme.colors.lightDark};
+          background: ${lightDark};
           color: rgba(240, 230, 140, 1);
         `
       : css`
-          background: ${({ theme }) => theme.colors.lightGray};
-          color: ${({ theme }) => theme.colors.lightDark};
+          background: ${lightGray};
+          color: ${lightDark};
           font-weight: 900;
         `;
   }}
@@ -94,11 +95,11 @@ const CardTitle = styled.h6`
   white-space: nowrap;
   font-size: 1.1rem;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const CardDiscount = styled.div`
-  color: ${({ theme }) => theme.colors.brandColor};
+  color: ${brandColor};
 `;
 
 export default Card;
