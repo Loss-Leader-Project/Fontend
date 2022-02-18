@@ -40,6 +40,7 @@ const Contain = styled.div`
   margin: 0 auto;
   margin-top: 10rem;
   padding: 0 2rem;
+
   ${({ theme }) => theme.media.tab} {
     padding: 0 2rem;
   }
