@@ -4,6 +4,7 @@ import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Grid, Stack, TextField } from '@mui/material';
 import styled from 'styled-components';
+import { gray } from 'styles/theme';
 
 const SignUpEmailLayout = props => {
   return (
@@ -25,7 +26,7 @@ const SignUpEmailLayout = props => {
             InputLabelProps={{
               style: { color: '#B9B9B9' },
             }}
-            {...(props.flag.mailId ? { helperText: '아이디를 입력하세요', error: true } : {})}
+            {...(props.flag ? { helperText: props.helpTextMailID, error: true } : {})}
             onChange={props.handleValue}
           />
           <SignUpEmail {...props} />
@@ -46,7 +47,7 @@ const CustomGridContainer = styled(Grid).attrs(props => ({
   &&& {
     margin-top: 1rem;
   }
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const MustItem = styled(Grid)`

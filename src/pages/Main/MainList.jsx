@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
-import axios from 'axios';
 import MainCard from './MainCard';
+import { fetchBestreviewList, fetchHotList } from 'utils/api';
 
 const randomNum = {
   num1: Math.floor(Math.random() * 7),
@@ -14,17 +14,8 @@ const MainList = ({ name, title }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const fetchList = async () => {
-      try {
-        const { data } = await axios.get(`/data/mainfood-${name}.json`);
-        setItems([data.data[randomNum.num1], data.data[randomNum.num2], data.data[randomNum.num3]]);
-      } catch (error) {
-        const message = error.response.message ?? error.message ?? error;
-        alert(message);
-      }
-    };
-
-    fetchList();
+    if (name === 'hotplace') fetchHotList(randomNum, setItems);
+    if (name === 'bestreview') fetchBestreviewList(randomNum, setItems);
   }, [name]);
 
   return (

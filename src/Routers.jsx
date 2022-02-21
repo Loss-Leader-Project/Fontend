@@ -7,8 +7,8 @@ import SignUp from './pages/SignUp/SignUp';
 import Detail from './pages/Detail/Detail';
 import { Redirect } from 'react-router';
 import List from 'pages/List/List';
-import LoginSearchID from './pages/LogIn/LoginSearchID';
-import LoginSearchPW from './pages/LogIn/LoginSearchPW';
+import LoginSearchID from './pages/LogIn/SearchID/LoginSearchID';
+import LoginSearchPW from './pages/LogIn/SearchPW/LoginSearchPW';
 import Header from 'Components/Header';
 import Nav from 'Components/nav/Nav';
 

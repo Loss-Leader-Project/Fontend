@@ -8,11 +8,13 @@ import {
   MenuItem,
   Select,
   Stack,
-  TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import { checkBlank, checkFlag } from 'pages/LogIn/check';
+import { brandColor, gray, lightGray } from 'styles/theme';
+import LoginInput from '../LoginInput';
 
 const LoginSearchID = () => {
   const [email, setEmail] = useState('');
@@ -33,6 +35,8 @@ const LoginSearchID = () => {
     SetSearchFromData(previousState => {
       return { ...previousState, [name]: value };
     });
+
+    handleFlag(name, value === '');
   };
 
   const [flag, SetFlag] = useState({
@@ -47,14 +51,6 @@ const LoginSearchID = () => {
     });
   };
 
-  const checkBlank = () => {
-    for (let [key, value] of Object.entries(SearchFromData)) {
-      if (value === '') handleFlag(key, true);
-      else if (value === '직접입력') handleFlag(key, true);
-      else handleFlag(key, false);
-    }
-  };
-
   const history = useHistory();
 
   return (
@@ -63,61 +59,15 @@ const LoginSearchID = () => {
         <Title>아이디 찾기</Title>
         <Grid container direction='row' justifyContent='space-between'>
           <Grid item sm={8.5} xs={8.5}>
-            <Stack
-              direction='column'
-              justifyContent='center'
-              alignItems='center'
-              spacing={2}
-            >
-              <TextField
-                name='name'
-                label='이름'
-                variant='outlined'
-                fullWidth
-                InputLabelProps={{
-                  style: { color: '#B9B9B9' },
-                }}
-                {...(flag.name
-                  ? { helperText: '이름을 입력하세요', error: true }
-                  : {})}
-                onChange={handleValue}
-              />
+            <Stack direction='column' justifyContent='center' alignItems='center' spacing={2}>
+              <LoginInput name='name' label='이름' flag={flag.name} onChange={handleValue} />
               <CustomStack direction='row' justifyContent='center' spacing={2}>
-                <TextField
-                  name='mailId'
-                  label='가입한메일아이디'
-                  variant='outlined'
-                  fullWidth
-                  InputLabelProps={{
-                    style: { color: '#B9B9B9' },
-                  }}
-                  {...(flag.mailId
-                    ? { helperText: '아이디를 입력하세요', error: true }
-                    : {})}
-                  onChange={handleValue}
-                />
+                <LoginInput name='mailId' label='가입한메일아이디' flag={flag.mailId} onChange={handleValue} />
                 {email === '직접입력' ? (
-                  <TextField
-                    name='email'
-                    label='직접입력'
-                    variant='outlined'
-                    fullWidth
-                    InputLabelProps={{
-                      style: { color: '#B9B9B9' },
-                    }}
-                    {...(flag.email
-                      ? { helperText: '메일 주소를 입력하세요', error: true }
-                      : {})}
-                    onChange={handleValue}
-                  />
+                  <LoginInput name='email' label='직접입력' flag={flag.email} onChange={handleValue} />
                 ) : (
-                  <FormControl
-                    fullWidth
-                    {...(flag.email ? { error: true } : {})}
-                  >
-                    <InputLabel id='demo-simple-select-label'>
-                      가입메일주소
-                    </InputLabel>
+                  <FormControl fullWidth {...(flag.email ? { error: true } : {})}>
+                    <InputLabel id='demo-simple-select-label'>가입메일주소</InputLabel>
                     <Select
                       name='email'
                       labelId='demo-simple-select-label'
@@ -134,9 +84,7 @@ const LoginSearchID = () => {
                       <MenuItem value={'google.com'}>google.com</MenuItem>
                       <MenuItem value={'daum.net'}>daum.net</MenuItem>
                     </Select>
-                    {flag.email && (
-                      <FormHelperText>메일주소를 선택해주세요</FormHelperText>
-                    )}
+                    {flag.email && <FormHelperText>메일주소를 선택해주세요</FormHelperText>}
                   </FormControl>
                 )}
               </CustomStack>
@@ -145,8 +93,9 @@ const LoginSearchID = () => {
           <Grid item sm={3} xs={3}>
             <SearchButton
               variant='contained'
-              onClick={() => {
-                checkBlank();
+              onClick={async () => {
+                if (await checkBlank(SearchFromData, flag, handleFlag)) return;
+                if (await checkFlag(flag)) return;
               }}
             >
               아이디 찾기
@@ -180,7 +129,7 @@ const SearchButton = styled(Button)`
   &&& {
     height: 8rem;
     width: 100%;
-    background-color: ${({ theme }) => theme.colors.gray};
+    background-color: ${gray};
   }
 `;
 
@@ -198,24 +147,24 @@ const CustomStack2 = styled(Stack)`
   }
 
   .leftBtn {
-    border: 1px solid ${({ theme }) => theme.colors.lightGray};
-    color: ${({ theme }) => theme.colors.gray};
+    border: 1px solid ${lightGray};
+    color: ${gray};
   }
 
   .rightBtn {
-    background-color: ${({ theme }) => theme.colors.brandColor};
+    background-color: ${brandColor};
     color: white;
   }
 
   .rightBtn:hover {
-    background-color: ${({ theme }) => theme.colors.brandColor};
+    background-color: ${brandColor};
   }
 `;
 
 const Title = styled.div`
   font-size: 1.5rem;
   padding: 0.625rem 0;
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const CustomContainer = styled(Container)`
