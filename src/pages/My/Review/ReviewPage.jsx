@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Title from 'Components/common/Title';
-import Reviews from 'Components/review/Reviews';
+import Reviews from 'pages/My/Review/Reviews';
 import React, { useEffect, useState } from 'react';
 
 const ReviewPage = () => {

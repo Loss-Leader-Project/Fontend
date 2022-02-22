@@ -1,6 +1,6 @@
 import { MenuItem, Select } from '@mui/material';
 import Input from 'Components/common/Input';
-import { withLayout } from 'pages/My/ModifyPage';
+import { withLayout } from './ModifyPage';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ModifyContext } from 'contexts/ModifyProvider';

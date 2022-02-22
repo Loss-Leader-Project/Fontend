@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Orders from 'Components/order/Orders';
-import UserInfo from 'Components/order/UserInfo';
+import Orders from './Orders';
+import UserInfo from './UserInfo';
 
 const BuyPage = () => {
   const [orders, setOrders] = useState([]);

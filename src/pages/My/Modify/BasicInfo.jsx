@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup, useMediaQuery } from '@mui/material';
 import Button from 'Components/common/Button';
 import Input from 'Components/common/Input';
-import { withLayout } from 'pages/My/ModifyPage';
+import { withLayout } from './ModifyPage';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { brandColor } from 'styles/theme';
