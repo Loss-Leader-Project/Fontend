@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import styled from 'styled-components';
-import BuyPage from 'pages/My/BuyPage';
-import CouponPage from 'pages/My/CouponPage';
-import MyMenu from 'Components/MyMenu';
-import ReviewPage from 'pages/My/ReviewPage';
-import ModifyPage from 'pages/My/ModifyPage';
+import BuyPage from 'pages/My/Buy/BuyPage';
+import CouponPage from 'pages/My/Coupon/CouponPage';
+import MyMenu from './MyMenu';
+import ReviewPage from 'pages/My/Review/ReviewPage';
+import ModifyPage from 'pages/My/Modify/ModifyPage';
 import { tab } from 'styles/theme';
 
 const My = () => {

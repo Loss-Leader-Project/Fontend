@@ -1,4 +1,4 @@
-import Order from 'Components/order/Order';
+import Order from 'pages/My/Buy/Order';
 import React from 'react';
 import styled from 'styled-components';
 import { mobile } from 'styles/theme';

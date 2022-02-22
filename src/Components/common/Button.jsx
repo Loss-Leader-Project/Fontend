@@ -2,8 +2,8 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { brandColor } from 'styles/theme';
 
-const Button = ({ text, bg, width, fontSize, ...rest }) => (
-  <StyledButton bg={bg} fontSize={fontSize} width={width} rest={rest}>
+const Button = ({ text, backgroundColor, width, fontSize, ...rest }) => (
+  <StyledButton {...{ backgroundColor }} fontSize={fontSize} width={width} rest={rest}>
     {text}
   </StyledButton>
 );
@@ -22,10 +22,10 @@ const StyledButton = styled.button`
   background-color: ${brandColor};
   width: ${({ width }) => width};
   font-size: ${({ fontSize }) => fontSize};
-  ${({ bg }) =>
-    bg &&
+  ${({ backgroundColor }) =>
+    backgroundColor &&
     css`
-      background-color: ${bg};
+      background-color: ${backgroundColor};
     `};
   ${({ rest }) => css`
     ${{ ...rest }}

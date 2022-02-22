@@ -10,7 +10,7 @@ import List from 'pages/List/List';
 import LoginSearchID from './pages/LogIn/SearchID/LoginSearchID';
 import LoginSearchPW from './pages/LogIn/SearchPW/LoginSearchPW';
 import Header from 'Components/Header';
-import Nav from 'Components/nav/Nav';
+import Nav from 'Components/Nav';
 
 const Routers = () => {
   const ListPageRender = ({ match: { params } }) => {

@@ -1,6 +1,6 @@
 import Title from 'Components/common/Title';
-import CouponHistory from 'Components/coupon/CouponHistory';
-import CouponInput from 'Components/coupon/CouponInput';
+import CouponHistory from './CouponHistory';
+import CouponInput from './CouponInput';
 import React from 'react';
 
 const CouponPage = () => {
