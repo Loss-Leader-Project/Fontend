@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { faUtensils, faGift, faMotorcycle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { tab, mobile } from 'styles/theme';
 
-function AvailabilityMeals({ content, serviceMethod }) {
+function AvailabilityMeals({ serviceMethod }) {
   const availabilityData = [
     {
       ida: 1,
@@ -43,10 +44,10 @@ const Contain = styled.div`
   width: 100%;
   margin-bottom: 3rem;
   margin-right: 10rem;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     margin-right: 6rem;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     margin-right: 2rem;
   }
 `;
@@ -61,10 +62,10 @@ const Wrapper = styled.div`
     color: ${({ theme, availability }) => {
       return availability ? theme.colors.brandColor : theme.colors.lightGray;
     }};
-    ${({ theme }) => theme.media.tab} {
+    ${tab} {
       font-size: 1.2rem;
     }
-    ${({ theme }) => theme.media.mobile} {
+    ${mobile} {
       font-size: 1rem;
     }
   }
@@ -75,10 +76,10 @@ const Content = styled.div`
     return availability ? theme.colors.brandColor : theme.colors.lightGray;
   }};
   font-weight: 600;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     font-size: 0.8rem;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     font-size: 0.6rem;
   }
 `;

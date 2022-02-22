@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Rating } from '@mui/material';
 import { css } from 'styled-components';
 import Tag from './Tag';
+import { tab, mobile, brandColor, lightDark } from 'styles/theme';
 
 function ProductInfo({ newData }) {
   const history = useHistory();
@@ -28,7 +29,7 @@ function ProductInfo({ newData }) {
             name='rating'
             defaultValue={0}
             value={ratingTotal || null}
-            precision={0.5} //백에서 ratingTotal 값 받기
+            precision={0.5}
             size='large'
             className='rating'
             readOnly
@@ -54,11 +55,11 @@ export default ProductInfo;
 const Contain = styled.div`
   height: 39rem;
   margin-left: 2rem;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     height: 30rem;
     margin: 0 4rem 8rem 4rem;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     height: 22rem;
     margin: 0 0 4rem 0;
   }
@@ -77,12 +78,12 @@ const TopInfo = styled.header`
 
   & .tag {
     margin-top: 1rem;
-    ${({ theme }) => theme.media.mobile} {
+    ${mobile} {
       font-size: 0.6rem;
     }
   }
   & .rating {
-    color: ${({ theme }) => theme.colors.brandColor};
+    color: ${brandColor};
   }
 `;
 
@@ -90,8 +91,8 @@ const LocationCuponName = styled.h3`
   font-size: 1.4rem;
   font-weight: 700;
   margin: ${({ marginValue }) => marginValue};
-  color: ${({ theme }) => theme.colors.lightDark};
-  ${({ theme }) => theme.media.mobile} {
+  color: ${lightDark};
+  ${mobile} {
     font-size: 1rem;
   }
 `;
@@ -100,7 +101,7 @@ const TitlePrice = styled.h1`
   font-size: 2rem;
   font-weight: 900;
   color: ${({ theme, color }) => theme.colors[color]};
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     font-size: 1.7rem;
   }
 `;
@@ -108,7 +109,7 @@ const TitlePrice = styled.h1`
 const TabSizeChange = styled.div`
   display: flex;
   flex-direction: column;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     flex-direction: row;
     justify-content: space-between;
     margin: 0 0 2rem 0;
@@ -129,9 +130,9 @@ const CuponImgHover = () => css`
 const ResidualCoupons = styled.h5`
   font-size: 1.2rem;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.brandColor};
+  color: ${brandColor};
   margin: 1rem 0;
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     font-size: 1rem;
   }
 `;
@@ -142,12 +143,12 @@ const ApplyButton = styled.img.attrs(({ applyButtonURL }) => ({
 }))`
   width: 13rem;
   margin: 2rem 0;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     width: 10rem;
     height: 5rem;
     margin: 0;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     width: 8rem;
     height: 4rem;
     margin-right: 1rem;

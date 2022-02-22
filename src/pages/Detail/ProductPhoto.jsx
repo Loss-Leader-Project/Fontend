@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { tab, mobile } from 'styles/theme';
 
 function ProductPhoto({ newData, mainImage, setMainImage }) {
   const hoverChangeImage = e => {
@@ -28,11 +29,11 @@ const Contain = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 9rem;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     flex-direction: row;
     margin-bottom: 3rem;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     flex-direction: column;
     margin-bottom: 2rem;
   }
@@ -41,12 +42,12 @@ const Contain = styled.div`
 const MainImage = styled.img`
   width: 29rem;
   height: 29rem;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     width: 80%;
     height: 80%;
     object-position: center;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     width: 100%;
     height: 100%;
   }
@@ -55,11 +56,11 @@ const MainImage = styled.img`
 const SubPhoto = styled.ul`
   display: flex;
   margin: 0.5rem 0 0 0;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     flex-direction: column;
     margin: 0 0 0 1rem;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     flex-direction: row;
     margin: 0.5rem 0 0 0;
   }
@@ -67,11 +68,11 @@ const SubPhoto = styled.ul`
 
 const SubImageWrapper = styled.li`
   margin: 0 0.5rem 0 0;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     flex-direction: column;
     margin: 0 0 0.5rem 0;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     margin: 0 0.5rem 0 0;
   }
 `;
@@ -83,7 +84,7 @@ const SubImage = styled.img`
   &:hover {
     transform: scale(1.05);
   }
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     width: 100%;
     height: 100%;
     object-position: center;
