@@ -1,0 +1,7 @@
+{
+  "status": 404,
+  "timestamp": "2022-02-26",
+  "error": "NOT_FOUND",
+  "code": "NO_EXIST_USERNAME_BIRTHDATE_EMAIL",
+  "message": "사용자 이름, 생년월일, 이메일을 잘못입력하셨습니다."
+}

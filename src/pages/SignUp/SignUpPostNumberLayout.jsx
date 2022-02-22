@@ -9,8 +9,8 @@ import { gray } from 'styles/theme';
 const SignUpPostNumberLayout = props => {
   return (
     <CustomGridContainer>
-      <MustItem item lg={3}>
-        <ColorMustIcon>
+      <MustItem item lg={3} md={3} sm={3}>
+        <ColorMustIcon {...(props.NotMust && { NotMust: true })}>
           <FontAwesomeIcon icon={faDotCircle} size='xs' />
         </ColorMustIcon>
         <MustItemText>주소</MustItemText>

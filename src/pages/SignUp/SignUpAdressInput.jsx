@@ -18,8 +18,8 @@ const SignUpAdressInput = ({ SignupFormData, flag, handleValue }) => {
         />
       ) : (
         <CustomGridContainer>
-          <Grid item lg={3}></Grid>
-          <Grid item lg={9}>
+          <Grid item lg={3} md={3} sm={3}></Grid>
+          <Grid item lg={9} md={9} sm={9}>
             <ColoredTextField
               name='address'
               label='주소를 입력하세요'

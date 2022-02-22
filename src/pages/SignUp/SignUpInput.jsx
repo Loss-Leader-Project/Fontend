@@ -8,13 +8,13 @@ import { brandColor, gray } from 'styles/theme';
 const SignUpInput = props => {
   return (
     <CustomGridContainer>
-      <MustItem item lg={3}>
+      <MustItem item lg={3} md={3} sm={3}>
         <ColorMustIcon {...(props.NotMust && { NotMust: true })}>
           <FontAwesomeIcon icon={faDotCircle} size='xs' />
         </ColorMustIcon>
         <MustItemText>{props.itemText}</MustItemText>
       </MustItem>
-      <Grid item lg={9}>
+      <Grid item lg={9} md={9} sm={9}>
         <TextField
           name={props.name}
           label={props.label}

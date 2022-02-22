@@ -6,8 +6,8 @@ import { brandColor, gray, lightDark } from 'styles/theme';
 const SignUpEmailCheck = props => {
   return (
     <CustomGridContainer>
-      <Grid item lg={3}></Grid>
-      <Grid item lg={9}>
+      <Grid item lg={3} md={3} sm={3}></Grid>
+      <Grid item lg={9} md={9} sm={9}>
         <CheckAgree
           name={props.name}
           control={<CheckBox checked={props.checkedAgree} onChange={props.handleChangeAgree} />}

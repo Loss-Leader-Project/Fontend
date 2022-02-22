@@ -1,20 +1,14 @@
-import {
-  Button,
-  Container,
-  FormControl,
-  FormHelperText,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-} from '@mui/material';
+import { Button, Container, Grid, Stack } from '@mui/material';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { checkBlank, checkFlag } from 'pages/LogIn/check';
 import { brandColor, gray, lightGray } from 'styles/theme';
 import LoginInput from '../LoginInput';
+import FindIdModalBody from './FindIdModalBody';
+import { postFindId } from '../api';
+import BasicModal from 'Components/BasicModal';
+import LoginEmailLayout from '../LoginEmailLayout';
 
 const LoginSearchID = () => {
   const [email, setEmail] = useState('');
@@ -25,6 +19,7 @@ const LoginSearchID = () => {
 
   const [SearchFromData, SetSearchFromData] = useState({
     name: '',
+    birthday: '',
     mailId: '',
     email: '',
   });
@@ -41,6 +36,7 @@ const LoginSearchID = () => {
 
   const [flag, SetFlag] = useState({
     name: false,
+    birthday: false,
     mailId: false,
     email: false,
   });
@@ -53,6 +49,12 @@ const LoginSearchID = () => {
 
   const history = useHistory();
 
+  const [findId, setFindId] = useState('');
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <div>
       <CustomContainer maxWidth='sm'>
@@ -60,34 +62,26 @@ const LoginSearchID = () => {
         <Grid container direction='row' justifyContent='space-between'>
           <Grid item sm={8.5} xs={8.5}>
             <Stack direction='column' justifyContent='center' alignItems='center' spacing={2}>
-              <LoginInput name='name' label='이름' flag={flag.name} onChange={handleValue} />
-              <CustomStack direction='row' justifyContent='center' spacing={2}>
-                <LoginInput name='mailId' label='가입한메일아이디' flag={flag.mailId} onChange={handleValue} />
-                {email === '직접입력' ? (
-                  <LoginInput name='email' label='직접입력' flag={flag.email} onChange={handleValue} />
-                ) : (
-                  <FormControl fullWidth {...(flag.email ? { error: true } : {})}>
-                    <InputLabel id='demo-simple-select-label'>가입메일주소</InputLabel>
-                    <Select
-                      name='email'
-                      labelId='demo-simple-select-label'
-                      id='demo-simple-select'
-                      value={email}
-                      label='가입메일주소'
-                      onChange={e => {
-                        mailHandleChange(e);
-                        handleValue(e);
-                      }}
-                    >
-                      <MenuItem value={'직접입력'}>직접입력</MenuItem>
-                      <MenuItem value={'naver.com'}>naver.com</MenuItem>
-                      <MenuItem value={'google.com'}>google.com</MenuItem>
-                      <MenuItem value={'daum.net'}>daum.net</MenuItem>
-                    </Select>
-                    {flag.email && <FormHelperText>메일주소를 선택해주세요</FormHelperText>}
-                  </FormControl>
-                )}
-              </CustomStack>
+              <LoginInput
+                name='name'
+                label='이름'
+                flag={flag.name}
+                handleValue={handleValue}
+                helperText='아이디를 입력하세요'
+              />
+              <LoginInput
+                name='birthday'
+                label='주민번호 앞6자리 및 뒤1자리(9110101)'
+                flag={flag.birthday}
+                handleValue={handleValue}
+                helperText='주민번호를 앞에서부터 7자 입력하세요'
+              />
+              <LoginEmailLayout
+                email={email}
+                flag={flag}
+                handleValue={handleValue}
+                mailHandleChange={mailHandleChange}
+              />
             </Stack>
           </Grid>
           <Grid item sm={3} xs={3}>
@@ -96,6 +90,16 @@ const LoginSearchID = () => {
               onClick={async () => {
                 if (await checkBlank(SearchFromData, flag, handleFlag)) return;
                 if (await checkFlag(flag)) return;
+
+                await postFindId({ ...SearchFromData }).then(res => {
+                  if (res.data.loginId) {
+                    setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
+                  } else if (res.data.status === 404) {
+                    setFindId(<FindIdModalBody valid={false} />);
+                  }
+
+                  handleOpen();
+                });
               }}
             >
               아이디 찾기
@@ -121,20 +125,17 @@ const LoginSearchID = () => {
           </Button>
         </CustomStack2>
       </CustomContainer>
+      <BasicModal open={open} handleClose={handleClose} title={'아이디 찾기 결과'} content={findId} />
     </div>
   );
 };
 
 const SearchButton = styled(Button)`
   &&& {
-    height: 8rem;
+    height: 12.5rem;
     width: 100%;
     background-color: ${gray};
   }
-`;
-
-const CustomStack = styled(Stack)`
-  width: 100%;
 `;
 
 const CustomStack2 = styled(Stack)`

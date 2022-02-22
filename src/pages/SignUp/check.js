@@ -13,7 +13,7 @@ export const checkBlank = (formData, flag, handleFlag) => {
     if ((value === '' || value === '직접입력') && key in flag) {
       handleFlag(key, true);
       returnFlag = true;
-    } else if (value !== '' && key in flag) handleFlag(key, false);
+    } else if (value !== '' && key in flag && key !== 'emailSubmit') handleFlag(key, false);
   }
 
   return returnFlag;
@@ -22,7 +22,7 @@ export const checkBlank = (formData, flag, handleFlag) => {
 const regExp = {
   id: /^[a-z]+[a-z0-9]{5,19}$/g,
   password: /^(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/,
-  email: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+  email: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
 };
 
 export const regExpCheck = (key, value, handleFlag, sethelpText, sethelpText2) => {
@@ -68,4 +68,10 @@ export const regExpCheck = (key, value, handleFlag, sethelpText, sethelpText2) =
       sethelpText2('메일 주소를 입력하세요');
     }
   }
+};
+
+export const CheckSameEmailCode = (value, code, handleFlag, sethelpText) => {
+  if (value !== code) sethelpText('인증번호가 일치하지 않습니다.');
+
+  handleFlag('emailSubmit', !(value === code));
 };

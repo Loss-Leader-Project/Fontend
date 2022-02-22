@@ -1,62 +1,43 @@
+import { Button, Grid, Stack, TextField } from '@mui/material';
 import React from 'react';
-import SignUpEmail from './SignUpEmail';
-import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Grid, Stack, TextField, Button } from '@mui/material';
 import styled from 'styled-components';
 import { brandColor, gray } from 'styles/theme';
-import { getEmailCode } from './api';
-import { regExpCheck } from './check';
+import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const SignUpEmailLayout = props => {
+const SignUpIDLayout = props => {
   return (
     <CustomGridContainer>
       <MustItem item lg={3} md={3} sm={3}>
-        <ColorMustIcon>
+        <ColorMustIcon {...(props.NotMust && { NotMust: true })}>
           <FontAwesomeIcon icon={faDotCircle} size='xs' />
         </ColorMustIcon>
-        <MustItemText>이메일</MustItemText>
+        <MustItemText>{props.itemText}</MustItemText>
       </MustItem>
       <Grid item lg={9} md={9} sm={9}>
         <CustomStack direction='row' justifyContent='center' spacing={2}>
           <TextField
-            name='mailId'
-            label='가입한메일아이디'
+            name={props.name}
+            label={props.label}
             variant='outlined'
             fullWidth
+            type={props.password && 'password'}
+            autoComplete={props.autoComplete && 'current-password'}
             size='small'
             InputLabelProps={{
               style: { color: '#B9B9B9' },
             }}
-            {...(props.flag ? { helperText: props.helpTextMailID, error: true } : {})}
+            {...(props.flag ? { helperText: `${props.helperText}`, error: true } : {})}
             onChange={props.handleValue}
           />
-          <SignUpEmail {...props} />
-          <EmailSubmitButton
-            onClick={async () => {
-              if (
-                await regExpCheck(
-                  'email',
-                  props.userEmail,
-                  props.handleFlag,
-                  props.sethelpTextMailID,
-                  props.sethelpTextEmail
-                )
-              )
-                return;
-
-              getEmailCode(props.userEmail);
-            }}
-          >
-            인증요청
-          </EmailSubmitButton>
+          <IdSubmitButton>중복확인</IdSubmitButton>
         </CustomStack>
       </Grid>
     </CustomGridContainer>
   );
 };
 
-export default SignUpEmailLayout;
+export default SignUpIDLayout;
 
 const CustomGridContainer = styled(Grid).attrs(props => ({
   container: true,
@@ -76,21 +57,21 @@ const MustItem = styled(Grid)`
   opacity: ${({ NotText }) => (NotText ? 0 : 1)};
 `;
 
-const ColorMustIcon = styled.span`
-  color: ${({ theme }) => theme.colors.brandColor};
-  opacity: ${({ NotMust }) => (NotMust ? 0 : 1)};
-`;
-
 const MustItemText = styled.div`
   font-size: 1rem;
   margin-left: 0.625rem;
+`;
+
+const ColorMustIcon = styled.span`
+  color: ${brandColor};
+  opacity: ${({ NotMust }) => (NotMust ? 0 : 1)};
 `;
 
 const CustomStack = styled(Stack)`
   width: 100%;
 `;
 
-const EmailSubmitButton = styled(Button)`
+const IdSubmitButton = styled(Button)`
   &&& {
     background-color: ${brandColor};
     color: white;

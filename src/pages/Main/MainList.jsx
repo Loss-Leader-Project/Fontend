@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
 import MainCard from './MainCard';
-import { fetchBestreviewList, fetchHotList } from 'utils/api';
+import { fetchBestreviewList, fetchHotList } from './listApi';
 
 const randomNum = {
   num1: Math.floor(Math.random() * 7),
