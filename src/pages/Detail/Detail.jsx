@@ -4,6 +4,7 @@ import ProductInfo from './ProductInfo';
 import styled from 'styled-components';
 import axios from 'axios';
 import MenuBar from './MenuBar';
+import { tab, mobile } from 'styles/theme';
 
 function Detail() {
   const [mainImage, setMainImage] = useState('');
@@ -40,10 +41,11 @@ const Contain = styled.div`
   margin: 0 auto;
   margin-top: 10rem;
   padding: 0 2rem;
-  ${({ theme }) => theme.media.tab} {
+
+  ${tab} {
     padding: 0 2rem;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     padding: 0;
   }
 `;
@@ -51,7 +53,7 @@ const Contain = styled.div`
 const TopWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     flex-direction: column;
   }
 `;

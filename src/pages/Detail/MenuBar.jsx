@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import Tabs from '@mui/material/Tabs';
 import Description from './Description';
-import Review from './Review';
+import ProductReview from './ProductReview';
 import styled from 'styled-components';
+import { tab, mobile, brandColor } from 'styles/theme';
 
 function MenuBar({ newData }) {
   const [value, setValue] = useState('1');
@@ -32,7 +33,7 @@ function MenuBar({ newData }) {
           <Description {...{ newData }} />
         </TabPanel>
         <TabPanel value='2'>
-          <Review />
+          <ProductReview {...{ newData }} />
         </TabPanel>
       </TabContext>
     </Contain>
@@ -44,7 +45,7 @@ export default MenuBar;
 const Contain = styled.div`
   width: 100%;
   & .css-13xfq8m-MuiTabPanel-root {
-    ${({ theme }) => theme.media.mobile} {
+    ${mobile} {
       padding: 0;
     }
   }
@@ -54,17 +55,17 @@ const TabWrapper = styled.div`
   border: 3px solid black;
 
   & .css-11yukd5-MuiTabs-indicator {
-    background-color: ${({ theme }) => theme.colors.brandColor};
+    background-color: ${brandColor};
   }
   & .tabs .css-1a4cg4j-MuiButtonBase-root-MuiTab-root {
     font-size: 1.2rem;
     font-weight: 900;
-    color: ${({ theme }) => theme.colors.brandColor};
+    color: ${brandColor};
     margin: 0 auto;
-    ${({ theme }) => theme.media.tab} {
+    ${tab} {
       font-size: 1rem;
     }
-    ${({ theme }) => theme.media.mobile} {
+    ${mobile} {
       font-size: 0.8rem;
     }
   }

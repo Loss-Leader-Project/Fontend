@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { faPhoneVolume, faCalendar, faClock, faMap, faStore, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import DescriptionColumn from './DescriptionColumn';
+import { tab, mobile } from 'styles/theme';
 
 function Description({ newData }) {
   const {
@@ -34,10 +35,10 @@ export default Description;
 
 const Contain = styled.div`
   padding: 5rem 0 0 4rem;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     padding: 5rem 0 0 2rem;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     padding: 3rem 0 0 0;
   }
 `;

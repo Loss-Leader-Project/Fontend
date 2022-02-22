@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AvailabilityMeals from './AvailabilityMeals';
 import DescriptionMenuInfo from './DescriptionMenuInfo';
 import NaverMapApi from './NaverMapApi';
+import { tab, mobile, lightGray } from 'styles/theme';
 
 function DescriptionColumn({ icon, content, url, serviceMethod, storeMenu, longitude, latitude }) {
   return (
@@ -32,15 +33,15 @@ const InfoWrapper = styled.div`
   align-items: center;
   margin-bottom: 2.5rem;
   & .infoIcon {
-    color: ${({ theme }) => theme.colors.lightGray};
+    color: ${lightGray};
     width: 5rem;
     font-size: 1.8rem;
     margin: 0 3rem 0 0;
-    ${({ theme }) => theme.media.tab} {
+    ${tab} {
       font-size: 1.5rem;
       margin: 0 1rem 0 0;
     }
-    ${({ theme }) => theme.media.mobile} {
+    ${mobile} {
       font-size: 1.2rem;
       margin: 0 0.2rem 0 0;
     }
@@ -49,10 +50,10 @@ const InfoWrapper = styled.div`
 
 const InfoContent = styled.div`
   font-size: 1.2rem;
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     font-size: 1rem;
   }
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     font-size: 0.8rem;
   }
 `;
@@ -62,7 +63,7 @@ const MenuImage = styled.img`
   width: 70%;
   margin-left: 4rem;
   margin-bottom: 3rem;
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     margin-left: 2rem;
   }
 `;
