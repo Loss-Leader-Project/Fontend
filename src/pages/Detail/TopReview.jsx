@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Rating } from '@mui/material';
-import { tab, mobile, brandColor, lightGray, lightDark } from 'styles/theme';
+import { brandColor, lightGray, lightDark } from 'styles/theme';
+import Pages from './Pages';
 
-function TopReview({ ratingTotal, reviewCount }) {
+function TopReview({ ratingTotal, reviewCount, totalPage, currentPage, changeCurrentPage }) {
   return (
     <TopWrapper>
       <TotalInfo>
@@ -20,6 +21,7 @@ function TopReview({ ratingTotal, reviewCount }) {
           <RatingNumberDate fontSize='1.2rem'>{ratingTotal}</RatingNumberDate>
         </TotalRatingInfo>
       </TotalInfo>
+      <Pages {...{ totalPage, currentPage, changeCurrentPage }} />
     </TopWrapper>
   );
 }
@@ -27,6 +29,8 @@ function TopReview({ ratingTotal, reviewCount }) {
 export default TopReview;
 
 const TopWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
   border-bottom: 3px solid ${lightGray};
   padding-bottom: 4rem;
 `;
