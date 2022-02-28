@@ -14,7 +14,7 @@
   "cuponCondition": "만원이상 주문시",
   "cuponBenefit": "20% 할인",
   "cuponPrice": 2000,
-  "leftCoupon": 0,
+  "leftCoupon": 10,
   "storeFoodImage": [
     {
       "id": 1,

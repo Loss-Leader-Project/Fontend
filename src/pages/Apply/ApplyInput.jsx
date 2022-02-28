@@ -5,37 +5,36 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { brandColor, gray } from 'styles/theme';
 
-const SignUpInput = props => {
-  console.log(props.NotMust);
+const ApplyInput = ({ NotMust, itemText, name, label, password, autoComplete, flag, helperText, handleValue }) => {
   return (
     <CustomGridContainer>
-      <MustItem item lg={3} md={3} sm={3}>
-        <ColorMustIcon {...(props.NotMust && { NotMust: true })}>
+      <MustItem item lg={3}>
+        <ColorMustIcon {...(NotMust && { NotMust: true })}>
           <FontAwesomeIcon icon={faDotCircle} size='xs' />
         </ColorMustIcon>
-        <MustItemText>{props.itemText}</MustItemText>
+        <MustItemText>{itemText}</MustItemText>
       </MustItem>
-      <Grid item lg={9} md={9} sm={9}>
+      <Grid item lg={9}>
         <TextField
-          name={props.name}
-          label={props.label}
+          name={name}
+          label={label}
           variant='outlined'
           fullWidth
-          type={props.password && 'password'}
-          autoComplete={props.autoComplete && 'current-password'}
+          type={password && 'password'}
+          autoComplete={autoComplete && 'current-password'}
           size='small'
           InputLabelProps={{
             style: { color: '#B9B9B9' },
           }}
-          {...(props.flag ? { helperText: `${props.helperText}`, error: true } : {})}
-          onChange={props.handleValue}
+          {...(flag ? { helperText: `${helperText}`, error: true } : {})}
+          onChange={handleValue}
         />
       </Grid>
     </CustomGridContainer>
   );
 };
 
-export default SignUpInput;
+export default ApplyInput;
 
 const CustomGridContainer = styled(Grid).attrs(props => ({
   container: true,

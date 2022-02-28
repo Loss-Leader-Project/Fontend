@@ -48,3 +48,44 @@ export const getDetail = async () => {
     alert(message);
   }
 };
+
+export const getApply = async () => {
+  try {
+    const { data } = await axios({
+      method: 'GET',
+      url: '/data/applyData.json',
+    });
+    return data;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const getApplyTitle = async () => {
+  try {
+    const { data } = await axios({
+      method: 'GET',
+      url: '/data/applyTitle.json',
+    });
+    return data;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const postApply = async props => {
+  const { userId, productId, userName, phoneNumber, visitTime, visitCount, mileage, agreeUserInfo } = props;
+  try {
+    const { data } = await axios({
+      method: 'POST',
+      url: '',
+      data: { userName, phoneNumber, visitTime, visitCount, mileage, agreeUserInfo },
+    });
+    return data;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};

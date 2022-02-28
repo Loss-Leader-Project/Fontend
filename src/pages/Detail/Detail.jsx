@@ -5,10 +5,13 @@ import styled from 'styled-components';
 import MenuBar from './MenuBar';
 import { tab, mobile } from 'styles/theme';
 import { getDetail } from 'utils/api';
+import { useParams } from 'react-router';
 
 function Detail() {
   const [mainImage, setMainImage] = useState('');
   const [newData, setNewData] = useState({});
+
+  const param = useParams();
 
   useEffect(() => {
     getDetail().then(data => {
@@ -21,9 +24,10 @@ function Detail() {
     <Contain>
       <TopWrapper>
         <ProductPhoto {...{ newData, mainImage, setMainImage }} />
-        <ProductInfo {...{ newData }} />
+        <ProductInfo {...{ newData, param }} />
       </TopWrapper>
       <BottomWrapper>
+        <input type='checkbox' />
         <MenuBar {...{ newData }} />
       </BottomWrapper>
     </Contain>

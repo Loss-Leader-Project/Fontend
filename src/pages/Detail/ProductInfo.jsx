@@ -6,7 +6,7 @@ import { css } from 'styled-components';
 import Tag from './Tag';
 import { tab, mobile, brandColor, lightDark } from 'styles/theme';
 
-function ProductInfo({ newData }) {
+function ProductInfo({ newData, param }) {
   const history = useHistory();
   const { briefAddress, storeName, ratingTotal, cuponCondition, cuponBenefit, cuponPrice, leftCoupon, hashTag } =
     newData;
@@ -15,7 +15,7 @@ function ProductInfo({ newData }) {
   const applyButtonURL = `/images/DetailPageApply${leftCoupon === 0 ? 'Block' : ''}.png`;
 
   const applyPageMove = () => {
-    isApply ? alert('상품 준비중 입니다.') : history.push('/apply');
+    isApply ? alert('상품 준비중 입니다.') : history.push(`/apply/${param}`); //productId 적기
   };
 
   return (
