@@ -1,5 +1,5 @@
 import { Button, Container } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SignUpInput from './SignUpInput';
 import SignUpEmailCheck from './SignUpEmailCheck';
@@ -8,6 +8,10 @@ import SignUpEmailLayout from './SignUpEmailLayout';
 import SignUpPostNumberLayout from './SignUpPostNumberLayout';
 import { checkBlank, checkFlag, regExpCheck } from 'pages/SignUp/check';
 import { brandColor, lightDark } from 'styles/theme';
+import SignupEmailSubmit from './SignupEmailSubmit';
+import { getData } from 'utils/api';
+import SignUpIDLayout from './SignUpIDLayout';
+import { postSignUp } from './api';
 
 const SignUp = props => {
   const [email, setEmail] = useState('');
@@ -44,6 +48,7 @@ const SignUp = props => {
     detailAddress: '',
     birthday: '',
     recommendId: '',
+    emailSubmit: '',
   });
 
   const handleValue = e => {
@@ -51,8 +56,6 @@ const SignUp = props => {
     setSignupFormData(previousState => {
       return { ...previousState, [name]: value };
     });
-
-    handleFlag(name, value === '');
   };
 
   const [flag, SetFlag] = useState({
@@ -63,10 +66,9 @@ const SignUp = props => {
     mailId: false,
     email: false,
     phone: false,
-    address: false,
-    detailAddress: false,
     birthday: false,
-    postNumber: false,
+    emailSubmit: false,
+    recommend: false,
   });
 
   const handleFlag = (key, boolean) => {
@@ -80,6 +82,8 @@ const SignUp = props => {
   const [helpTextPWCheck, sethelpTextPWCheck] = useState('비밀번호를 재입력하세요');
   const [helpTextEmail, sethelpTextEmail] = useState('메일 주소를 입력하세요');
   const [helpTextMailID, sethelpTextMailID] = useState('메일아이디를 입력하세요');
+  const [helpTextEmailSubmit, sethelpTextEmailSubmit] = useState('인증을 완료해주세요');
+  const [helpTextRecommend, sethelpTextRecommend] = useState('');
 
   const checkSamePW = () => {
     let returnFlag = false;
@@ -91,11 +95,19 @@ const SignUp = props => {
     return returnFlag;
   };
 
+  const [emailCode, setEmailCode] = useState('');
+
+  useEffect(() => {
+    getData('/data/emailcode.json').then(({ data }) => {
+      setEmailCode(data.code);
+    });
+  }, [emailCode]);
+
   return (
     <div>
       <CustomContainer maxWidth='sm'>
         <Title>기본정보</Title>
-        <SignUpInput
+        <SignUpIDLayout
           itemText='아이디'
           name='id'
           label='아이디를 입력하세요 (공백미포함 영문,숫자포함 5 ~ 19자)'
@@ -134,17 +146,30 @@ const SignUp = props => {
 
         <SignUpEmailLayout
           email={email}
+          userEmail={SignupFormData.mailId + '@' + SignupFormData.email}
           flag={flag.email}
           handleValue={handleValue}
           mailHandleChange={mailHandleChange}
+          handleFlag={handleFlag}
           helpTextEmail={helpTextEmail}
+          sethelpTextMailID={sethelpTextMailID}
           helpTextMailID={helpTextMailID}
+          sethelpTextEmail={sethelpTextEmail}
+        />
+        <SignupEmailSubmit
+          value={SignupFormData.emailSubmit}
+          code={emailCode}
+          flag={flag.emailSubmit}
+          helpText={helpTextEmailSubmit}
+          handleValue={handleValue}
+          handleFlag={handleFlag}
+          sethelpText={sethelpTextEmailSubmit}
         />
         <SignUpEmailCheck
           name='agreeMail'
           checkedAgree={checkedAgreeMail}
           handleChangeAgree={handleChangeAgree}
-          label='정보/이벤트 메일 수신에 동의합니다. (필수사항)'
+          label='개인정보 수집 및 메일 수신에 동의합니다. (필수사항)'
         />
         <SignUpInput
           itemText='휴대폰번호'
@@ -160,12 +185,14 @@ const SignUp = props => {
           handleChangeAgree={handleChangeAgree}
           label='정보/이벤트 SMS 수신에 동의합니다. (선택사항)'
         />
+
         <SignUpInput itemText='전화번호' name='tel' label='- 없이 입력하세요' handleValue={handleValue} NotMust />
         <SignUpPostNumberLayout
           SignupFormData={SignupFormData}
           flag={flag.postNumber}
           handleValue={handleValue}
           setSignupFormData={setSignupFormData}
+          NotMust
         />
         <SignUpAdressInput SignupFormData={SignupFormData} flag={flag.address} handleValue={handleValue} />
         <SignUpInput
@@ -176,21 +203,23 @@ const SignUp = props => {
           helperText='상세주소를 입력하세요'
           NotMust
         />
-
-        <Title>부가정보</Title>
         <SignUpInput
-          itemText='생일'
+          itemText='주민번호'
           name='birthday'
-          label='생일을 입력하세요 (ex 20191202)'
+          label='주민번호 앞 6자리와 뒷 1숫자를 입력해주세요. (ex 9112021)'
           flag={flag.birthday}
           handleValue={handleValue}
-          helperText='생일을 입력하세요'
+          helperText='주민번호를 입력하세요'
         />
+
+        <Title>부가정보</Title>
         <SignUpInput
           itemText='추천인 아이디'
           name='recommendId'
           label='추천인 아이디를 입력하세요'
           handleValue={handleValue}
+          flag={flag.recommend}
+          helpText={helpTextRecommend}
           NotMust
         />
         <SubmitButton
@@ -209,6 +238,27 @@ const SignUp = props => {
             if (await regExpCheck('email', mail, handleFlag, sethelpTextMailID, sethelpTextEmail)) return;
 
             if (await checkFlag(flag)) return;
+
+            if (SignupFormData.agreeMail === false) alert('메일 수신 동의는 필수사항입니다.');
+
+            postSignUp({ ...SignupFormData }).then(data => {
+              if (data.error) {
+                switch (data.error.status) {
+                  case 409:
+                    sethelpTextID('이미 존재하는 아이디입니다.');
+                    break;
+                  case 400:
+                    sethelpTextPWCheck('비밀번호가 일치하지 않습니다.');
+                    break;
+                  case 404:
+                    sethelpTextRecommend('추천인 아이디가 존재하지 않습니다.');
+                    handleFlag('recommend', true);
+                    break;
+                  default:
+                    break;
+                }
+              }
+            });
           }}
         >
           확인
@@ -225,6 +275,7 @@ const Title = styled.div`
   font-size: 1.25rem;
   border-bottom: 1px solid ${lightDark};
   padding: 0.625rem 0;
+  margin-top: 1.25rem;
 `;
 
 const CustomContainer = styled(Container)`

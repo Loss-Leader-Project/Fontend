@@ -14,7 +14,7 @@ const LoginInput = props => {
         InputLabelProps={{
           style: { color: '#B9B9B9' },
         }}
-        {...(props.flag ? { helperText: '비밀번호를 입력하세요', error: true } : {})}
+        {...(props.flag ? { helperText: props.helperText, error: true } : {})}
         onChange={props.handleValue}
       />
     </>

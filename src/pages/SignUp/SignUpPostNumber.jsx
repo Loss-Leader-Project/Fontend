@@ -7,7 +7,7 @@ const SignUpPostNumber = ({ SignupFormData, flag, handleValue, setSignupFormData
   const { daum } = window;
 
   return (
-    <Grid item lg={9}>
+    <Grid item lg={9} md={9} sm={9}>
       <Stack direction='row' spacing={1}>
         {SignupFormData.postNumber === '' ? (
           <TextField
