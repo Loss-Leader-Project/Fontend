@@ -169,7 +169,7 @@ const SignUp = props => {
           name='agreeMail'
           checkedAgree={checkedAgreeMail}
           handleChangeAgree={handleChangeAgree}
-          label='개인정보 수집 및 메일 수신에 동의합니다. (필수사항)'
+          label='개인정보 수집 및 메일 수신에 동의합니다. (필수)'
         />
         <SignUpInput
           itemText='휴대폰번호'
@@ -183,7 +183,7 @@ const SignUp = props => {
           name='agreeSMS'
           checkedAgree={checkedAgreeSMS}
           handleChangeAgree={handleChangeAgree}
-          label='정보/이벤트 SMS 수신에 동의합니다. (선택사항)'
+          label='정보/이벤트 SMS 수신에 동의합니다. (선택)'
         />
 
         <SignUpInput itemText='전화번호' name='tel' label='- 없이 입력하세요' handleValue={handleValue} NotMust />
@@ -243,7 +243,7 @@ const SignUp = props => {
 
             postSignUp({ ...SignupFormData }).then(data => {
               if (data.error) {
-                switch (data.error.status) {
+                switch (data.status) {
                   case 409:
                     sethelpTextID('이미 존재하는 아이디입니다.');
                     break;
