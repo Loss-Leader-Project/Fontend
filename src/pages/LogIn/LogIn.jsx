@@ -1,10 +1,17 @@
-import { Button, Checkbox, Container, Divider, FormControlLabel, Grid, Stack } from '@mui/material';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+import { Checkbox, Container, Divider, FormControlLabel, Grid, Stack } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
 import { brandColor, gray, lightDark, lightGray } from 'styles/theme';
 import { checkBlank, checkFlag } from 'pages/LogIn/check';
-import LoginInput from './LoginInput';
+import { Login } from './api';
+import LoginNaver from './LoginNaver';
+import { KAKAO_AUTH_URL } from '../../utils/OAuth';
+import { useDispatch } from 'react-redux';
+import { loginCheckAction } from 'modules/reducers/loginReducer';
+import { checkAccessToken } from 'utils/api';
+import MuiInput from 'Components/MuiInput';
+import MuiButton from 'Components/MuiButton';
 
 const LogIn = () => {
   const [checked, setChecked] = useState(false);
@@ -44,33 +51,75 @@ const LogIn = () => {
 
   const history = useHistory();
 
+  const location = useLocation();
+
+  const [token, setToken] = useState('');
+
+  const getNaverToken = location => {
+    if (location.hash) {
+      setToken(location.hash.split('=')[1].split('&')[0]);
+    } else if (location.search) {
+      setToken(location.search.split('=')[1]);
+    }
+  };
+
+  useEffect(() => {
+    getNaverToken(location);
+  }, [location]);
+
+  const dispatch = useDispatch();
+
+  const LoginAPI = (id, password) => {
+    Login(id, password)
+      .then(res => {
+        localStorage.setItem('access-token', res.headers.Authroization);
+      })
+      .catch(error => {
+        console.log(error);
+        return true;
+      });
+  };
+
   return (
     <>
       <Container maxWidth='sm' style={{ marginTop: '80px' }}>
         <Grid container direction='row' justifyContent='space-between'>
           <Grid item sm={8.5} xs={8.5}>
             <Stack direction='column' justifyContent='center' alignItems='center' spacing={2}>
-              <LoginInput name='id' label='아이디' flag={flag.id} onChange={handleValue} />
-              <LoginInput
+              <MuiInput
+                name='id'
+                label='아이디'
+                flag={flag.id}
+                value={loginFormData.id}
+                onChange={handleValue}
+                helperText='아이디를 입력해주세요'
+              />
+              <MuiInput
                 name='password'
                 label='비밀번호'
                 type='password'
                 autoComplete='current-password'
+                value={loginFormData.password}
                 flag={flag.password}
                 onChange={handleValue}
+                helperText='비밀번호를 입력해주세요'
               />
             </Stack>
           </Grid>
           <Grid item sm={3} xs={3}>
-            <LoginButton
-              variant='contained'
+            <MuiButton
+              sx={{ height: '8rem' }}
+              content='로그인'
               onClick={async () => {
                 if (await checkBlank(loginFormData, flag, handleFlag)) return;
+
                 if (await checkFlag(flag)) return;
+
+                if (await LoginAPI(loginFormData.id, loginFormData.password)) return;
+
+                dispatch(loginCheckAction(checkAccessToken()));
               }}
-            >
-              로그인
-            </LoginButton>
+            />
           </Grid>
         </Grid>
         <Grid container direction='row' alignItems='center'>
@@ -85,12 +134,10 @@ const LogIn = () => {
             marginTop: '80px',
           }}
         >
-          <NaverBar>
-            <span>네이버 아이디로 로그인</span>
-          </NaverBar>
-          <KakaoBar>
-            <span>카카오 아이디로 로그인</span>
-          </KakaoBar>
+          <LoginNaver />
+          <KakaoBtn href={KAKAO_AUTH_URL}>
+            <img src={`${process.env.PUBLIC_URL}/images/kakao_login_large_narrow.png`} alt='kakaoLogin' />
+          </KakaoBtn>
         </Stack>
         <SignUp>
           <div className='bigFont'>
@@ -149,29 +196,21 @@ const CheckBox = styled(Checkbox)`
   }
 `;
 
-const NaverBar = styled('div')`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #19ce60;
-  width: 100%;
-  color: white;
-  height: 3.125rem;
-  text-align: center;
-`;
-
-const KakaoBar = styled('div')`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fee102;
-  width: 100%;
-  color: ${gray};
-  height: 3.125rem;
+const KakaoBtn = styled('a')`
+  display: block;
+  width: 17.3125rem;
+  height: 3.75rem;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
 `;
 
 const SignUp = styled('div')`
   margin-top: 5rem;
+  margin-bottom: 5rem;
   background-color: #eee;
 
   .bigFont {
@@ -190,14 +229,6 @@ const SignUp = styled('div')`
 
   .left {
     color: ${lightDark};
-  }
-`;
-
-const LoginButton = styled(Button)`
-  &&& {
-    height: 8rem;
-    width: 100%;
-    background-color: ${brandColor};
   }
 `;
 

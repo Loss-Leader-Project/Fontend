@@ -1,34 +1,64 @@
-import { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
-import axios from 'axios';
 import Fliters from 'pages/List/Fliters';
 import Card from 'pages/List/Card';
+import { fetchList } from 'utils/api';
+import { useLocation } from 'react-router';
+import Pages from 'Components/Pages';
+import qs from 'query-string';
 
-const List = ({ name = 'gold' }) => {
+const List = () => {
   const [items, setItems] = useState([]);
-  const [limit, setLimit] = useState(20);
+  const { search } = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const [currentSize, setCurrentSize] = useState(20);
+  const oldQeury = useMemo(() => qs.parse(search), [search]);
 
-  const handleChange = useCallback(({ target: { value } }) => setLimit(value), []);
+  const makeQuery = useCallback(
+    (page = 1) =>
+      qs.stringify({
+        ...oldQeury,
+        size: currentSize,
+        page: page - 1,
+      }),
+    [oldQeury, currentSize]
+  );
+
+  const handleChange = useCallback(({ target: { value } }) => {
+    setCurrentPage(1);
+    setCurrentSize(value);
+  }, []);
+  const handlePage = useCallback(page => setCurrentPage(page), []);
+
+  // 모두다 쿼리스트링으로 관리하자.
+  useEffect(() => {
+    return () => {
+      setCurrentPage(1);
+      setTotalPage(0);
+      setCurrentSize(20);
+    };
+  }, [oldQeury]);
 
   useEffect(() => {
-    const fetchList = async () => {
-      try {
-        const { data } = await axios.get(`/data/food-${name}.json`);
-        setItems(data.data);
-      } catch (error) {
-        const message = error.response.message ?? error.message ?? error;
-        alert(message);
-      }
-    };
-
-    fetchList();
-  }, [name]);
+    fetchList(makeQuery(currentPage))
+      .then(({ StoreListingResponse, totalPages }) => {
+        setItems(StoreListingResponse);
+        setTotalPage(totalPages);
+      })
+      .catch(message => alert(message));
+  }, [makeQuery, currentPage]);
 
   return (
     <ListWrapper>
-      <Fliters handleChange={handleChange} limit={limit} />
-      <CardsWrapper>{items.map((item, idx) => limit > idx && <Card key={item.id} {...item} />)}</CardsWrapper>
+      <Fliters handleChange={handleChange} size={currentSize} />
+      <CardsWrapper>
+        {items.map(item => (
+          <Card key={item.id} {...item} />
+        ))}
+      </CardsWrapper>
+      <Pages currentPage={currentPage} totalPage={totalPage} changeCurrentPage={handlePage} />
     </ListWrapper>
   );
 };

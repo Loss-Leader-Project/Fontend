@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Chip } from '@mui/material';
 
 function Tag({ hashTag }) {
+  //해쉬태크는 배열입니다
   return (
     <TagWrapper>
       {hashTag?.map(({ id, name }) => {

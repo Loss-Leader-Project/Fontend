@@ -2,140 +2,140 @@
   "data": [
     {
       "id": 1,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 1",
       "reviewImage": "https://ifh.cc/g/ypTs93.jpg",
       "star": 4
     },
     {
       "id": 2,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 2",
       "reviewImage": "https://ifh.cc/g/mmawVT.jpg",
       "star": 3
     },
     {
       "id": 3,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 3",
       "reviewImage": "https://ifh.cc/g/UxuyCL.jpg",
       "star": 3
     },
     {
       "id": 4,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 4",
       "reviewImage": "https://ifh.cc/g/cWrlei.jpg",
       "star": 3.5
     },
     {
       "id": 5,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 5",
       "reviewImage": "https://ifh.cc/g/0xpdXn.jpg",
       "star": 4
     },
     {
       "id": 6,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 6",
       "reviewImage": "https://ifh.cc/g/dRFB9M.jpg",
       "star": 4.5
     },
     {
       "id": 7,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 7",
       "reviewImage": "https://ifh.cc/g/I6SmQS.jpg",
       "star": 4
     },
     {
       "id": 8,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 8",
       "reviewImage": "https://ifh.cc/g/tialUF.jpg",
       "star": 3
     },
     {
       "id": 9,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 9",
       "reviewImage": "https://ifh.cc/g/Gmhfld.jpg",
       "star": 5
     },
     {
       "id": 10,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 10",
       "reviewImage": "https://ifh.cc/g/XZtSgk.jpg",
       "star": 4
     },
     {
       "id": 11,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 11",
       "reviewImage": "https://ifh.cc/g/ypTs93.jpg",
       "star": 4
     },
     {
       "id": 12,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 12",
       "reviewImage": "https://ifh.cc/g/mmawVT.jpg",
       "star": 3
     },
     {
       "id": 13,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 13",
       "reviewImage": "https://ifh.cc/g/UxuyCL.jpg",
       "star": 3
     },
     {
       "id": 14,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 14",
       "reviewImage": "https://ifh.cc/g/cWrlei.jpg",
       "star": 3.5
     },
     {
       "id": 15,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 15",
       "reviewImage": "https://ifh.cc/g/0xpdXn.jpg",
       "star": 4
     },
     {
       "id": 16,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 16",
       "reviewImage": "https://ifh.cc/g/dRFB9M.jpg",
       "star": 4.5
     },
     {
       "id": 17,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 17",
       "reviewImage": "https://ifh.cc/g/I6SmQS.jpg",
       "star": 4
     },
     {
       "id": 18,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 18",
       "reviewImage": "https://ifh.cc/g/tialUF.jpg",
       "star": 3
     },
     {
       "id": 19,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 19",
       "reviewImage": "https://ifh.cc/g/Gmhfld.jpg",
       "star": 5
     },
     {
       "id": 20,
-      "userId": "test",
+      "userName": "test",
       "reviewContent": "후기후기! 20",
       "reviewImage": "https://ifh.cc/g/XZtSgk.jpg",
       "star": 4

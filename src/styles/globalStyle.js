@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
 
 const GlobalStyle = createGlobalStyle`
- ${normalize}
+
 
  html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -57,11 +57,7 @@ table {
 	border-spacing: 0;
 }
 
-input {
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
-}
+
 input::-ms-clear { display: none; }
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
@@ -86,6 +82,6 @@ img{
 * {
     box-sizing: border-box;
   }
-
+${normalize}
 `;
 export default GlobalStyle;

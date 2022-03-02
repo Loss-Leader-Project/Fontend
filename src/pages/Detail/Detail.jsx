@@ -2,32 +2,32 @@ import React, { useEffect, useState } from 'react';
 import ProductPhoto from './ProductPhoto';
 import ProductInfo from './ProductInfo';
 import styled from 'styled-components';
-import axios from 'axios';
 import MenuBar from './MenuBar';
 import { tab, mobile } from 'styles/theme';
+import { getDetail } from 'utils/api';
+import { useParams } from 'react-router';
 
 function Detail() {
   const [mainImage, setMainImage] = useState('');
   const [newData, setNewData] = useState({});
 
-  useEffect(() => {
-    newDataRQ();
-  }, []);
+  const param = useParams();
 
-  const newDataRQ = async () => {
-    const response = await axios.get('/data/newDetailData.json');
-    const newData = response.data;
-    setNewData(newData);
-    setMainImage(newData.storeFoodImage[0].image);
-  };
+  useEffect(() => {
+    getDetail().then(data => {
+      setNewData(data);
+      setMainImage(data.storeFoodImage[0].image);
+    });
+  }, []);
 
   return (
     <Contain>
       <TopWrapper>
         <ProductPhoto {...{ newData, mainImage, setMainImage }} />
-        <ProductInfo {...{ newData }} />
+        <ProductInfo {...{ newData, param }} />
       </TopWrapper>
       <BottomWrapper>
+        <input type='checkbox' />
         <MenuBar {...{ newData }} />
       </BottomWrapper>
     </Contain>

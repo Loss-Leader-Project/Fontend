@@ -1,13 +1,16 @@
-import { Button, Container, Grid, Stack } from '@mui/material';
+import { Container, Grid, Stack } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { brandColor, gray, lightGray } from 'styles/theme';
+import theme, { gray, lightGray } from 'styles/theme';
 import { checkBlank, checkFlag } from 'pages/LogIn/check';
-import LoginInput from '../LoginInput';
 import { getPassword } from '../api';
 import LoginEmailLayout from '../LoginEmailLayout';
 import BasicModal from 'Components/BasicModal';
+import FindPasswordModalBody from './FindPasswordModalBody';
+import { regExpCheck } from 'pages/SignUp/check';
+import MuiInput from 'Components/MuiInput';
+import MuiButton from 'Components/MuiButton';
 
 const LoginSearchPW = () => {
   const [email, setEmail] = useState('');
@@ -48,11 +51,22 @@ const LoginSearchPW = () => {
 
   const history = useHistory();
 
-  const [findPassword, setFindPassword] = useState('');
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [vaild, setVaild] = useState('');
+  const [helpTextBirthday, sethelpTextBirthday] = useState('주민번호를 앞에서부터 7자 입력하세요');
+
+  const FindPasswordAPI = (id, birthday, email) => {
+    getPassword(id, birthday, email).then(res => {
+      if (res.data.status) {
+        setVaild(false);
+      } else {
+        setVaild(true);
+      }
+    });
+  };
 
   return (
     <div>
@@ -61,68 +75,79 @@ const LoginSearchPW = () => {
         <Grid container direction='row' justifyContent='space-between'>
           <Grid item sm={8.5} xs={8.5}>
             <Stack direction='column' justifyContent='center' alignItems='center' spacing={2}>
-              <LoginInput
+              <MuiInput
                 name='id'
                 label='비밀번호를 찾고자 하는 아이디를 입력하세요'
+                value={SearchFromData.id}
                 flag={flag.id}
-                handleValue={handleValue}
+                onChange={handleValue}
                 helperText='아이디를 입력하세요'
               />
-              <LoginInput
+              <MuiInput
                 name='birthday'
                 label='주민번호 앞6자리 및 뒤1자리(9110101)'
+                value={SearchFromData.birthday}
                 flag={flag.birthday}
-                handleValue={handleValue}
-                helperText='주민번호를 앞에서부터 7자 입력하세요'
+                onChange={handleValue}
+                helperText={helpTextBirthday}
               />
               <LoginEmailLayout
                 email={email}
                 flag={flag}
+                value={{ mailId: SearchFromData.mailId, email: SearchFromData.email }}
                 handleValue={handleValue}
                 mailHandleChange={mailHandleChange}
               />
             </Stack>
           </Grid>
           <Grid item sm={3} xs={3}>
-            <SearchButton
-              variant='contained'
+            <MuiButton
+              sx={{
+                height: '12.5rem',
+                bgcolor: `${theme.colors.gray}`,
+                '&:hover': { bgcolor: `${theme.colors.gray}` },
+              }}
+              content='비밀번호 찾기'
               onClick={async () => {
                 if (await checkBlank(SearchFromData, flag, handleFlag)) return;
+                if (await regExpCheck('birthday', SearchFromData.birthday, handleFlag, sethelpTextBirthday)) return;
                 if (await checkFlag(flag)) return;
 
-                getPassword(
+                await FindPasswordAPI(
                   SearchFromData.id,
                   SearchFromData.birthday,
                   `${SearchFromData.mailId}@${SearchFromData.email}`
-                ).then(data => {
-                  setFindPassword(data);
-                });
+                );
+
+                handleOpen();
               }}
-            >
-              비밀번호 찾기
-            </SearchButton>
+            />
           </Grid>
         </Grid>
         <CustomStack2 direction='row' justifyContent='center' spacing={2}>
-          <Button
+          <MuiButton
             className='leftBtn'
+            content='아이디 찾기'
             onClick={() => {
               history.push('/login/searchID');
             }}
-          >
-            아이디 찾기
-          </Button>
-          <Button
+          />
+
+          <MuiButton
             className='rightBtn'
+            content='로그인 하기'
             onClick={() => {
               history.push('/login');
             }}
-          >
-            로그인 하기
-          </Button>
+          />
         </CustomStack2>
       </CustomContainer>
-      <BasicModal open={open} handleClose={handleClose} title={'비밀번호 찾기 결과'} content={findPassword} />
+      <BasicModal
+        open={open}
+        handleClose={handleClose}
+        title={'비밀번호 찾기 결과'}
+        content={<FindPasswordModalBody handleClose={handleClose} vaild={vaild} />}
+      />
     </div>
   );
 };
@@ -149,23 +174,11 @@ const CustomStack2 = styled(Stack)`
   .leftBtn {
     border: 1px solid ${lightGray};
     color: ${gray};
+    background-color: white;
   }
 
-  .rightBtn {
-    background-color: ${brandColor};
-    color: white;
-  }
-
-  .rightBtn:hover {
-    background-color: ${brandColor};
-  }
-`;
-
-const SearchButton = styled(Button)`
-  &&& {
-    height: 12.5rem;
-    width: 100%;
-    background-color: ${gray};
+  .leftBtn:hover {
+    background-color: white;
   }
 `;
 

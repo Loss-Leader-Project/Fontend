@@ -2,20 +2,29 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { brandColor, gray, lightDark, lightGray, mobile, tab } from 'styles/theme';
 
-const Card = ({ rank, imgUrl, discount, title }) => {
-  const rankText = rank === '골드' ? `${discount}% 할인` : `${discount} 서비스`;
-
+const Card = ({
+  packaging,
+  storeMeal,
+  delivery,
+  briefAddress,
+  storeName,
+  thumbnailImage,
+  couponGradeName,
+  priceOfCoupon,
+}) => {
   return (
     <CardWrapper>
       <CardImgWrapper>
-        <img src={`${imgUrl}`} alt='cardImg' />
+        <img src={thumbnailImage} alt='cardImg' />
       </CardImgWrapper>
       <CardRankWrapper>
-        <CardRank rank={rank}>{rank}</CardRank>
-        <CardSeviceImg src={`${process.env.PUBLIC_URL}/images/food-removebg.png`} alt='card_service_img' />
+        <CardRank rank={couponGradeName}>{couponGradeName}</CardRank>
+        {packaging && <CardSeviceImg src={`${process.env.PUBLIC_URL}/images/packaging.svg`} alt='serviceImg' />}
+        {delivery && <CardSeviceImg src={`${process.env.PUBLIC_URL}/images/delivery.svg`} alt='serviceImg' />}
+        {storeMeal && <CardSeviceImg src={`${process.env.PUBLIC_URL}/images/storeMeal.svg`} alt='serviceImg' />}{' '}
       </CardRankWrapper>
-      <CardTitle>{title}</CardTitle>
-      <CardDiscount>{rankText}</CardDiscount>
+      <CardTitle>{`[${briefAddress}] ${storeName}`}</CardTitle>
+      <CardDiscount>{`${priceOfCoupon}원 할인`}</CardDiscount>
     </CardWrapper>
   );
 };
@@ -50,7 +59,7 @@ const CardWrapper = styled.div`
 const CardRankWrapper = styled.div`
   margin-bottom: 0.313rem;
   display: flex;
-  gap: 0.625rem;
+  gap: 0.3125rem;
 `;
 
 const CardRank = styled.span`
@@ -59,11 +68,10 @@ const CardRank = styled.span`
   font-weight: 600;
   display: inline-block;
   font-size: 0.813rem;
-  max-width: 3.125rem;
   text-align: center;
 
   ${({ rank }) => {
-    return rank === '골드'
+    return rank !== 'Silver'
       ? css`
           background: ${lightDark};
           color: rgba(240, 230, 140, 1);
@@ -85,8 +93,8 @@ const CardImgWrapper = styled.div`
 `;
 
 const CardSeviceImg = styled.img`
-  width: 6.25rem;
-  height: 100%;
+  max-width: 25px;
+  max-height: 25px;
 `;
 
 const CardTitle = styled.h6`
@@ -94,7 +102,6 @@ const CardTitle = styled.h6`
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 1.1rem;
-  font-weight: 600;
   color: ${gray};
 `;
 
