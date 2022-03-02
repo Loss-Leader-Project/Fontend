@@ -2,13 +2,13 @@ import { Button, Grid, Stack, TextField } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 import { brandColor, gray } from 'styles/theme';
-import { CheckSameEmailCode } from './check';
+import { emailValidRequest } from './api';
 
 const SignupEmailSubmit = props => {
   return (
     <CustomGridContainer>
-      <MustItem item lg={3} md={3} sm={3}></MustItem>
-      <Grid item lg={9} md={9} sm={9}>
+      <MustItem item lg={3} md={3} sm={3} xs={3}></MustItem>
+      <Grid item lg={9} md={9} sm={9} xs={9}>
         <CustomStack direction='row' justifyContent='center' spacing={2}>
           <TextField
             name='emailSubmit'
@@ -23,7 +23,17 @@ const SignupEmailSubmit = props => {
             onChange={props.handleValue}
           />
           <EmailSubmitButton
-            onClick={() => [CheckSameEmailCode(props.value, props.code, props.handleFlag, props.sethelpText)]}
+            onClick={() => {
+              emailValidRequest(props.value).then(res => {
+                if (res.data === '인증성공') {
+                  props.setEmailValidFlag(false);
+                } else if (res.data.status) {
+                  props.setEmailValidFlag(true);
+                  props.handleFlag('emailSubmit', true);
+                  props.sethelpText(res.data.message);
+                }
+              });
+            }}
           >
             인증하기
           </EmailSubmitButton>

@@ -12,24 +12,29 @@ import LoginSearchPW from './pages/LogIn/SearchPW/LoginSearchPW';
 import Header from 'Components/Header';
 import Nav from 'Components/Nav';
 import BasicModal from 'Components/BasicModal';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MainInfoProject from 'pages/Main/MainInfoProject';
+import HamburgerMenu from 'Components/HamburgerMenu';
 
 const Routers = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const firstRender = useRef(false);
-
   useEffect(() => {
-    // handleOpen();
-  }, [firstRender]);
+    if (!open && !localStorage.getItem('show-modal')) {
+      localStorage.setItem('show-modal', true);
+      handleOpen();
+    }
+  }, [open]);
+
+  const [menuOpen, setMenuOpen] = useState('none');
 
   return (
     <BrowserRouter>
-      <Header />
+      <Header menuopen={menuOpen} setMenuOpen={setMenuOpen} />
       <Nav />
+      <HamburgerMenu menuopen={menuOpen} />
       <Switch>
         <Route exact path='/' component={Main} />
         <Route exact path='/login' component={LogIn} />
@@ -42,7 +47,7 @@ const Routers = () => {
         <Route exact path={'/list'} component={List} />
         <Route path='*' render={() => <Redirect to='/' />} />
       </Switch>
-      {/* <BasicModal open={open} handleClose={handleClose} title={'⚠️ 주의 ⚠️'} content={<MainInfoProject />} /> */}
+      <BasicModal open={open} handleClose={handleClose} title={'⚠️ 주의 ⚠️'} content={<MainInfoProject />} />
     </BrowserRouter>
   );
 };

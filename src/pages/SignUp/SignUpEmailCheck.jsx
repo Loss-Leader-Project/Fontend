@@ -1,28 +1,28 @@
 import { Checkbox, FormControlLabel, Grid, Stack } from '@mui/material';
 import BasicModal from 'Components/BasicModal';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { brandColor, gray, lightDark } from 'styles/theme';
+import { brandColor, gray, lightDark, mobile } from 'styles/theme';
 import SignUpMarketingTerm from './SignUpMarketingTerm';
 import SignUpMustTerm from './SignUpMustTerm';
 
 const SignUpEmailCheck = props => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <CustomGridContainer>
-      <Grid item lg={3} md={3} sm={3}></Grid>
-      <Grid item lg={9} md={9} sm={9}>
-        <Stack direction='row' justifyContent='space-between' alignItems='center'>
+      <Grid item lg={3} md={3} sm={3} xs={3}></Grid>
+      <Grid item lg={9} md={9} sm={9} xs={9}>
+        <CustomStack direction='row' justifyContent='space-between' alignItems='center'>
           <CheckAgree
             name={props.name}
             control={<CheckBox checked={props.checkedAgree} onChange={props.handleChangeAgree} />}
             label={props.label}
           />
           <ShowTerms onClick={handleOpen}>약관보기</ShowTerms>
-        </Stack>
+        </CustomStack>
         {props.name === 'agreeMail' && <Text>※ 아이디 및 비밀번호 찾기에 활용되므로 정확하게 입력해주세요.</Text>}
       </Grid>
       <BasicModal
@@ -46,6 +46,9 @@ export default SignUpEmailCheck;
 const Text = styled.p`
   color: ${gray};
   margin-top: 1.25rem;
+  ${mobile} {
+    font-size: 0.625rem;
+  }
 `;
 
 const CustomGridContainer = styled(Grid).attrs(props => ({
@@ -68,6 +71,12 @@ const CheckAgree = styled(FormControlLabel)`
   span {
     font-weight: 600;
   }
+
+  .MuiFormControlLabel-label {
+    ${mobile} {
+      font-size: 0.625rem;
+    }
+  }
 `;
 
 const CheckBox = styled(Checkbox)`
@@ -84,9 +93,20 @@ const ShowTerms = styled.span`
   text-align: right;
   border-bottom: 1px solid ${gray};
   cursor: pointer;
+  ${mobile} {
+    font-size: 0.625rem;
+  }
 `;
 
 const ModalTitle = styled.span`
   font-size: 1.25rem;
   font-weight: bold;
+`;
+
+const CustomStack = styled(Stack)`
+  &&& {
+    ${mobile} {
+      flex-direction: column;
+    }
+  }
 `;

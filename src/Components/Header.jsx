@@ -1,16 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Grid, Stack } from '@mui/material';
 import styled from 'styled-components';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { mobile, pc, tab } from 'styles/theme';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginCheckAction } from 'modules/reducers/loginReducer';
+import { checkAccessToken } from 'utils/api';
 
-const Header = () => {
+const Header = ({ menuopen, setMenuOpen }) => {
+  const handleMenuOpenToggle = () => {
+    if (menuopen === 'none') {
+      setMenuOpen('active');
+    } else {
+      setMenuOpen('none');
+    }
+  };
+
+  const checkLogin = useSelector(state => state.loginReducer);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loginCheckAction(checkAccessToken()));
+  });
+
+  const localClear = async () => {
+    await localStorage.clear();
+    await dispatch(loginCheckAction(checkAccessToken()));
+  };
+
   return (
     <CustomContainer>
       <Grid container direction='row' justifyContent='center' alignItems='center'>
-        <Grid item lg={2} md={2} sm={3} xs={2}>
+        <Grid item lg={2} md={2} sm={3} xs={2} onClick={handleMenuOpenToggle}>
           <FontAwesomeIcon icon={faBars} size='2x' />
         </Grid>
         <CustomLogoGrid item lg={8} md={8} sm={6} xs={10}>
@@ -20,14 +44,28 @@ const Header = () => {
         </CustomLogoGrid>
         <User item lg={2} md={2} sm={3}>
           <Stack direction='row' justifyContent='center' alignItems='center' spacing={2}>
-            <Link to='/signup'>회원가입</Link>
-            <Link to='/login'>로그인</Link>
+            <Link to={checkLogin ? '/my' : '/login'}>{checkLogin ? '마이페이지' : '로그인'}</Link>
+            {checkLogin ? (
+              <LogoutText
+                onClick={async () => {
+                  localClear();
+                }}
+              >
+                로그아웃
+              </LogoutText>
+            ) : (
+              <Link to='/signup'>회원가입</Link>
+            )}
           </Stack>
         </User>
       </Grid>
     </CustomContainer>
   );
 };
+
+const LogoutText = styled.p`
+  cursor: pointer;
+`;
 
 const Logo = styled('img')`
   display: block;
@@ -49,6 +87,14 @@ const User = styled(Grid)`
 
 const CustomContainer = styled(Container)`
   margin: 2rem 0 3rem;
+
+  svg {
+    cursor: pointer;
+    transition: all 0.5s;
+  }
+  svg:hover {
+    opacity: 0.7;
+  }
 `;
 
 const CustomLogoGrid = styled(Grid)`

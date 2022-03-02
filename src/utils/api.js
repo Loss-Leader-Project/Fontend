@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const client = axios.create({
+export const client = axios.create({
   // 에러 테스트를 하고 싶다면 8080으로
   // baseURL: 'http://localhost:8080',
   baseURL: 'http://localhost:3000',
@@ -91,8 +91,8 @@ export const fetchList = async query => {
 
 export const getData = async url => {
   try {
-    const { data } = await axios.get(url);
-    return data;
+    const res = await client.get(url);
+    return res;
   } catch (error) {
     const message = error.response.message ?? error.message ?? error;
     alert(message);
@@ -121,4 +121,41 @@ export const getDetail = async () => {
     alert(message);
   }
 };
-export default client;
+
+export const checkAccessToken = () => {
+  if (localStorage.getItem('access-token')) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// apiCall에는 요청하는 axios 함수 = 함수내에 헤더의 토큰값은 이 함수에서 넣어줌
+// history는 useHistory를 가르키는 주소가 할당된 변수
+export const TokenCheck = async (apiCall, history) => {
+  const accessToken = localStorage.getItem('access-token');
+  if (accessToken) {
+    // token 체크 api
+    const check = await client({
+      method: 'POST',
+      url: '/checkToken',
+      headers: {
+        Authroization: accessToken,
+      },
+    });
+    // check 값이 올바르면
+    if (check.data === true) {
+      const res = await apiCall(accessToken);
+      return res;
+    }
+    // res 값이 오류이면
+    else {
+      localStorage.removeItem('access-token');
+      alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
+      history.push('/login');
+    }
+  } else {
+    alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
+    history.push('/login');
+  }
+};

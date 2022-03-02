@@ -4,12 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SignUpPostNumber from './SignUpPostNumber';
 import styled from 'styled-components';
 import { Grid } from '@mui/material';
-import { gray } from 'styles/theme';
+import { gray, mobile } from 'styles/theme';
 
 const SignUpPostNumberLayout = props => {
   return (
     <CustomGridContainer>
-      <MustItem item lg={3} md={3} sm={3}>
+      <MustItem item lg={3} md={3} sm={3} xs={3}>
         <ColorMustIcon {...(props.NotMust && { NotMust: true })}>
           <FontAwesomeIcon icon={faDotCircle} size='xs' />
         </ColorMustIcon>
@@ -48,4 +48,7 @@ const ColorMustIcon = styled.span`
 const MustItemText = styled.div`
   font-size: 1rem;
   margin-left: 0.625rem;
+  ${mobile} {
+    font-size: 0.625rem;
+  }
 `;

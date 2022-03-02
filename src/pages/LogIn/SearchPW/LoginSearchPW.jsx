@@ -8,6 +8,8 @@ import LoginInput from '../LoginInput';
 import { getPassword } from '../api';
 import LoginEmailLayout from '../LoginEmailLayout';
 import BasicModal from 'Components/BasicModal';
+import FindPasswordModalBody from './FindPasswordModalBody';
+import { regExpCheck } from 'pages/SignUp/check';
 
 const LoginSearchPW = () => {
   const [email, setEmail] = useState('');
@@ -48,11 +50,22 @@ const LoginSearchPW = () => {
 
   const history = useHistory();
 
-  const [findPassword, setFindPassword] = useState('');
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [vaild, setVaild] = useState('');
+  const [helpTextBirthday, sethelpTextBirthday] = useState('주민번호를 앞에서부터 7자 입력하세요');
+
+  const FindPasswordAPI = (id, birthday, email) => {
+    getPassword(id, birthday, email).then(res => {
+      if (res.data.status) {
+        setVaild(false);
+      } else {
+        setVaild(true);
+      }
+    });
+  };
 
   return (
     <div>
@@ -73,7 +86,7 @@ const LoginSearchPW = () => {
                 label='주민번호 앞6자리 및 뒤1자리(9110101)'
                 flag={flag.birthday}
                 handleValue={handleValue}
-                helperText='주민번호를 앞에서부터 7자 입력하세요'
+                helperText={helpTextBirthday}
               />
               <LoginEmailLayout
                 email={email}
@@ -88,15 +101,16 @@ const LoginSearchPW = () => {
               variant='contained'
               onClick={async () => {
                 if (await checkBlank(SearchFromData, flag, handleFlag)) return;
+                if (await regExpCheck('birthday', SearchFromData.birthday, handleFlag, sethelpTextBirthday)) return;
                 if (await checkFlag(flag)) return;
 
-                getPassword(
+                await FindPasswordAPI(
                   SearchFromData.id,
                   SearchFromData.birthday,
                   `${SearchFromData.mailId}@${SearchFromData.email}`
-                ).then(data => {
-                  setFindPassword(data);
-                });
+                );
+
+                handleOpen();
               }}
             >
               비밀번호 찾기
@@ -122,7 +136,12 @@ const LoginSearchPW = () => {
           </Button>
         </CustomStack2>
       </CustomContainer>
-      <BasicModal open={open} handleClose={handleClose} title={'비밀번호 찾기 결과'} content={findPassword} />
+      <BasicModal
+        open={open}
+        handleClose={handleClose}
+        title={'비밀번호 찾기 결과'}
+        content={<FindPasswordModalBody handleClose={handleClose} vaild={vaild} />}
+      />
     </div>
   );
 };
