@@ -11,12 +11,25 @@ import LoginSearchID from './pages/LogIn/SearchID/LoginSearchID';
 import LoginSearchPW from './pages/LogIn/SearchPW/LoginSearchPW';
 import Header from 'Components/Header';
 import Nav from 'Components/Nav';
+import BasicModal from 'Components/BasicModal';
+import { useEffect, useRef, useState } from 'react';
+import MainInfoProject from 'pages/Main/MainInfoProject';
 
 const Routers = () => {
   const ListPageRender = ({ match: { params } }) => {
     const { name } = params;
     return <List name={name} />;
   };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const firstRender = useRef(false);
+
+  useEffect(() => {
+    handleOpen();
+  }, [firstRender]);
 
   return (
     <BrowserRouter>
@@ -34,6 +47,7 @@ const Routers = () => {
         <Route exact path={['/list/:name', '/list']} render={ListPageRender} />
         <Route path='*' render={() => <Redirect to='/' />} />
       </Switch>
+      <BasicModal open={open} handleClose={handleClose} title={'⚠️ 주의 ⚠️'} content={<MainInfoProject />} />
     </BrowserRouter>
   );
 };
