@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "loginId": "dnr14",
   "userName": "이민욱",
@@ -9,3 +10,30 @@
   "birthDate": "9810151",
   "recommendedPerson": "hoestory"
 }
+=======
+<<<<<<< HEAD
+{
+  "loginId": "dnr14",
+  "userName": "이민욱",
+  "oldPassword": "",
+  "newPassword": "",
+  "newPasswordConfirm": "",
+  "email": "dnr14@naver.com",
+  "phoneNumber": "01012341234",
+  "birthDate": "9810151",
+  "recommendedPerson": "hoestory"
+}
+=======
+{
+  "loginId": "dnr14",
+  "userName": "이민욱",
+  "oldPassword": "",
+  "newPassword": "",
+  "newPasswordConfirm": "",
+  "email": "dnr14@naver.com",
+  "phoneNumber": "01012341234",
+  "birthDate": "9810151",
+  "recommendedPerson": "hoestory"
+}
+>>>>>>> 93bd7de (Chanage : 코맨드 반영 완료 (#22))
+>>>>>>> 883be93 (Add: api공통로직 구현)

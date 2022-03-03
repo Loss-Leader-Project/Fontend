@@ -4,8 +4,9 @@ import ProductInfo from './ProductInfo';
 import styled from 'styled-components';
 import MenuBar from './MenuBar';
 import { tab, mobile } from 'styles/theme';
-import { getDetail } from 'utils/api';
 import { useParams } from 'react-router';
+import { getApiRq } from 'utils/apiConfig';
+import { detailApiURL } from 'utils/apiUrl';
 
 function Detail() {
   const [mainImage, setMainImage] = useState('');
@@ -14,7 +15,7 @@ function Detail() {
   const param = useParams();
 
   useEffect(() => {
-    getDetail().then(data => {
+    getApiRq(detailApiURL.LOCAL_GET_DETAIL).then(data => {
       setNewData(data);
       setMainImage(data.storeFoodImage[0].image);
     });
