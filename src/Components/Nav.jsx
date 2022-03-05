@@ -11,22 +11,22 @@ const Nav = () => {
     () => [
       {
         id: 1,
-        path,
+        path: `${path}?tier=all`,
         text: '전체',
       },
       {
         id: 2,
-        path: `${path}/gold`,
+        path: `${path}?tier=gold`,
         text: '골드',
       },
       {
         id: 3,
-        path: `${path}/silver`,
+        path: `${path}?tier=silver`,
         text: '실버',
       },
       {
         id: 4,
-        path: `${path}/hotplay`,
+        path: `${path}?tier=hotplace`,
         text: '핫플레이',
       },
     ],
@@ -65,6 +65,7 @@ const NavTop = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 0.9375rem;
+  padding: 0 0.625rem;
 `;
 
 const NavRouters = styled.div`

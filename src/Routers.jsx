@@ -16,11 +16,6 @@ import { useEffect, useRef, useState } from 'react';
 import MainInfoProject from 'pages/Main/MainInfoProject';
 
 const Routers = () => {
-  const ListPageRender = ({ match: { params } }) => {
-    const { name } = params;
-    return <List name={name} />;
-  };
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -28,7 +23,7 @@ const Routers = () => {
   const firstRender = useRef(false);
 
   useEffect(() => {
-    handleOpen();
+    // handleOpen();
   }, [firstRender]);
 
   return (
@@ -44,10 +39,10 @@ const Routers = () => {
         <Route exact path='/product' component={Detail} />
         <Route exact path='/apply' component={Apply} />
         <Route path={'/my'} component={My} />
-        <Route exact path={['/list/:name', '/list']} render={ListPageRender} />
+        <Route exact path={'/list'} component={List} />
         <Route path='*' render={() => <Redirect to='/' />} />
       </Switch>
-      <BasicModal open={open} handleClose={handleClose} title={'⚠️ 주의 ⚠️'} content={<MainInfoProject />} />
+      {/* <BasicModal open={open} handleClose={handleClose} title={'⚠️ 주의 ⚠️'} content={<MainInfoProject />} /> */}
     </BrowserRouter>
   );
 };

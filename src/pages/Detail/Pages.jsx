@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { brandColor, lightGray, lightDark } from 'styles/theme';
 
@@ -23,7 +23,6 @@ function Pages({ totalPage, currentPage, changeCurrentPage }) {
     }
     setTotalArr(pageArr);
   }, [startEndPage]);
-
   useEffect(() => {
     changeCurrentPage(startEndPage.start);
   }, [startEndPage]);
