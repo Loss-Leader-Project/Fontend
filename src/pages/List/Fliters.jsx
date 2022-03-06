@@ -1,36 +1,46 @@
-import { useMemo, useState } from 'react';
+import { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { FormControl, MenuItem, Select } from '@mui/material';
 import { brandColor, gray } from 'styles/theme';
+import qs from 'query-string';
+import { useLocation } from 'react-router';
+const Fliters = ({ handleChange, size }) => {
+  const { pathname, search } = useLocation();
+  const oldQeury = qs.parse(search);
 
-const Fliters = ({ handleChange, limit }) => {
-  const [path] = useState('/list');
+  const getFullPath = (path, newQeury) =>
+    qs.stringifyUrl({
+      url: path,
+      query: {
+        ...newQeury,
+      },
+    });
 
   const filters = useMemo(
     () => [
       {
         id: 1,
-        path,
+        path: getFullPath(pathname, { ...oldQeury, filter: 'star' }),
         text: '인기순',
       },
       {
         id: 2,
-        path,
+        path: getFullPath(pathname, { ...oldQeury, filter: 'date' }),
         text: '등록일순',
       },
       {
         id: 3,
-        path,
+        path: getFullPath(pathname, { ...oldQeury, filter: 'price', sorting: 'DESC' }),
         text: '쿠폰가격 높은순',
       },
       {
         id: 4,
-        path,
+        path: getFullPath(pathname, { ...oldQeury, filter: 'price', sorting: 'ASC' }),
         text: '쿠폰가격 낮은순',
       },
     ],
-    [path]
+    [pathname, oldQeury]
   );
 
   return (
@@ -46,7 +56,7 @@ const Fliters = ({ handleChange, limit }) => {
         </FiltersTopFirst>
         <div>
           <CoustomFormControl>
-            <CoustomSelect value={limit} onChange={handleChange}>
+            <CoustomSelect value={size} onChange={handleChange}>
               <CoustomMenuItem value={20}>20개씩</CoustomMenuItem>
               <CoustomMenuItem value={40}>40개씩</CoustomMenuItem>
               <CoustomMenuItem value={60}>60개씩</CoustomMenuItem>
@@ -129,4 +139,4 @@ const Title = styled.h1`
   margin-top: 2rem;
 `;
 
-export default Fliters;
+export default memo(Fliters);
