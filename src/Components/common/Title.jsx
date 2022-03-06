@@ -9,7 +9,7 @@ Title.defaultProps = {
 
 const StyledTitle = styled.h2`
   font-size: 1.1875rem;
-  font-weight: 900;
+  font-weight: 500;
   color: ${gray};
   margin: ${({ margin }) => margin};
 `;
