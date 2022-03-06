@@ -27,5 +27,14 @@ const CustomField = styled(TextField)`
         border: none !important;
       }
     `}
+
+  .MuiOutlinedInput-root {
+    height: 2.5rem;
+    & fieldset,
+    &.Mui-focused fieldset,
+    &:hover fieldset {
+      border-color: #8a8a8a;
+    }
+  }
 `;
 export default memo(Input);

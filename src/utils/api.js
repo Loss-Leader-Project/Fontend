@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 export const client = axios.create({
-  // 에러 테스트를 하고 싶다면 8080으로
-  // baseURL: 'http://localhost:8080',
   baseURL: 'http://localhost:3000',
   timeout: 5000,
   headers: {
@@ -102,6 +100,15 @@ export const fetchUserInfo = async id => {
 export const fetchUserInfoUpdate = async (id, payload) => {
   try {
     const { data } = await client.post(`/userinfo/${id}`, payload);
+    return data;
+  } catch (error) {
+    throw error.message;
+  }
+};
+
+export const fetchCreateReview = async (url, payload) => {
+  try {
+    const { data } = await client.post(url, payload);
     return data;
   } catch (error) {
     throw error.message;
