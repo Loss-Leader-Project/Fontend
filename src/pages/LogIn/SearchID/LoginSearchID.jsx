@@ -9,6 +9,7 @@ import FindIdModalBody from './FindIdModalBody';
 import { postFindId } from '../api';
 import BasicModal from 'Components/BasicModal';
 import LoginEmailLayout from '../LoginEmailLayout';
+import { regExpCheck } from 'pages/SignUp/check';
 
 const LoginSearchID = () => {
   const [email, setEmail] = useState('');
@@ -55,6 +56,18 @@ const LoginSearchID = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [helpTextBirthday, sethelpTextBirthday] = useState('주민번호를 앞에서부터 7자 입력하세요');
+
+  const FindIdAPI = data => {
+    postFindId({ ...data }).then(res => {
+      if (res.data.loginId) {
+        setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
+      } else if (res.data.status === 404) {
+        setFindId(<FindIdModalBody valid={false} />);
+      }
+    });
+  };
+
   return (
     <div>
       <CustomContainer maxWidth='sm'>
@@ -74,7 +87,7 @@ const LoginSearchID = () => {
                 label='주민번호 앞6자리 및 뒤1자리(9110101)'
                 flag={flag.birthday}
                 handleValue={handleValue}
-                helperText='주민번호를 앞에서부터 7자 입력하세요'
+                helperText={helpTextBirthday}
               />
               <LoginEmailLayout
                 email={email}
@@ -89,17 +102,16 @@ const LoginSearchID = () => {
               variant='contained'
               onClick={async () => {
                 if (await checkBlank(SearchFromData, flag, handleFlag)) return;
+
+                if (await regExpCheck('birthday', SearchFromData.birthday, handleFlag)) return;
+
+                if (await regExpCheck('birthday', SearchFromData.birthday, handleFlag, sethelpTextBirthday)) return;
+
                 if (await checkFlag(flag)) return;
 
-                await postFindId({ ...SearchFromData }).then(res => {
-                  if (res.data.loginId) {
-                    setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
-                  } else if (res.data.status === 404) {
-                    setFindId(<FindIdModalBody valid={false} />);
-                  }
+                await FindIdAPI(SearchFromData);
 
-                  handleOpen();
-                });
+                handleOpen();
               }}
             >
               아이디 찾기

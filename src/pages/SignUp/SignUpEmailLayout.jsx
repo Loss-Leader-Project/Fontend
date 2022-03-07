@@ -4,20 +4,20 @@ import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Grid, Stack, TextField, Button } from '@mui/material';
 import styled from 'styled-components';
-import { brandColor, gray } from 'styles/theme';
-import { getEmailCode } from './api';
+import { brandColor, gray, mobile } from 'styles/theme';
 import { regExpCheck } from './check';
+import { emailRequest } from './api';
 
 const SignUpEmailLayout = props => {
   return (
     <CustomGridContainer>
-      <MustItem item lg={3} md={3} sm={3}>
+      <MustItem item lg={3} md={3} sm={3} xs={3}>
         <ColorMustIcon>
           <FontAwesomeIcon icon={faDotCircle} size='xs' />
         </ColorMustIcon>
         <MustItemText>이메일</MustItemText>
       </MustItem>
-      <Grid item lg={9} md={9} sm={9}>
+      <Grid item lg={9} md={9} sm={9} xs={9}>
         <CustomStack direction='row' justifyContent='center' spacing={2}>
           <TextField
             name='mailId'
@@ -45,7 +45,10 @@ const SignUpEmailLayout = props => {
               )
                 return;
 
-              getEmailCode(props.userEmail);
+              await emailRequest(props.userEmail);
+
+              props.handleFlag('emailSubmit', true);
+              props.sethelpTextEmailSubmit('인증유효기간 3분이내에 입력해주세요');
             }}
           >
             인증요청
@@ -84,6 +87,9 @@ const ColorMustIcon = styled.span`
 const MustItemText = styled.div`
   font-size: 1rem;
   margin-left: 0.625rem;
+  ${mobile} {
+    font-size: 0.625rem;
+  }
 `;
 
 const CustomStack = styled(Stack)`

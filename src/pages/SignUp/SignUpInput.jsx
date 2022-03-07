@@ -3,18 +3,18 @@ import React from 'react';
 import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
-import { brandColor, gray } from 'styles/theme';
+import { brandColor, gray, mobile } from 'styles/theme';
 
 const SignUpInput = props => {
   return (
     <CustomGridContainer>
-      <MustItem item lg={3} md={3} sm={3}>
+      <MustItem item lg={3} md={3} sm={3} xs={3}>
         <ColorMustIcon {...(props.NotMust && { NotMust: true })}>
           <FontAwesomeIcon icon={faDotCircle} size='xs' />
         </ColorMustIcon>
         <MustItemText>{props.itemText}</MustItemText>
       </MustItem>
-      <Grid item lg={9} md={9} sm={9}>
+      <Grid item lg={9} md={9} sm={9} xs={9}>
         <TextField
           name={props.name}
           label={props.label}
@@ -57,6 +57,9 @@ const MustItem = styled(Grid)`
 const MustItemText = styled.div`
   font-size: 1rem;
   margin-left: 0.625rem;
+  ${mobile} {
+    font-size: 0.625rem;
+  }
 `;
 
 const ColorMustIcon = styled.span`

@@ -1,24 +1,8 @@
-import axios from 'axios';
-
-export const getEmailCode = async email => {
-  try {
-    const { data } = await axios({
-      method: 'GET',
-      url: '/getEmailCode',
-      params: {
-        email: email,
-      },
-    });
-    return data;
-  } catch (error) {
-    const message = error.response.message ?? error.message ?? error;
-    alert(message);
-  }
-};
+import { client } from 'utils/api';
 
 export const postSignUp = async props => {
   try {
-    const { data } = await axios({
+    const res = await client({
       method: 'POST',
       url: '/lossleader-user',
       data: {
@@ -36,7 +20,55 @@ export const postSignUp = async props => {
         recommendedPerson: props.recommedId !== '' ? props.recommedId : null,
       },
     });
-    return data;
+    return res;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const emailRequest = async email => {
+  try {
+    const res = client({
+      method: 'PATCH',
+      url: '/lossleader-user',
+      data: {
+        email: email,
+      },
+    });
+    return res;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const emailValidRequest = async code => {
+  try {
+    const res = client({
+      method: 'PUT',
+      url: '/lossleader-user',
+      data: {
+        number: code,
+      },
+    });
+    return res;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const CheckIdSame = async id => {
+  try {
+    const res = client({
+      method: 'GET',
+      url: '/lossleader-user',
+      params: {
+        loginId: id,
+      },
+    });
+    return res;
   } catch (error) {
     const message = error.response.message ?? error.message ?? error;
     alert(message);
