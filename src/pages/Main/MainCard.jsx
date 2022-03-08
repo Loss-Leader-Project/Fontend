@@ -34,7 +34,7 @@ const MainCard = props => {
                 size='small'
                 readOnly
               />
-              <CardSpan>{props.userId}</CardSpan>
+              <CardSpan>{props.userName}</CardSpan>
             </CardContent>
           </div>
         </div>

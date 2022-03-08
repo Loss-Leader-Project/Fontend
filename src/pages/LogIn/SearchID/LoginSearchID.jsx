@@ -1,15 +1,16 @@
-import { Button, Container, Grid, Stack } from '@mui/material';
+import { Container, Grid, Stack } from '@mui/material';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { checkBlank, checkFlag } from 'pages/LogIn/check';
-import { brandColor, gray, lightGray } from 'styles/theme';
-import LoginInput from '../LoginInput';
+import theme, { gray, lightGray } from 'styles/theme';
 import FindIdModalBody from './FindIdModalBody';
 import { postFindId } from '../api';
 import BasicModal from 'Components/BasicModal';
 import LoginEmailLayout from '../LoginEmailLayout';
 import { regExpCheck } from 'pages/SignUp/check';
+import MuiInput from 'Components/MuiInput';
+import MuiButton from 'Components/MuiButton';
 
 const LoginSearchID = () => {
   const [email, setEmail] = useState('');
@@ -75,31 +76,39 @@ const LoginSearchID = () => {
         <Grid container direction='row' justifyContent='space-between'>
           <Grid item sm={8.5} xs={8.5}>
             <Stack direction='column' justifyContent='center' alignItems='center' spacing={2}>
-              <LoginInput
+              <MuiInput
                 name='name'
                 label='이름'
                 flag={flag.name}
-                handleValue={handleValue}
+                value={SearchFromData.name}
+                onChange={handleValue}
                 helperText='아이디를 입력하세요'
               />
-              <LoginInput
+              <MuiInput
                 name='birthday'
                 label='주민번호 앞6자리 및 뒤1자리(9110101)'
+                value={SearchFromData.birthday}
                 flag={flag.birthday}
-                handleValue={handleValue}
+                onChange={handleValue}
                 helperText={helpTextBirthday}
               />
               <LoginEmailLayout
                 email={email}
                 flag={flag}
+                value={{ mailId: SearchFromData.mailId, email: SearchFromData.email }}
                 handleValue={handleValue}
                 mailHandleChange={mailHandleChange}
               />
             </Stack>
           </Grid>
           <Grid item sm={3} xs={3}>
-            <SearchButton
-              variant='contained'
+            <MuiButton
+              content='아이디 찾기'
+              sx={{
+                height: '12.5rem',
+                bgcolor: `${theme.colors.gray}`,
+                '&:hover': { bgcolor: `${theme.colors.gray}` },
+              }}
               onClick={async () => {
                 if (await checkBlank(SearchFromData, flag, handleFlag)) return;
 
@@ -113,42 +122,31 @@ const LoginSearchID = () => {
 
                 handleOpen();
               }}
-            >
-              아이디 찾기
-            </SearchButton>
+            />
           </Grid>
         </Grid>
         <CustomStack2 direction='row' justifyContent='center' spacing={2}>
-          <Button
+          <MuiButton
             className='leftBtn'
+            content='비밀번호 찾기'
             onClick={() => {
               history.push('/login/searchPW');
             }}
-          >
-            비밀번호 찾기
-          </Button>
-          <Button
+          />
+
+          <MuiButton
             className='rightBtn'
+            content='로그인 하기'
             onClick={() => {
               history.push('/login');
             }}
-          >
-            로그인 하기
-          </Button>
+          />
         </CustomStack2>
       </CustomContainer>
       <BasicModal open={open} handleClose={handleClose} title={'아이디 찾기 결과'} content={findId} />
     </div>
   );
 };
-
-const SearchButton = styled(Button)`
-  &&& {
-    height: 12.5rem;
-    width: 100%;
-    background-color: ${gray};
-  }
-`;
 
 const CustomStack2 = styled(Stack)`
   width: 100%;
@@ -162,15 +160,11 @@ const CustomStack2 = styled(Stack)`
   .leftBtn {
     border: 1px solid ${lightGray};
     color: ${gray};
+    background-color: white;
   }
 
-  .rightBtn {
-    background-color: ${brandColor};
-    color: white;
-  }
-
-  .rightBtn:hover {
-    background-color: ${brandColor};
+  .leftBtn:hover {
+    background-color: white;
   }
 `;
 

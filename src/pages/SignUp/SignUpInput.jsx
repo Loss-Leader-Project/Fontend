@@ -1,9 +1,10 @@
-import { Grid, TextField } from '@mui/material';
+import { Grid } from '@mui/material';
 import React from 'react';
 import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { brandColor, gray, mobile } from 'styles/theme';
+import MuiInput from 'Components/MuiInput';
 
 const SignUpInput = props => {
   return (
@@ -15,18 +16,15 @@ const SignUpInput = props => {
         <MustItemText>{props.itemText}</MustItemText>
       </MustItem>
       <Grid item lg={9} md={9} sm={9} xs={9}>
-        <TextField
+        <MuiInput
           name={props.name}
           label={props.label}
-          variant='outlined'
-          fullWidth
-          type={props.password && 'password'}
-          autoComplete={props.autoComplete && 'current-password'}
+          type={props.type}
+          autoComplete={props.autoComplete}
           size='small'
-          InputLabelProps={{
-            style: { color: '#B9B9B9' },
-          }}
-          {...(props.flag ? { helperText: `${props.helperText}`, error: true } : {})}
+          value={props.value}
+          flag={props.flag}
+          helperText={props.helperText}
           onChange={props.handleValue}
         />
       </Grid>

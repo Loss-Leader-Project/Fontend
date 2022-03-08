@@ -1,16 +1,16 @@
-import { Button, Container } from '@mui/material';
+import { Container } from '@mui/material';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import SignUpInput from './SignUpInput';
 import SignUpEmailCheck from './SignUpEmailCheck';
-import SignUpAdressInput from './SignUpAdressInput';
 import SignUpEmailLayout from './SignUpEmailLayout';
 import SignUpPostNumberLayout from './SignUpPostNumberLayout';
 import { checkBlank, checkFlag, regExpCheck } from 'pages/SignUp/check';
-import { brandColor, lightDark } from 'styles/theme';
+import { lightDark } from 'styles/theme';
 import SignupEmailSubmit from './SignupEmailSubmit';
 import SignUpIDLayout from './SignUpIDLayout';
 import { postSignUp } from './api';
+import MuiButton from 'Components/MuiButton';
 
 const SignUp = props => {
   const [email, setEmail] = useState('');
@@ -117,8 +117,9 @@ const SignUp = props => {
           name='password'
           label='비밀번호를 입력하세요 (공백미포함 숫자,특수문자포함 8 ~ 16자)'
           flag={flag.password}
-          password
-          autoComplete
+          type='password'
+          value={SignupFormData.password}
+          autoComplete='current-password'
           handleValue={handleValue}
           helperText={helpTextPW}
         />
@@ -127,8 +128,9 @@ const SignUp = props => {
           name='passwordCheck'
           label='비밀번호를 재입력하세요'
           flag={flag.passwordCheck}
-          password
-          autoComplete
+          type='password'
+          value={SignupFormData.passwordCheck}
+          autoComplete='current-password'
           handleValue={handleValue}
           helperText={helpTextPWCheck}
         />
@@ -136,6 +138,7 @@ const SignUp = props => {
           itemText='이름'
           name='name'
           label='이름을 입력하세요'
+          value={SignupFormData.name}
           flag={flag.name}
           handleValue={handleValue}
           helperText='이름을 입력하세요'
@@ -145,6 +148,7 @@ const SignUp = props => {
           email={email}
           userEmail={SignupFormData.mailId + '@' + SignupFormData.email}
           flag={flag.email}
+          value={{ mailId: SignupFormData.mailId, email: SignupFormData.email }}
           handleValue={handleValue}
           mailHandleChange={mailHandleChange}
           handleFlag={handleFlag}
@@ -173,6 +177,7 @@ const SignUp = props => {
           itemText='휴대폰번호'
           name='phone'
           label='- 없이 입력하세요'
+          value={SignupFormData.phone}
           flag={flag.phone}
           handleValue={handleValue}
           helperText='휴대폰번호를 입력하세요'
@@ -184,19 +189,37 @@ const SignUp = props => {
           label='정보/이벤트 SMS 수신에 동의합니다. (선택)'
         />
 
-        <SignUpInput itemText='전화번호' name='tel' label='- 없이 입력하세요' handleValue={handleValue} NotMust />
+        <SignUpInput
+          itemText='전화번호'
+          name='tel'
+          label='- 없이 입력하세요'
+          value={SignupFormData.tel}
+          handleValue={handleValue}
+          NotMust
+        />
         <SignUpPostNumberLayout
           SignupFormData={SignupFormData}
           flag={flag.postNumber}
+          value={SignupFormData.postNumber}
           handleValue={handleValue}
           setSignupFormData={setSignupFormData}
           NotMust
         />
-        <SignUpAdressInput SignupFormData={SignupFormData} flag={flag.address} handleValue={handleValue} />
+
+        <SignUpInput
+          name='address'
+          label='주소를 입력하세요'
+          flag={flag.address}
+          value={SignupFormData.address}
+          handleValue={handleValue}
+          helperText='주소를 입력하세요'
+          NotMust
+        />
         <SignUpInput
           name='detailAddress'
           label='상세주소를 입력하세요'
           flag={flag.detailAddress}
+          value={SignupFormData.detailAddress}
           handleValue={handleValue}
           helperText='상세주소를 입력하세요'
           NotMust
@@ -205,6 +228,7 @@ const SignUp = props => {
           itemText='주민번호'
           name='birthday'
           label='주민번호 앞 6자리와 뒷 1숫자를 입력해주세요. (ex 9112021)'
+          value={SignupFormData.birthday}
           flag={flag.birthday}
           handleValue={handleValue}
           helperText={helpTextBirthday}
@@ -216,12 +240,14 @@ const SignUp = props => {
           name='recommendId'
           label='추천인 아이디를 입력하세요'
           handleValue={handleValue}
+          value={SignupFormData.recommendId}
           flag={flag.recommend}
           helpText={helpTextRecommend}
           NotMust
         />
-        <SubmitButton
-          fullWidth
+        <MuiButton
+          content='확인'
+          sx={{ margin: '1.25rem 0', height: '3.125rem' }}
           onClick={async () => {
             const mail = SignupFormData.mailId + '@' + SignupFormData.email;
 
@@ -265,9 +291,7 @@ const SignUp = props => {
               }
             });
           }}
-        >
-          확인
-        </SubmitButton>
+        />
       </CustomContainer>
     </div>
   );
@@ -285,13 +309,4 @@ const Title = styled.div`
 
 const CustomContainer = styled(Container)`
   padding-top: 1.875rem;
-`;
-
-const SubmitButton = styled(Button)`
-  &&& {
-    background-color: ${brandColor};
-    color: white;
-    margin: 1.25rem 0;
-    height: 3.125rem;
-  }
 `;

@@ -1,24 +1,26 @@
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack } from '@mui/material';
+import MuiInput from 'Components/MuiInput';
 import React from 'react';
 import styled from 'styled-components';
-import LoginInput from './LoginInput';
 
-const LoginEmailLayout = ({ flag, handleValue, email, mailHandleChange }) => {
+const LoginEmailLayout = ({ flag, handleValue, email, mailHandleChange, value }) => {
   return (
     <CustomStack direction='row' justifyContent='center' spacing={2}>
-      <LoginInput
+      <MuiInput
         name='mailId'
         label='가입한메일아이디'
         flag={flag.mailId}
-        handleValue={handleValue}
+        value={value.mailId}
+        onChange={handleValue}
         helperText='메일아이디를 입력하세요'
       />
       {email === '직접입력' ? (
-        <LoginInput
+        <MuiInput
           name='email'
           label='직접입력'
           flag={flag.email}
-          handleValue={handleValue}
+          value={value.email}
+          onChange={handleValue}
           helperText='메일주소를 입력하세요'
         />
       ) : (

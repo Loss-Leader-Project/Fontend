@@ -5,7 +5,7 @@ const Size = {
   mobile: '600px', // 600px
 };
 
-const theme = {
+export const theme = {
   colors: {
     gray: '#707070',
     brandColor: '#FF422E',
