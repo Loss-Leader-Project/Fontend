@@ -8,12 +8,11 @@ import { useModifyContext } from 'contexts/ModifyProvider';
 import PasswordModifyForm from './PasswordModifyForm';
 
 const BasicInfo = () => {
-  const { GridCotainer, form, handleFormOnChange } = useModifyContext();
+  const { GridCotainer, form, handleFormOnChange, errors } = useModifyContext();
   const [popUp, setPopUp] = useState(false);
   const match = useMediaQuery('(max-width:600px)');
   const handlePwdModifyOpen = () => setPopUp(p => !p);
-
-  console.log(form);
+  const { userName, phoneNumber } = errors;
 
   return (
     <>
@@ -40,6 +39,8 @@ const BasicInfo = () => {
             value={form.userName}
             onChange={handleFormOnChange}
             placeholder='이름을 입력해주세요'
+            helperText={userName?.message}
+            error={userName?.isError}
           />
         }
       />
@@ -54,6 +55,8 @@ const BasicInfo = () => {
           placeholder='- 제외 최대 11자리'
           value={form.phoneNumber}
           onChange={handleFormOnChange}
+          error={phoneNumber?.isError}
+          helperText={phoneNumber?.message}
         />
         <EventChecked />
       </GridCotainer>

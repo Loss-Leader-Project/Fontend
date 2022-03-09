@@ -23,6 +23,7 @@ const FORM_INIT = {
 const ModifyProvider = ({ children }) => {
   const [form, setForm] = useState(FORM_INIT);
   const [formInit, setFormInit] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const handleFormOnChange = useCallback(({ target }) => {
     const { id, value, name } = target;
@@ -64,28 +65,37 @@ const ModifyProvider = ({ children }) => {
         } = form;
 
         validation.check(
-          ({ password, emptyCheck }) =>
-            !emptyCheck(oldPassword) && !password.test(oldPassword) && '현재 비밀번호 조건이 맞지않습니다.'
-        );
-        validation.check(
-          ({ password, emptyCheck }) =>
-            !emptyCheck(newPassword) && !password.test(newPassword) && '새로운 비밀번호 조건이 맞지않습니다.'
-        );
-        validation.check(
-          ({ password, emptyCheck }) =>
-            !emptyCheck(newPasswordConfirm) &&
-            !password.test(newPasswordConfirm) &&
-            '새로운 비밀번호 확인 조건이 맞지않습니다.'
-        );
-        validation.check(() => newPassword !== newPasswordConfirm && '비밀번호가 서로 틀립니다.');
-        validation.check(({ emptyCheck }) => emptyCheck(phoneNumber) && '휴대번호가 빈칸입니다.');
-        validation.check(
-          ({ phonenumber, emptyCheck }) =>
-            !emptyCheck(phoneNumber) && !phonenumber.test(phoneNumber) && '휴대번호 조건이 맞지않습니다.'
-        );
-        validation.check(
-          ({ id, emptyCheck }) =>
-            !emptyCheck(recommendedPerson) && !id.test(recommendedPerson) && '추천인아이디 조건이 맞지않습니다.'
+          ({ isIdCheck, isPasswordCheck, emptyCheck, isUserNameCheck, isPhonenumberCheck, errors, makeError }) => {
+            if (!emptyCheck(oldPassword) && !isPasswordCheck(oldPassword)) {
+              makeError('oldPassword', '현재 비밀번호 조건이 맞지않습니다.');
+            }
+            if (!emptyCheck(newPassword) && !isPasswordCheck(newPassword)) {
+              makeError('newPassword', '새로운 비밀번호 조건이 맞지않습니다.');
+            }
+            if (!emptyCheck(recommendedPerson) && !isIdCheck(recommendedPerson)) {
+              makeError('recommendedPerson', '추천인아이디 조건이 맞지않습니다.');
+            }
+            if (!emptyCheck(newPasswordConfirm) && !isPasswordCheck(newPasswordConfirm)) {
+              makeError('newPasswordConfirm', '새로운 비밀번호 확인 조건이 맞지않습니다.');
+            }
+            if (!emptyCheck(phoneNumber) && !isPhonenumberCheck(phoneNumber)) {
+              makeError('phoneNumber', '휴대번호 조건이 맞지않습니다.');
+            }
+            if (newPassword !== newPasswordConfirm) {
+              makeError('newPassword', '비밀번호가 서로 틀립니다.');
+              makeError('newPasswordConfirm', '비밀번호가 서로 틀립니다.');
+            }
+            if (emptyCheck(phoneNumber)) {
+              makeError('phoneNumber', '휴대번호가 빈칸입니다.');
+            }
+            if (emptyCheck(userName)) {
+              makeError('userName', '이름이 빈칸입니다.');
+            }
+            if (!isUserNameCheck(userName)) {
+              makeError('userName', '이름 조건이 맞지않습니다.');
+            }
+            return errors;
+          }
         );
 
         const payload = {
@@ -104,7 +114,11 @@ const ModifyProvider = ({ children }) => {
         const { status, message } = await fetchUserInfoUpdate(1, payload);
         if (status !== 200) throw new Error(message);
       } catch (error) {
-        alert(error?.message ?? error);
+        if (error.message) {
+          alert(error.message);
+        } else {
+          setErrors(error);
+        }
       }
     },
     [form]
@@ -125,9 +139,10 @@ const ModifyProvider = ({ children }) => {
     () => ({
       form,
       GridCotainer,
+      errors,
       handleFormOnChange,
     }),
-    [form, handleFormOnChange]
+    [form, errors, handleFormOnChange]
   );
 
   return (
@@ -173,14 +188,6 @@ const GridCotainer = memo(function GridCotainerMemo({ text, children }) {
 
 const GridContainerWrapper = styled(Grid)`
   margin: 0.9375rem 0;
-  .MuiOutlinedInput-root {
-    height: 2.5rem;
-    & fieldset,
-    &.Mui-focused fieldset,
-    &:hover fieldset {
-      border-color: #8a8a8a;
-    }
-  }
 `;
 const GridItemWrapper = styled(Grid)`
   color: ${gray};

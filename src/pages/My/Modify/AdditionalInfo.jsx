@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { useModifyContext } from 'contexts/ModifyProvider';
 
 const AdditionalInfo = () => {
-  const { GridCotainer, form, handleFormOnChange } = useModifyContext();
+  const { GridCotainer, form, handleFormOnChange, errors } = useModifyContext();
+  const { recommendedPerson } = errors;
   const [currentYear, currentMonth, currentDay] = getBirthDay(form.birthDate);
   const year = Array.from({ length: 73 }, (_, idx) => 1950 + idx);
   const month = Array.from({ length: 12 }, (_, idx) => idx + 1);
@@ -36,6 +37,8 @@ const AdditionalInfo = () => {
             value={form.recommendedPerson}
             onChange={handleFormOnChange}
             placeholder='추천인 아이디에 회원가입시 1000원 지급'
+            helperText={recommendedPerson?.message}
+            error={recommendedPerson?.isError}
           />
         }
       />
