@@ -1,41 +1,69 @@
 import { MenuItem, Select } from '@mui/material';
 import Input from 'Components/common/Input';
-import { withLayout } from './ModifyPage';
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ModifyContext } from 'contexts/ModifyProvider';
+import { useModifyContext } from 'contexts/ModifyProvider';
 
 const AdditionalInfo = () => {
-  const { GridCotainer } = useContext(ModifyContext);
-
+  const { GridCotainer, form, handleFormOnChange } = useModifyContext();
+  const [currentYear, currentMonth, currentDay] = getBirthDay(form.birthDate);
   const year = Array.from({ length: 73 }, (_, idx) => 1950 + idx);
   const month = Array.from({ length: 12 }, (_, idx) => idx + 1);
   const day = Array.from({ length: 31 }, (_, idx) => idx + 1);
+
   return (
     <>
       <GridCotainer text='생일'>
         <SelectWrapper>
-          <SelectBox array={year} value={1950} suffix='년' />
-          <SelectBox array={month} value={1} suffix='월' />
-          <SelectBox array={day} value={1} suffix='일' />
+          <SelectBox name='year' suffix='년' array={year} value={currentYear} handleFormOnChange={handleFormOnChange} />
+          <SelectBox
+            name='month'
+            suffix='월'
+            array={month}
+            value={currentMonth}
+            handleFormOnChange={handleFormOnChange}
+          />
+          <SelectBox name='day' suffix='일' array={day} value={currentDay} handleFormOnChange={handleFormOnChange} />
         </SelectWrapper>
       </GridCotainer>
       <GridCotainer
         text='추천인아이디'
-        children={<Input width='100%' placeholder='추천인 아이디에 회원가입시 1000원 지급' />}
+        children={
+          <Input
+            minLength='4'
+            maxLength='18'
+            id='recommendedPerson'
+            value={form.recommendedPerson}
+            onChange={handleFormOnChange}
+            placeholder='추천인 아이디에 회원가입시 1000원 지급'
+          />
+        }
       />
     </>
   );
 };
 
-function SelectBox({ array, value, suffix }) {
+function getBirthDay(value) {
+  if (typeof value !== 'string') throw new Error('value is not string');
+  const prefix = value.slice(0, 2);
+  const month = Number(value.slice(2, 4));
+  const day = Number(value.slice(4, 6));
+  return [prefix, month, day];
+}
+
+function SelectBox({ name, array, value, suffix, handleFormOnChange }) {
   return (
-    <CoustomSelect value={value}>
-      {array.map(item => (
-        <CoustomMenuItem key={item} value={item}>
-          {`${item}${suffix}`}
-        </CoustomMenuItem>
-      ))}
+    <CoustomSelect name={name} value={value} onChange={handleFormOnChange}>
+      {array.map(item => {
+        const strItem = String(item);
+        const value = strItem.length > 2 ? strItem.slice(2, 4) : strItem.slice(0, 3);
+
+        return (
+          <CoustomMenuItem key={item} value={value}>
+            {`${item}${suffix}`}
+          </CoustomMenuItem>
+        );
+      })}
     </CoustomSelect>
   );
 }
@@ -61,4 +89,4 @@ const CoustomMenuItem = styled(MenuItem)`
   }
 `;
 
-export default withLayout(AdditionalInfo);
+export default AdditionalInfo;

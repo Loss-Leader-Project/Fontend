@@ -2,16 +2,25 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { brandColor } from 'styles/theme';
 
-const Button = ({ text, backgroundColor, width, fontSize, ...rest }) => (
-  <StyledButton {...{ backgroundColor }} fontSize={fontSize} width={width} rest={rest}>
-    {text}
-  </StyledButton>
-);
+const Button = ({ text, width, fontSize, ...rest }) => {
+  return (
+    <StyledButton fontSize={fontSize} width={width} {...rest}>
+      {text}
+    </StyledButton>
+  );
+};
 
 Button.defaultProps = {
   width: '100%',
   fontSize: '18px',
 };
+
+const ButtonHover = css`
+  transition: opacity 0.25s ease-in;
+  &:hover {
+    opacity: 0.8;
+  }
+`;
 
 const StyledButton = styled.button`
   border: none;
@@ -19,6 +28,7 @@ const StyledButton = styled.button`
   padding: 0.625rem 0;
   color: #fff;
   font-size: 0.9375rem;
+  cursor: pointer;
   background-color: ${brandColor};
   width: ${({ width }) => width};
   font-size: ${({ fontSize }) => fontSize};
@@ -27,9 +37,8 @@ const StyledButton = styled.button`
     css`
       background-color: ${backgroundColor};
     `};
-  ${({ rest }) => css`
-    ${{ ...rest }}
-  `};
+
+  ${ButtonHover};
 `;
 
 export default Button;

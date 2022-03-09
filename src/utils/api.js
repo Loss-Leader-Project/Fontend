@@ -81,8 +81,27 @@ client.interceptors.response.use(
 
 export const fetchList = async query => {
   try {
-    const { data } = await client.get(`/data/food-gold.json`);
     // const { data } = await client.get(`${query}`);
+    const { data } = await client.get(`/data/food-gold.json`);
+    return data;
+  } catch (error) {
+    throw error.message;
+  }
+};
+
+export const fetchUserInfo = async id => {
+  try {
+    // const { data } = await client.get(`/userinfo/${id}`);
+    const { data } = await client.get(`/data/user.json`);
+    return data;
+  } catch (error) {
+    throw error.message;
+  }
+};
+
+export const fetchUserInfoUpdate = async (id, payload) => {
+  try {
+    const { data } = await client.post(`/userinfo/${id}`, payload);
     return data;
   } catch (error) {
     throw error.message;
