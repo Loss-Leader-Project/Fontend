@@ -1,3 +1,5 @@
+// @ts-check
+
 export default class Validation {
   static id = /^[a-z]+[a-z0-9]{4,18}$/;
   static password = /^(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
@@ -16,8 +18,13 @@ export default class Validation {
   };
 
   /**
-   * @param {throw 기능 유무} isThrow
-   * @returns string,object
+   * @typedef { (value:object) => boolean } callback
+   */
+
+  /**
+   * @param {callback} callback
+   * @param {boolean} isThrow
+   * @returns {string | object}
    */
   static check(callback, isThrow = true) {
     this.init();
@@ -33,9 +40,10 @@ export default class Validation {
     }
     return isError;
   }
+
   /**
-   * @param {검사할 값} value
-   * @returns boolean
+   * @param {object} value
+   * @returns {boolean}
    */
   static emptyCheck(value) {
     if (typeof value === 'object') {
@@ -45,24 +53,38 @@ export default class Validation {
     if (value === '' || value === 0 || value === undefined || value === null) return true;
     return false;
   }
+
   /**
-   * @param {아이디} idValue
-   * @returns boolean
+   * @param {object} values
+   * @returns {object}
+   */
+  static emptyCheckAll = values => {
+    return Object.entries(values).reduce((cur, [key, value]) => {
+      return {
+        ...cur,
+        [`${key}`]: this.emptyCheck(value),
+      };
+    }, {});
+  };
+
+  /**
+   * @param {string} idValue
+   * @returns {boolean}
    */
   static isIdCheck = idValue => {
     return this.id.test(idValue);
   };
   /**
-   * @param {비밀번호} pwdValue
-   * @returns boolean
+   * @param {string} pwdValue
+   * @returns {boolean}
    */
   static isPasswordCheck = pwdValue => {
     return this.password.test(pwdValue);
   };
 
   /**
-   * @param {유저이름} userNameValue
-   * @returns boolean
+   * @param {string} userNameValue
+   * @returns {boolean}
    */
   static isUserNameCheck = userNameValue => {
     return this.username.test(userNameValue);
@@ -73,27 +95,27 @@ export default class Validation {
   };
 
   /**
-   * @param {이메일} emailValue
-   * @returns boolean
+   * @param {string} emailValue
+   * @returns {boolean}
    */
   static isEmailCheck = emailValue => {
     return this.email.test(emailValue);
   };
 
   /**
-   * @param {생년월일} birthDayValue
-   * @returns boolean
+   * @param {string} birthDayValue
+   * @returns {boolean}
    */
   static isBirthDayCheck = birthDayValue => {
     return this.birthday.test(birthDayValue);
   };
 
   /**
-   * @param {에러 프로퍼티 키값} key
-   * @param {에러 메세지} message
-   * @param {검색 할 값} value
-   * @param {검색에 필요한 정규식} rexge
-   * @returns boolean
+   * @param {string} key
+   * @param {string} message
+   * @param {string} value
+   * @param {RegExp} rexge
+   * @returns {boolean}
    */
   static isPatternCheck = (key, message, value, rexge) => {
     if (!(rexge instanceof RegExp)) throw new Error('rexge is not found');
@@ -106,14 +128,16 @@ export default class Validation {
 
   /**
    * 에러객체 초기화
+   * @type { function(): void }
    */
   static setErrorReset = () => {
     this.errors = {};
   };
 
   /**
-   * @param {에러객체에 추가 할 프로퍼티} key
-   * @param {에러 메세지} message
+   * @param {string} key 에러 프로퍼티 이름
+   * @param {string} message 에러 메세지
+   * @returns {void}
    */
   static makeError = (key, message) => {
     this.errors[key] = {
