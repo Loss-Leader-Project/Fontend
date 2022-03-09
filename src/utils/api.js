@@ -137,24 +137,38 @@ export const TokenCheck = async (apiCall, history) => {
   if (accessToken) {
     // token 체크 api
     const check = await client({
-      method: 'POST',
-      url: '/checkToken',
+      method: 'GET',
+      url: '/user/login-info',
       headers: {
         Authroization: accessToken,
       },
     });
-    // check 값이 올바르면
-    if (check.data === true) {
+    // check 값이 올바르고 인자로 api 함수 안 넣었을때
+    if (check.data === true && apiCall === undefined) {
+      // 응답으로 넘어온 유저정보 넘겨줌
+      return check;
+    }
+    // check 값 올바르고 인자로 실행시킬 apiCall 함수가 있을때
+    else if (check.data === true && apiCall !== undefined) {
+      // 넣어준 api 함수 실행
       const res = await apiCall(accessToken);
       return res;
     }
-    // res 값이 오류이면
+    // check 값이 오류이면
     else {
       localStorage.removeItem('access-token');
+      await client({
+        method: 'GET',
+        url: '/loss-leader/logout',
+      });
       alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
       history.push('/login');
     }
   } else {
+    await client({
+      method: 'GET',
+      url: '/loss-leader/logout',
+    });
     alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
     history.push('/login');
   }

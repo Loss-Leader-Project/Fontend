@@ -2,11 +2,13 @@ import React from 'react';
 import SignUpEmail from './SignUpEmail';
 import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Grid, Stack, TextField, Button } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import styled from 'styled-components';
-import { brandColor, gray, mobile } from 'styles/theme';
+import { gray, mobile } from 'styles/theme';
 import { regExpCheck } from './check';
 import { emailRequest } from './api';
+import MuiInput from 'Components/MuiInput';
+import MuiButton from 'Components/MuiButton';
 
 const SignUpEmailLayout = props => {
   return (
@@ -19,20 +21,19 @@ const SignUpEmailLayout = props => {
       </MustItem>
       <Grid item lg={9} md={9} sm={9} xs={9}>
         <CustomStack direction='row' justifyContent='center' spacing={2}>
-          <TextField
+          <MuiInput
             name='mailId'
             label='가입한메일아이디'
-            variant='outlined'
-            fullWidth
             size='small'
-            InputLabelProps={{
-              style: { color: '#B9B9B9' },
-            }}
-            {...(props.flag ? { helperText: props.helpTextMailID, error: true } : {})}
+            flag={props.flag}
+            value={props.value.mailId}
+            helperText={props.helpTextMailID}
             onChange={props.handleValue}
           />
           <SignUpEmail {...props} />
-          <EmailSubmitButton
+          <MuiButton
+            content='인증요청'
+            sx={{ fontSize: '0.75rem', height: '2.5rem', width: 'auto', padding: '5px' }}
             onClick={async () => {
               if (
                 await regExpCheck(
@@ -50,9 +51,7 @@ const SignUpEmailLayout = props => {
               props.handleFlag('emailSubmit', true);
               props.sethelpTextEmailSubmit('인증유효기간 3분이내에 입력해주세요');
             }}
-          >
-            인증요청
-          </EmailSubmitButton>
+          />
         </CustomStack>
       </Grid>
     </CustomGridContainer>
@@ -94,13 +93,4 @@ const MustItemText = styled.div`
 
 const CustomStack = styled(Stack)`
   width: 100%;
-`;
-
-const EmailSubmitButton = styled(Button)`
-  &&& {
-    background-color: ${brandColor};
-    color: white;
-    font-size: 0.75rem;
-    height: 2.5rem;
-  }
 `;

@@ -1,20 +1,18 @@
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
+import MuiInput from 'Components/MuiInput';
 import React from 'react';
 
-const SignUpEmail = ({ email, flag, handleValue, mailHandleChange, helpTextEmail }) => {
+const SignUpEmail = ({ email, flag, handleValue, mailHandleChange, helpTextEmail, value }) => {
   return (
     <>
       {email === '직접입력' ? (
-        <TextField
+        <MuiInput
           name='email'
           label='직접입력'
-          variant='outlined'
-          fullWidth
           size='small'
-          InputLabelProps={{
-            style: { color: '#B9B9B9' },
-          }}
-          {...(flag ? { helperText: helpTextEmail, error: true } : {})}
+          value={value.email}
+          flag={flag}
+          helperText={helpTextEmail}
           onChange={handleValue}
         />
       ) : (

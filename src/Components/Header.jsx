@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { mobile, pc, tab } from 'styles/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginCheckAction } from 'modules/reducers/loginReducer';
-import { checkAccessToken } from 'utils/api';
+import { checkAccessToken, client } from 'utils/api';
 
 const Header = ({ menuopen, setMenuOpen }) => {
   const handleMenuOpenToggle = () => {
@@ -49,6 +49,10 @@ const Header = ({ menuopen, setMenuOpen }) => {
               <LogoutText
                 onClick={async () => {
                   localClear();
+                  await client({
+                    method: 'GET',
+                    url: '/loss-leader/logout',
+                  });
                 }}
               >
                 로그아웃

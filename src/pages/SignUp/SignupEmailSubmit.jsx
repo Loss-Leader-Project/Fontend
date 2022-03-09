@@ -1,7 +1,9 @@
-import { Button, Grid, Stack, TextField } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
+import MuiButton from 'Components/MuiButton';
+import MuiInput from 'Components/MuiInput';
 import React from 'react';
 import styled from 'styled-components';
-import { brandColor, gray } from 'styles/theme';
+import { gray } from 'styles/theme';
 import { emailValidRequest } from './api';
 
 const SignupEmailSubmit = props => {
@@ -10,19 +12,18 @@ const SignupEmailSubmit = props => {
       <MustItem item lg={3} md={3} sm={3} xs={3}></MustItem>
       <Grid item lg={9} md={9} sm={9} xs={9}>
         <CustomStack direction='row' justifyContent='center' spacing={2}>
-          <TextField
+          <MuiInput
             name='emailSubmit'
-            fullWidth
             label='인증번호를 입력해주세요'
-            variant='outlined'
             size='small'
-            InputLabelProps={{
-              style: { color: '#B9B9B9' },
-            }}
-            {...(props.flag ? { helperText: props.helpText, error: true } : {})}
+            value={props.value}
+            flag={props.flag}
+            helperText={props.helpText}
             onChange={props.handleValue}
           />
-          <EmailSubmitButton
+          <MuiButton
+            content='인증하기'
+            sx={{ fontSize: '0.75rem', height: '2.5rem', width: 'auto', padding: '5px' }}
             onClick={() => {
               emailValidRequest(props.value).then(res => {
                 if (res.data === '인증성공') {
@@ -34,9 +35,7 @@ const SignupEmailSubmit = props => {
                 }
               });
             }}
-          >
-            인증하기
-          </EmailSubmitButton>
+          />
         </CustomStack>
       </Grid>
     </CustomGridContainer>
@@ -63,15 +62,6 @@ const MustItem = styled(Grid)`
 
 const CustomStack = styled(Stack)`
   width: 100%;
-`;
-
-const EmailSubmitButton = styled(Button)`
-  &&& {
-    background-color: ${brandColor};
-    color: white;
-    font-size: 0.75rem;
-    height: 2.5rem;
-  }
 `;
 
 export default SignupEmailSubmit;

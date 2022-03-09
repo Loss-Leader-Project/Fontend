@@ -1,10 +1,12 @@
-import { Button, Grid, Stack, TextField } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 import { brandColor, gray, mobile } from 'styles/theme';
 import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CheckIdSame } from './api';
+import MuiInput from 'Components/MuiInput';
+import MuiButton from 'Components/MuiButton';
 
 const SignUpIDLayout = props => {
   return (
@@ -17,20 +19,18 @@ const SignUpIDLayout = props => {
       </MustItem>
       <Grid item lg={9} md={9} sm={9} xs={9}>
         <CustomStack direction='row' justifyContent='center' spacing={2}>
-          <CustomTextfield
+          <MuiInput
             name={props.name}
             label={props.label}
-            variant='outlined'
-            type={props.password && 'password'}
-            autoComplete={props.autoComplete && 'current-password'}
             size='small'
-            InputLabelProps={{
-              style: { color: '#B9B9B9' },
-            }}
-            {...(props.flag ? { helperText: `${props.helperText}`, error: true } : {})}
+            value={props.value}
+            flag={props.flag}
+            helperText={props.helperText}
             onChange={props.handleValue}
           />
-          <IdSubmitButton
+          <MuiButton
+            content='중복확인'
+            sx={{ fontSize: '0.75rem', height: '2.5rem', width: 'auto', padding: '5px' }}
             onClick={() => {
               CheckIdSame(props.value).then(res => {
                 if (res.data.status) {
@@ -39,9 +39,7 @@ const SignUpIDLayout = props => {
                 }
               });
             }}
-          >
-            중복확인
-          </IdSubmitButton>
+          />
         </CustomStack>
       </Grid>
     </CustomGridContainer>
@@ -82,18 +80,5 @@ const ColorMustIcon = styled.span`
 `;
 
 const CustomStack = styled(Stack)`
-  width: 100%;
-`;
-
-const IdSubmitButton = styled(Button)`
-  &&& {
-    background-color: ${brandColor};
-    color: white;
-    font-size: 0.75rem;
-    height: 2.5rem;
-  }
-`;
-
-const CustomTextfield = styled(TextField)`
   width: 100%;
 `;

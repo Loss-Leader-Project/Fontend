@@ -1,16 +1,17 @@
-import { Button, Checkbox, Container, Divider, FormControlLabel, Grid, Stack } from '@mui/material';
+import { Checkbox, Container, Divider, FormControlLabel, Grid, Stack } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
 import { brandColor, gray, lightDark, lightGray } from 'styles/theme';
 import { checkBlank, checkFlag } from 'pages/LogIn/check';
-import LoginInput from './LoginInput';
 import { Login } from './api';
 import LoginNaver from './LoginNaver';
 import { KAKAO_AUTH_URL } from '../../utils/OAuth';
 import { useDispatch } from 'react-redux';
 import { loginCheckAction } from 'modules/reducers/loginReducer';
 import { checkAccessToken } from 'utils/api';
+import MuiInput from 'Components/MuiInput';
+import MuiButton from 'Components/MuiButton';
 
 const LogIn = () => {
   const [checked, setChecked] = useState(false);
@@ -85,27 +86,30 @@ const LogIn = () => {
         <Grid container direction='row' justifyContent='space-between'>
           <Grid item sm={8.5} xs={8.5}>
             <Stack direction='column' justifyContent='center' alignItems='center' spacing={2}>
-              <LoginInput
+              <MuiInput
                 name='id'
                 label='아이디'
                 flag={flag.id}
-                handleValue={handleValue}
+                value={loginFormData.id}
+                onChange={handleValue}
                 helperText='아이디를 입력해주세요'
               />
-              <LoginInput
+              <MuiInput
                 name='password'
                 label='비밀번호'
                 type='password'
                 autoComplete='current-password'
+                value={loginFormData.password}
                 flag={flag.password}
-                handleValue={handleValue}
+                onChange={handleValue}
                 helperText='비밀번호를 입력해주세요'
               />
             </Stack>
           </Grid>
           <Grid item sm={3} xs={3}>
-            <LoginButton
-              variant='contained'
+            <MuiButton
+              sx={{ height: '8rem' }}
+              content='로그인'
               onClick={async () => {
                 if (await checkBlank(loginFormData, flag, handleFlag)) return;
 
@@ -115,9 +119,7 @@ const LogIn = () => {
 
                 dispatch(loginCheckAction(checkAccessToken()));
               }}
-            >
-              로그인
-            </LoginButton>
+            />
           </Grid>
         </Grid>
         <Grid container direction='row' alignItems='center'>
@@ -227,14 +229,6 @@ const SignUp = styled('div')`
 
   .left {
     color: ${lightDark};
-  }
-`;
-
-const LoginButton = styled(Button)`
-  &&& {
-    height: 8rem;
-    width: 100%;
-    background-color: ${brandColor};
   }
 `;
 
