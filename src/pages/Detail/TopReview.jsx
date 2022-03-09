@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Rating } from '@mui/material';
 import { brandColor, lightGray, lightDark } from 'styles/theme';
-import Pages from './Pages';
+import Pages from '../../Components/Pages';
 
 function TopReview({ ratingTotal, reviewCount, totalPage, currentPage, changeCurrentPage }) {
   return (
