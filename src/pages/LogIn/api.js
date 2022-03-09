@@ -1,18 +1,18 @@
-import axios from 'axios';
+import { client } from 'utils/api';
 
 export const getPassword = async (id, birthday, email) => {
   try {
-    const { data } = await axios({
-      method: 'GET',
-      url: '/getId',
-      params: {
-        id: id,
-        birthday: birthday,
+    const res = await client({
+      method: 'POST',
+      url: '/user/login-password',
+      data: {
+        loginId: id,
+        birthDate: birthday,
         email: email,
       },
     });
 
-    return data;
+    return res;
   } catch (error) {
     const message = error.response.message ?? error.message ?? error;
     alert(message);
@@ -21,18 +21,34 @@ export const getPassword = async (id, birthday, email) => {
 
 export const postFindId = async props => {
   try {
-    const data = axios({
-      // method: 'POST',
-      method: 'get',
-      // url: '/user/login-id',
-      url: '/data/findId.json',
-      // data: {
-      //   userName: props.name,
-      //   birthDate: props.birthday,
-      //   email: `${props.mailId}@${props.email}`,
-      // },
+    const res = client({
+      method: 'POST',
+      url: '/user/login-id',
+      data: {
+        userName: props.name,
+        birthDate: props.birthday,
+        email: `${props.mailId}@${props.email}`,
+      },
     });
-    return data;
+    return res;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const Login = async (id, password) => {
+  try {
+    const res = client({
+      method: 'POST',
+      url: '/login',
+      data: {
+        loginId: id,
+        password: password,
+      },
+    });
+
+    return res;
   } catch (error) {
     const message = error.response.message ?? error.message ?? error;
     alert(message);

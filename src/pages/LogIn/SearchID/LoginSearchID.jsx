@@ -1,14 +1,16 @@
-import { Button, Container, Grid, Stack } from '@mui/material';
+import { Container, Grid, Stack } from '@mui/material';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { checkBlank, checkFlag } from 'pages/LogIn/check';
-import { brandColor, gray, lightGray } from 'styles/theme';
-import LoginInput from '../LoginInput';
+import theme, { gray, lightGray } from 'styles/theme';
 import FindIdModalBody from './FindIdModalBody';
 import { postFindId } from '../api';
 import BasicModal from 'Components/BasicModal';
 import LoginEmailLayout from '../LoginEmailLayout';
+import { regExpCheck } from 'pages/SignUp/check';
+import MuiInput from 'Components/MuiInput';
+import MuiButton from 'Components/MuiButton';
 
 const LoginSearchID = () => {
   const [email, setEmail] = useState('');
@@ -55,6 +57,18 @@ const LoginSearchID = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [helpTextBirthday, sethelpTextBirthday] = useState('주민번호를 앞에서부터 7자 입력하세요');
+
+  const FindIdAPI = data => {
+    postFindId({ ...data }).then(res => {
+      if (res.data.loginId) {
+        setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
+      } else if (res.data.status === 404) {
+        setFindId(<FindIdModalBody valid={false} />);
+      }
+    });
+  };
+
   return (
     <div>
       <CustomContainer maxWidth='sm'>
@@ -62,81 +76,77 @@ const LoginSearchID = () => {
         <Grid container direction='row' justifyContent='space-between'>
           <Grid item sm={8.5} xs={8.5}>
             <Stack direction='column' justifyContent='center' alignItems='center' spacing={2}>
-              <LoginInput
+              <MuiInput
                 name='name'
                 label='이름'
                 flag={flag.name}
-                handleValue={handleValue}
+                value={SearchFromData.name}
+                onChange={handleValue}
                 helperText='아이디를 입력하세요'
               />
-              <LoginInput
+              <MuiInput
                 name='birthday'
                 label='주민번호 앞6자리 및 뒤1자리(9110101)'
+                value={SearchFromData.birthday}
                 flag={flag.birthday}
-                handleValue={handleValue}
-                helperText='주민번호를 앞에서부터 7자 입력하세요'
+                onChange={handleValue}
+                helperText={helpTextBirthday}
               />
               <LoginEmailLayout
                 email={email}
                 flag={flag}
+                value={{ mailId: SearchFromData.mailId, email: SearchFromData.email }}
                 handleValue={handleValue}
                 mailHandleChange={mailHandleChange}
               />
             </Stack>
           </Grid>
           <Grid item sm={3} xs={3}>
-            <SearchButton
-              variant='contained'
+            <MuiButton
+              content='아이디 찾기'
+              sx={{
+                height: '12.5rem',
+                bgcolor: `${theme.colors.gray}`,
+                '&:hover': { bgcolor: `${theme.colors.gray}` },
+              }}
               onClick={async () => {
                 if (await checkBlank(SearchFromData, flag, handleFlag)) return;
+
+                if (await regExpCheck('birthday', SearchFromData.birthday, handleFlag)) return;
+
+                if (await regExpCheck('birthday', SearchFromData.birthday, handleFlag, sethelpTextBirthday)) return;
+
                 if (await checkFlag(flag)) return;
 
-                await postFindId({ ...SearchFromData }).then(res => {
-                  if (res.data.loginId) {
-                    setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
-                  } else if (res.data.status === 404) {
-                    setFindId(<FindIdModalBody valid={false} />);
-                  }
+                await FindIdAPI(SearchFromData);
 
-                  handleOpen();
-                });
+                handleOpen();
               }}
-            >
-              아이디 찾기
-            </SearchButton>
+            />
           </Grid>
         </Grid>
         <CustomStack2 direction='row' justifyContent='center' spacing={2}>
-          <Button
+          <MuiButton
             className='leftBtn'
+            content='비밀번호 찾기'
             onClick={() => {
               history.push('/login/searchPW');
             }}
-          >
-            비밀번호 찾기
-          </Button>
-          <Button
+          />
+
+          <MuiButton
             className='rightBtn'
+            content='로그인 하기'
             onClick={() => {
               history.push('/login');
             }}
-          >
-            로그인 하기
-          </Button>
+          />
         </CustomStack2>
       </CustomContainer>
       <BasicModal open={open} handleClose={handleClose} title={'아이디 찾기 결과'} content={findId} />
     </div>
   );
 };
-
-const SearchButton = styled(Button)`
-  &&& {
-    height: 12.5rem;
-    width: 100%;
-    background-color: ${gray};
-  }
-`;
 
 const CustomStack2 = styled(Stack)`
   width: 100%;
@@ -150,15 +160,11 @@ const CustomStack2 = styled(Stack)`
   .leftBtn {
     border: 1px solid ${lightGray};
     color: ${gray};
+    background-color: white;
   }
 
-  .rightBtn {
-    background-color: ${brandColor};
-    color: white;
-  }
-
-  .rightBtn:hover {
-    background-color: ${brandColor};
+  .leftBtn:hover {
+    background-color: white;
   }
 `;
 

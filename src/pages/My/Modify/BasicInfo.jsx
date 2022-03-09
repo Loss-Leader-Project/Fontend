@@ -1,31 +1,63 @@
 import { Checkbox, FormControlLabel, FormGroup, useMediaQuery } from '@mui/material';
 import Button from 'Components/common/Button';
 import Input from 'Components/common/Input';
-import { withLayout } from './ModifyPage';
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { brandColor } from 'styles/theme';
-import { ModifyContext } from 'contexts/ModifyProvider';
+import { useModifyContext } from 'contexts/ModifyProvider';
+import PasswordModifyForm from './PasswordModifyForm';
 
 const BasicInfo = () => {
-  const { GridCotainer } = useContext(ModifyContext);
+  const { GridCotainer, form, handleFormOnChange, errors } = useModifyContext();
+  const [popUp, setPopUp] = useState(false);
   const match = useMediaQuery('(max-width:600px)');
+  const handlePwdModifyOpen = () => setPopUp(p => !p);
+  const { userName, phoneNumber } = errors;
 
   return (
     <>
-      <GridCotainer text='아이디' children={<Input width='100%' />} />
+      <GridCotainer text='아이디' children={<Input value={form.loginId} disabled />} />
       <GridCotainer
         text='비밀번호'
-        children={<Button text='비밀번호 설정' width={match ? '50%' : '40%'} fontSize='0.9375rem' />}
+        children={
+          <Button
+            onClick={handlePwdModifyOpen}
+            type='button'
+            text='비밀번호 설정'
+            width={match ? '50%' : '40%'}
+            fontSize='0.9375rem'
+          />
+        }
       />
-      <GridCotainer text='이름' children={<Input width='100%' />} />
+      {popUp && <PasswordModifyForm />}
+      <GridCotainer
+        text='이름'
+        children={
+          <Input
+            id='userName'
+            maxLength='10'
+            value={form.userName}
+            onChange={handleFormOnChange}
+            placeholder='이름을 입력해주세요'
+            helperText={userName?.message}
+            error={userName?.isError}
+          />
+        }
+      />
       <GridCotainer text='이메일'>
-        <Input width='50%' padding='0 0.625rem 0 0' />
-        <Input width='50%' padding='0 0 0 0.625rem' />
+        <Input padding='0 0.625rem 0 0' disabled value={form.email} />
         <EventChecked />
       </GridCotainer>
       <GridCotainer text='휴대번호'>
-        <Input width='100%' />
+        <Input
+          id='phoneNumber'
+          maxLength='11'
+          placeholder='- 제외 최대 11자리'
+          value={form.phoneNumber}
+          onChange={handleFormOnChange}
+          error={phoneNumber?.isError}
+          helperText={phoneNumber?.message}
+        />
         <EventChecked />
       </GridCotainer>
     </>
@@ -50,4 +82,4 @@ const CustomCheckbox = styled(Checkbox)`
   }
 `;
 
-export default withLayout(BasicInfo);
+export default BasicInfo;

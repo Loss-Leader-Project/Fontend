@@ -25,7 +25,9 @@ function PrevArrow(props) {
       className={className}
       style={{
         ...style,
-        display: 'block',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
         left: '3px',
         height: '40px',
         width: '40px',
@@ -43,7 +45,9 @@ function NextArrow(props) {
       className={className}
       style={{
         ...style,
-        display: 'block',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
         right: '3px',
         height: '40px',
         width: '40px',

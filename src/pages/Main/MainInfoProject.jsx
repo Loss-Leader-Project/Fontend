@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { brandColor } from 'styles/theme';
+import { brandColor, mobile } from 'styles/theme';
 
 const MainInfoProject = () => {
   return (
@@ -18,6 +18,9 @@ const MainInfoProject = () => {
 const BoldText = styled.div`
   font-weight: bold;
   font-size: 2rem;
+  ${mobile} {
+    font-size: 1rem;
+  }
 `;
 
 const InnerText = styled.p`

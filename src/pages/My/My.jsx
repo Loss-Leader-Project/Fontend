@@ -7,6 +7,8 @@ import MyMenu from './MyMenu';
 import ReviewPage from 'pages/My/Review/ReviewPage';
 import ModifyPage from 'pages/My/Modify/ModifyPage';
 import { tab } from 'styles/theme';
+import ReviewInsertPage from './ReviewInsert/ReviewInsertPage';
+import { Redirect } from 'react-router-dom';
 
 const My = () => {
   const { path } = useRouteMatch();
@@ -19,7 +21,9 @@ const My = () => {
           <Route path={`${path}`} component={ModifyPage} exact />
           <Route path={`${path}/buy`} component={BuyPage} />
           <Route path={`${path}/coupon`} component={CouponPage} />
-          <Route path={`${path}/review`} component={ReviewPage} />
+          <Route path={`${path}/review`} component={ReviewPage} exact />
+          <Route path={`${path}/review/insert`} component={ReviewInsertPage} />
+          <Route path='*' render={() => <Redirect to={'/'} />} />
         </Switch>
       </MyRouteWrapper>
     </MyWrapper>

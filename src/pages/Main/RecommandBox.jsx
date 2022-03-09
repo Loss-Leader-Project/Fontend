@@ -1,8 +1,33 @@
-import { Button } from '@mui/material';
-import React from 'react';
+import MuiButton from 'Components/MuiButton';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import styled from 'styled-components';
+import { gray, lightDark, mobile, tab } from 'styles/theme';
+import { getData } from 'utils/api';
 
 const RecommandBox = () => {
+  const [randomIndex, setRandomIndex] = useState(0);
+
+  const location = useLocation();
+
+  const [menuList, setMenuList] = useState('');
+
+  useEffect(() => {
+    getData('/data/menuList.json').then(res => {
+      setMenuList(res.data.menuList);
+    });
+  }, []);
+
+  useEffect(() => {
+    const fetchMenu = async () => {
+      await setRandomIndex(Math.floor(Math.random() * menuList.length));
+      await setMenu(menuList[randomIndex]);
+    };
+    fetchMenu();
+  }, [location, randomIndex, menuList]);
+
+  const [menu, setMenu] = useState('');
+
   return (
     <Container>
       <TextBox>
@@ -10,9 +35,17 @@ const RecommandBox = () => {
         <div>이거 어때요?</div>
       </TextBox>
       <RandomText>
-        <span>삼겹살</span>
+        <span>{menu}</span>
       </RandomText>
-      <RecommandButton>추천받기</RecommandButton>
+      <RecommandButton>
+        <MuiButton
+          content='추천받기'
+          onClick={async () => {
+            await setRandomIndex(Math.floor(Math.random() * menuList.length));
+            await setMenu(menuList[randomIndex]);
+          }}
+        />
+      </RecommandButton>
     </Container>
   );
 };
@@ -25,7 +58,7 @@ const Container = styled.div`
   height: 150px;
   background-color: #eee;
 
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     flex-flow: column wrap;
     height: 300px;
   }
@@ -36,9 +69,9 @@ const TextBox = styled.div`
   display: flex;
   flex-flow: column wrap;
   gap: 0.625rem;
-  color: ${({ theme }) => theme.colors.lightDark};
+  color: ${lightDark};
 
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     flex-flow: row wrap;
   }
 `;
@@ -51,20 +84,28 @@ const RandomText = styled.div`
   font-size: 2rem;
   height: 70px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.lightDark};
-  border-bottom: 2px solid ${({ theme }) => theme.colors.gray};
+  color: ${lightDark};
+  border-bottom: 2px solid ${gray};
 `;
 
-const RecommandButton = styled(Button)`
+const RecommandButton = styled('div')`
   width: 15%;
-  &&& {
+
+  Button {
     font-size: 1.2rem;
-    color: white;
-    background-color: ${({ theme }) => theme.colors.brandColor};
   }
 
-  ${({ theme }) => theme.media.mobile} {
+  ${tab} {
+    Button {
+      font-size: 1rem;
+    }
+  }
+
+  ${mobile} {
     width: 50%;
+    Button {
+      font-size: 1.2rem;
+    }
   }
 `;
 
