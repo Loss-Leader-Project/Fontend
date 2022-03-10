@@ -1,11 +1,12 @@
 import { MenuItem, Select } from '@mui/material';
-import Input from 'Components/common/Input';
 import React from 'react';
 import styled from 'styled-components';
-import { useModifyContext } from 'contexts/ModifyProvider';
+import MuiInput from 'Components/MuiInput';
+import GridContainer from './GridContainer';
+import { useModifyContext } from './ModifyPage';
 
 const AdditionalInfo = () => {
-  const { GridCotainer, form, handleFormOnChange, errors } = useModifyContext();
+  const { form, handleFormOnChange, errors } = useModifyContext();
   const { recommendedPerson } = errors;
   const [currentYear, currentMonth, currentDay] = getBirthDay(form.birthDate);
   const year = Array.from({ length: 73 }, (_, idx) => 1950 + idx);
@@ -14,7 +15,7 @@ const AdditionalInfo = () => {
 
   return (
     <>
-      <GridCotainer text='생일'>
+      <GridContainer text='생일'>
         <SelectWrapper>
           <SelectBox name='year' suffix='년' array={year} value={currentYear} handleFormOnChange={handleFormOnChange} />
           <SelectBox
@@ -26,19 +27,18 @@ const AdditionalInfo = () => {
           />
           <SelectBox name='day' suffix='일' array={day} value={currentDay} handleFormOnChange={handleFormOnChange} />
         </SelectWrapper>
-      </GridCotainer>
-      <GridCotainer
+      </GridContainer>
+      <GridContainer
         text='추천인아이디'
         children={
-          <Input
-            minLength='4'
-            maxLength='18'
+          <MuiInput
+            inputProps={{ minLength: 4, maxLength: 18 }}
             id='recommendedPerson'
             value={form.recommendedPerson}
             onChange={handleFormOnChange}
             placeholder='추천인 아이디에 회원가입시 1000원 지급'
             helperText={recommendedPerson?.message}
-            error={recommendedPerson?.isError}
+            flag={recommendedPerson?.isError}
           />
         }
       />

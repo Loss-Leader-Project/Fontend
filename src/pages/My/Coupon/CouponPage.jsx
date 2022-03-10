@@ -1,5 +1,5 @@
-import Title from 'Components/common/Title';
-import CouponHistory from './CouponHistory';
+import Title from 'Components/Title';
+import History from './History';
 import CouponInput from './CouponInput';
 import React from 'react';
 
@@ -9,7 +9,7 @@ const CouponPage = () => {
       <Title text='쿠폰등록' />
       <CouponInput />
       <Title text='쿠폰내역' />
-      <CouponHistory />
+      <History />
     </div>
   );
 };

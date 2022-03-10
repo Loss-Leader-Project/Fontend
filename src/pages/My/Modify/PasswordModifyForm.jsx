@@ -1,22 +1,22 @@
-import Input from 'Components/common/Input';
-import { useModifyContext } from 'contexts/ModifyProvider';
 import React from 'react';
+import MuiInput from 'Components/MuiInput';
+import GridContainer from './GridContainer';
+import { useModifyContext } from './ModifyPage';
 
 const PasswordModifyForm = () => {
-  const { GridCotainer, form, handleFormOnChange, errors } = useModifyContext();
+  const { form, handleFormOnChange, errors } = useModifyContext();
   const { oldPassword, newPassword, newPasswordConfirm } = errors;
 
   const inputRender = (value, id, error) => {
     return (
-      <Input
+      <MuiInput
         placeholder='특수문자 포함 8자~16자(공백 제외)'
         type='password'
         onChange={handleFormOnChange}
         defaultValue={value}
         id={id}
-        minLength='8'
-        maxLength='16'
-        error={error?.isError}
+        inputProps={{ minLength: 8, maxLength: 16 }}
+        flag={error?.isError}
         helperText={error?.message}
       />
     );
@@ -24,11 +24,11 @@ const PasswordModifyForm = () => {
 
   return (
     <div>
-      <GridCotainer text='현재비밀번호'>{inputRender(form.oldPassword, 'oldPassword', oldPassword)}</GridCotainer>
-      <GridCotainer text='비밀번호 수정'>{inputRender(form.newPassword, 'newPassword', newPassword)}</GridCotainer>
-      <GridCotainer text='비밀번호 수정 확인'>
+      <GridContainer text='현재비밀번호'>{inputRender(form.oldPassword, 'oldPassword', oldPassword)}</GridContainer>
+      <GridContainer text='비밀번호 수정'>{inputRender(form.newPassword, 'newPassword', newPassword)}</GridContainer>
+      <GridContainer text='비밀번호 수정 확인'>
         {inputRender(form.newPasswordConfirm, 'newPasswordConfirm', newPasswordConfirm)}
-      </GridCotainer>
+      </GridContainer>
     </div>
   );
 };

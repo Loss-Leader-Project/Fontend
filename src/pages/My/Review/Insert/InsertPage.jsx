@@ -1,19 +1,20 @@
-import Input from 'Components/common/Input';
+import MuiInput from 'Components/MuiInput';
 import React, { useCallback, useState } from 'react';
-import Row from './Row';
 import { Rating } from '@mui/material';
 import styled from 'styled-components';
 import { brandColor, gray } from 'styles/theme';
 import Editor from 'Components/Editor';
-import Button from 'Components/common/Button';
+import Button from 'Components/Button';
 import validation from 'utils/validation';
+import { flexStyleGroup } from 'styles/theme';
 import { fetchCreateReview } from 'utils/api';
+import Title from 'Components/Title';
 
 const TITLE_INIT_VALUE = '';
 const RATING_INIT_VALUE = 3;
 const EDITOR_INIT_VALUE = '';
 
-const ReviewInsertPage = () => {
+const InsertPage = () => {
   const [editorValue, setEditorValue] = useState(EDITOR_INIT_VALUE);
   const [ratingValue, setRatingValue] = useState(RATING_INIT_VALUE);
   const [titleValue, setTitleValue] = useState(TITLE_INIT_VALUE);
@@ -31,34 +32,35 @@ const ReviewInsertPage = () => {
       },
     ]);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setErrors({});
 
+    const title = titleValue;
+
     try {
       validation.check(({ emptyCheck, makeError, isPatternCheck, errors }) => {
-        if (emptyCheck(titleValue)) {
+        if (emptyCheck(title)) {
           makeError('titleRexge', '제목을 입력해주세요.');
           return errors;
         }
-        if (isPatternCheck('titleRexge', '제목에는 html을 입력하지 못합니다.', titleValue, /(<([^>]+)>)/gi)) {
+        if (isPatternCheck('titleRexge', '제목에는 html을 입력하지 못합니다.', title, /(<([^>]+)>)/gi)) {
           return errors;
         }
       });
+      const content = editorValue.replace(/</g, '&lt;');
 
       const payload = {
         star: ratingValue,
-        title: titleValue,
-        content: editorValue,
+        title,
+        content,
         imageIdentifyList: editorImgs,
       };
-
-      console.log('payload=>', payload);
       const id = 1;
       const orderNumber = 2012211234;
       const storeId = 1;
-      // path variabl : userid/orderNumber/storeId
-      fetchCreateReview(`/reviwe/${id}/${orderNumber}/${storeId}`, payload).catch(alert);
+      const pathValiable = `/${id}/${orderNumber}/${storeId}`;
+      await fetchCreateReview(pathValiable, payload);
     } catch (errors) {
       setErrors(errors);
     }
@@ -74,37 +76,37 @@ const ReviewInsertPage = () => {
   return (
     <Wrapper>
       <form onSubmit={handleSubmit}>
-        <Row text='이름' children={<Input flex='1' value='홍길동' disabled />} />
-        <Row text='상품선택' children={<Input flex='1' placeholder='선택된 상품이없습니다.' />} />
-        <Row
-          text='평가'
-          children={
-            <CustomRating
-              name='rating'
-              onChange={handleRatingOnChange}
-              value={ratingValue}
-              precision={0.5}
-              size='large'
-              className='rating'
-            />
-          }
-        />
-        <Row
-          text='제목'
-          children={
-            <Input
-              flex='1'
-              minLength='5'
-              maxLength='100'
-              placeholder='제목을 입력하세요.(최소 5자 이상)'
-              value={titleValue}
-              error={titleRexge?.isError}
-              helperText={titleRexge?.message}
-              onChange={handleTitleOnChange}
-            />
-          }
-        />
-        <Row text='내용' isColumn />
+        <RowWrapper>
+          <Text>이름</Text>
+          <MuiInput value='홍길동' disabled />
+        </RowWrapper>
+        <RowWrapper>
+          <Text>상품선택</Text>
+          <MuiInput placeholder='선택된 상품이없습니다.' />
+        </RowWrapper>
+        <RowWrapper>
+          <Text>평가</Text>
+          <CustomRating
+            name='rating'
+            onChange={handleRatingOnChange}
+            value={ratingValue}
+            precision={0.5}
+            size='large'
+            className='rating'
+          />
+        </RowWrapper>
+        <RowWrapper>
+          <Text>제목</Text>
+          <MuiInput
+            inputProps={{ minLength: 5, maxLength: 100 }}
+            placeholder='제목을 입력하세요.(최소 5자 이상)'
+            value={titleValue}
+            flag={titleRexge?.isError}
+            helperText={titleRexge?.message}
+            onChange={handleTitleOnChange}
+          />
+        </RowWrapper>
+        <Title text='내용' />
         <Editor editorValue={editorValue} setEditorValue={handleOnChange} imgOnChange={handleImgOnChange} />
         <ButtonWrapper>
           <Button text='초기화' width='50%' type='button' backgroundColor='#a1a1a1' onClick={handleClickReset} />
@@ -114,6 +116,18 @@ const ReviewInsertPage = () => {
     </Wrapper>
   );
 };
+
+const RowWrapper = styled.div`
+  display: flex;
+  height: 40px;
+  margin: 5px 0;
+`;
+const Text = styled.div`
+  width: 150px;
+  ${flexStyleGroup('flex-start', 'center')}
+  font-weight:500;
+  font-size: 20px;
+`;
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -133,4 +147,4 @@ const CustomRating = styled(Rating)`
   }
 `;
 
-export default ReviewInsertPage;
+export default InsertPage;

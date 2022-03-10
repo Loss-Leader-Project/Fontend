@@ -1,14 +1,15 @@
 import { Checkbox, FormControlLabel, FormGroup, useMediaQuery } from '@mui/material';
-import Button from 'Components/common/Button';
-import Input from 'Components/common/Input';
+import Button from 'Components/Button';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { brandColor } from 'styles/theme';
-import { useModifyContext } from 'contexts/ModifyProvider';
 import PasswordModifyForm from './PasswordModifyForm';
+import MuiInput from 'Components/MuiInput';
+import GridContainer from './GridContainer';
+import { useModifyContext } from './ModifyPage';
 
 const BasicInfo = () => {
-  const { GridCotainer, form, handleFormOnChange, errors } = useModifyContext();
+  const { form, handleFormOnChange, errors } = useModifyContext();
   const [popUp, setPopUp] = useState(false);
   const match = useMediaQuery('(max-width:600px)');
   const handlePwdModifyOpen = () => setPopUp(p => !p);
@@ -16,8 +17,8 @@ const BasicInfo = () => {
 
   return (
     <>
-      <GridCotainer text='아이디' children={<Input value={form.loginId} disabled />} />
-      <GridCotainer
+      <GridContainer text='아이디' children={<MuiInput value={form.loginId} disabled />} />
+      <GridContainer
         text='비밀번호'
         children={
           <Button
@@ -30,41 +31,43 @@ const BasicInfo = () => {
         }
       />
       {popUp && <PasswordModifyForm />}
-      <GridCotainer
+      <GridContainer
         text='이름'
         children={
-          <Input
+          <MuiInput
+            inputProps={{ maxLength: 10 }}
             id='userName'
-            maxLength='10'
+            size='small'
+            placeholder='이름을 입력해주세요'
             value={form.userName}
             onChange={handleFormOnChange}
-            placeholder='이름을 입력해주세요'
             helperText={userName?.message}
-            error={userName?.isError}
+            flag={userName?.isError}
           />
         }
       />
-      <GridCotainer text='이메일'>
-        <Input padding='0 0.625rem 0 0' disabled value={form.email} />
-        <EventChecked />
-      </GridCotainer>
-      <GridCotainer text='휴대번호'>
-        <Input
+      <GridContainer text='이메일'>
+        <MuiInput padding='0 0.625rem 0 0' size='small' disabled value={form.email} />
+        <EventSubscribe />
+      </GridContainer>
+      <GridContainer text='휴대번호'>
+        <MuiInput
           id='phoneNumber'
-          maxLength='11'
+          size='small'
+          inputProps={{ maxLength: 11 }}
           placeholder='- 제외 최대 11자리'
           value={form.phoneNumber}
           onChange={handleFormOnChange}
-          error={phoneNumber?.isError}
+          flag={phoneNumber?.isError}
           helperText={phoneNumber?.message}
         />
-        <EventChecked />
-      </GridCotainer>
+        <EventSubscribe />
+      </GridContainer>
     </>
   );
 };
 
-function EventChecked() {
+function EventSubscribe() {
   return (
     <FormGroupWrapper>
       <FormControlLabel control={<CustomCheckbox />} label={<span>정보/이벤트 SMS 수신에 동의합니다.</span>} />

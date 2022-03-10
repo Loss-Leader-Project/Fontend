@@ -1,16 +1,16 @@
-import Title from 'Components/common/Title';
 import React from 'react';
 import styled from 'styled-components';
+import Title from 'Components/Title';
 import { brandColor, flexStyleGroup, mobile, tab } from 'styles/theme';
 import { Rating } from '@mui/material';
 import DoNotDisturbOnOutlinedIcon from '@mui/icons-material/DoNotDisturbOnOutlined';
 
-const Review = ({ id, title, content, rating, name, url }) => {
+const Review = ({ title, content, rating, name, url }) => {
   return (
     <ReviewWrapper>
       <ReviewImg src={url} alt='thumnailImg' />
       <ReviewInfoWrapper>
-        <Title text={title} m='0 0 0.9375rem 0' />
+        <Title text={title} margin='0 0 0.9375rem 0' />
         <ReviewContent>{content}</ReviewContent>
         <RatingOrNameWrapper>
           <CustomRating name='read-only' value={rating} readOnly />

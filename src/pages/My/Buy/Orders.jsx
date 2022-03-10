@@ -1,22 +1,73 @@
-import Order from 'pages/My/Buy/Order';
 import React from 'react';
 import styled from 'styled-components';
-import { mobile } from 'styles/theme';
+import { gray, lightGray, mobile } from 'styles/theme';
 import OrdersHead from './OrdersHead';
-import OrdersProvider from 'contexts/OrdersProvider';
+import { Grid, useMediaQuery } from '@mui/material';
+import Button from 'Components/Button';
+import GridItem from './GridItem';
 
-const Orders = ({ orders }) => {
+const Orders = ({ orders }) => (
+  <OrdersWrapper>
+    <OrdersHead />
+    {orders.map(item => (
+      <Order key={item.id} {...item} />
+    ))}
+  </OrdersWrapper>
+);
+
+const Order = ({ date, couponNumber, title, price }) => {
+  const match = useMediaQuery('(max-width:600px)');
+
+  const two = 2;
+  const fivePointFive = 5.5;
+  const twoPointFive = 2.5;
+
   return (
-    <OrdersWrapper>
-      <OrdersProvider>
-        <OrdersHead />
-        {orders.map(item => (
-          <Order key={item.id} {...item} />
-        ))}
-      </OrdersProvider>
-    </OrdersWrapper>
+    <GridContainer container direction='row' justifyContent='center' alignItems='center'>
+      <GridItem size={two}>
+        <DateOrCouponNumber>
+          <p className='date'>{date}</p>
+          <p className='number'>{couponNumber}</p>
+        </DateOrCouponNumber>
+      </GridItem>
+      <GridItem size={fivePointFive} text={title} />
+      <GridItem size={two} text={`${price}원`} />
+      <GridItem size={twoPointFive}>
+        <Button text='리뷰쓰기' width={match ? '80%' : '100%'} fontSize={match ? '0.75rem' : '0.9375rem'} />
+      </GridItem>
+    </GridContainer>
   );
 };
+
+const GridContainer = styled(Grid)`
+  height: 7.5rem;
+  border-bottom: 0.125rem solid ${lightGray};
+  color: ${gray};
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-align: center;
+  ${mobile} {
+    font-size: 0.8125rem;
+    height: 6.25rem;
+  }
+`;
+
+const DateOrCouponNumber = styled.div`
+  p {
+    padding: 0.4688rem 0;
+    text-align: center;
+    word-break: break-all;
+    ${mobile} {
+      font-size: 0.75rem;
+    }
+  }
+  .date {
+    font-weight: 800;
+  }
+  .number {
+    font-size: 1rem;
+  }
+`;
 
 const OrdersWrapper = styled.div`
   margin-top: 4.375rem;
