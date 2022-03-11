@@ -8,7 +8,7 @@ export const client = axios.create({
   },
 });
 
-class HTTPError extends Error {
+export class HTTPError extends Error {
   constructor(status) {
     super();
     this.status = status;
@@ -79,7 +79,7 @@ client.interceptors.response.use(
 
 export const fetchList = async query => {
   try {
-    // const { data } = await client.get(`${query}`);
+    // const { data } = await client.get(`/list?${query}`);
     const { data } = await client.get(`/data/food-gold.json`);
     return data;
   } catch (error) {
@@ -105,10 +105,9 @@ export const fetchUserInfoUpdate = async (id, payload) => {
     throw error.message;
   }
 };
-
-export const fetchCreateReview = async (url, payload) => {
+export const fetchCreateReview = async (pathVariable, payload) => {
   try {
-    const { data } = await client.post(url, payload);
+    const { data } = await client.post(`/reviwe/${pathVariable}`, payload);
     return data;
   } catch (error) {
     throw error.message;
@@ -119,29 +118,6 @@ export const getData = async url => {
   try {
     const res = await client.get(url);
     return res;
-  } catch (error) {
-    const message = error.response.message ?? error.message ?? error;
-    alert(message);
-  }
-};
-
-const BASE_URL = '/data/';
-
-export const getReviews = async (order = 'createdAt', offset = 0, limit = 5) => {
-  try {
-    const query = `order=${order}&offset=${offset}&limit=${limit}`;
-    const { data } = await axios.get(`${BASE_URL}/detail/review?${query}`);
-    return data;
-  } catch (error) {
-    const message = error.response.message ?? error.message ?? error;
-    alert(message);
-  }
-};
-
-export const getDetail = async () => {
-  try {
-    const { data } = await axios.get('/data/newDetailData.json');
-    return data;
   } catch (error) {
     const message = error.response.message ?? error.message ?? error;
     alert(message);
@@ -197,5 +173,69 @@ export const TokenCheck = async (apiCall, history) => {
     });
     alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
     history.push('/login');
+  }
+};
+
+const BASE_URL = '/data/';
+
+export const getReviews = async (order = 'createdAt', offset = 0, limit = 5) => {
+  try {
+    const query = `order=${order}&offset=${offset}&limit=${limit}`;
+    const { data } = await axios.get(`${BASE_URL}/detail/review?${query}`);
+    return data;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const getDetail = async () => {
+  try {
+    const { data } = await axios.get('/data/newDetailData.json');
+    return data;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const getApply = async () => {
+  try {
+    const { data } = await axios({
+      method: 'GET',
+      url: '/data/applyData.json',
+    });
+    return data;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const getApplyTitle = async () => {
+  try {
+    const { data } = await axios({
+      method: 'GET',
+      url: '/data/applyTitle.json',
+    });
+    return data;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const postApply = async props => {
+  const { userId, productId, userName, phoneNumber, visitTime, visitCount, mileage, agreeUserInfo } = props;
+  try {
+    const { data } = await axios({
+      method: 'POST',
+      url: '',
+      data: { userName, phoneNumber, visitTime, visitCount, mileage, agreeUserInfo },
+    });
+    return data;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
   }
 };

@@ -1,39 +1,40 @@
-import { Grid } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import React from 'react';
 import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
-import { brandColor, gray, mobile } from 'styles/theme';
-import MuiInput from 'Components/MuiInput';
+import { brandColor, gray } from 'styles/theme';
 
-const SignUpInput = props => {
-  console.log(props.NotMust);
+const ApplyInput = ({ NotMust, itemText, name, label, password, autoComplete, flag, helperText, handleValue }) => {
   return (
     <CustomGridContainer>
-      <MustItem item lg={3} md={3} sm={3} xs={3}>
-        <ColorMustIcon {...(props.NotMust && { NotMust: true })}>
+      <MustItem item lg={3}>
+        <ColorMustIcon {...(NotMust && { NotMust: true })}>
           <FontAwesomeIcon icon={faDotCircle} size='xs' />
         </ColorMustIcon>
-        <MustItemText>{props.itemText}</MustItemText>
+        <MustItemText>{itemText}</MustItemText>
       </MustItem>
-      <Grid item lg={9} md={9} sm={9} xs={9}>
-        <MuiInput
-          name={props.name}
-          label={props.label}
-          type={props.type}
-          autoComplete={props.autoComplete}
+      <Grid item lg={9}>
+        <TextField
+          name={name}
+          label={label}
+          variant='outlined'
+          fullWidth
+          type={password && 'password'}
+          autoComplete={autoComplete && 'current-password'}
           size='small'
-          value={props.value}
-          flag={props.flag}
-          helperText={props.helperText}
-          onChange={props.handleValue}
+          InputLabelProps={{
+            style: { color: '#B9B9B9' },
+          }}
+          {...(flag ? { helperText: `${helperText}`, error: true } : {})}
+          onChange={handleValue}
         />
       </Grid>
     </CustomGridContainer>
   );
 };
 
-export default SignUpInput;
+export default ApplyInput;
 
 const CustomGridContainer = styled(Grid).attrs(props => ({
   container: true,
@@ -56,9 +57,6 @@ const MustItem = styled(Grid)`
 const MustItemText = styled.div`
   font-size: 1rem;
   margin-left: 0.625rem;
-  ${mobile} {
-    font-size: 0.625rem;
-  }
 `;
 
 const ColorMustIcon = styled.span`

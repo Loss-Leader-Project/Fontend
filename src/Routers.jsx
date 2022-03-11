@@ -41,8 +41,8 @@ const Routers = () => {
         <Route exact path='/login/searchID' component={LoginSearchID} />
         <Route exact path='/login/searchPW' component={LoginSearchPW} />
         <Route exact path='/signup' component={SignUp} />
-        <Route exact path='/product' component={Detail} />
-        <Route exact path='/apply' component={Apply} />
+        <Route exact path='/product/:productId' component={Detail} />
+        <Route exact path='/apply/:productId' component={Apply} />
         <Route path={'/my'} component={My} />
         <Route exact path={'/list'} component={List} />
         <Route path='*' render={() => <Redirect to='/' />} />

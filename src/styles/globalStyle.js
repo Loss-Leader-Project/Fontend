@@ -57,11 +57,7 @@ table {
 	border-spacing: 0;
 }
 
-input {
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
-}
+
 input::-ms-clear { display: none; }
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {

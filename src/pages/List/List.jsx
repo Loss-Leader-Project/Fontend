@@ -5,7 +5,7 @@ import Fliters from 'pages/List/Fliters';
 import Card from 'pages/List/Card';
 import { fetchList } from 'utils/api';
 import { useLocation } from 'react-router';
-import Pages from 'pages/Detail/Pages';
+import Pages from 'Components/Pages';
 import qs from 'query-string';
 
 const List = () => {
