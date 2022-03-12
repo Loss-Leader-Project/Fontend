@@ -27,7 +27,6 @@ function Detail() {
         <ProductInfo {...{ newData, param }} />
       </TopWrapper>
       <BottomWrapper>
-        <input type='checkbox' />
         <MenuBar {...{ newData }} />
       </BottomWrapper>
     </Contain>

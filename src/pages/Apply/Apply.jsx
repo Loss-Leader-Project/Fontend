@@ -22,7 +22,6 @@ function Apply() {
   });
 
   const param = useParams();
-  console.log(param);
 
   useEffect(() => {
     getApplyTitle().then(data => {
