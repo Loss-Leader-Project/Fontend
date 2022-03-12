@@ -8,7 +8,7 @@ export const client = axios.create({
   },
 });
 
-class HTTPError extends Error {
+export class HTTPError extends Error {
   constructor(status) {
     super();
     this.status = status;
@@ -79,7 +79,7 @@ client.interceptors.response.use(
 
 export const fetchList = async query => {
   try {
-    // const { data } = await client.get(`${query}`);
+    // const { data } = await client.get(`/list?${query}`);
     const { data } = await client.get(`/data/food-gold.json`);
     return data;
   } catch (error) {
@@ -105,10 +105,9 @@ export const fetchUserInfoUpdate = async (id, payload) => {
     throw error.message;
   }
 };
-
-export const fetchCreateReview = async (url, payload) => {
+export const fetchCreateReview = async (pathVariable, payload) => {
   try {
-    const { data } = await client.post(url, payload);
+    const { data } = await client.post(`/reviwe/${pathVariable}`, payload);
     return data;
   } catch (error) {
     throw error.message;
@@ -122,6 +121,58 @@ export const getData = async url => {
   } catch (error) {
     const message = error.response.message ?? error.message ?? error;
     alert(message);
+  }
+};
+
+export const checkAccessToken = () => {
+  if (localStorage.getItem('access-token')) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// apiCall에는 요청하는 axios 함수 = 함수내에 헤더의 토큰값은 이 함수에서 넣어줌
+// history는 useHistory를 가르키는 주소가 할당된 변수
+export const TokenCheck = async (apiCall, history) => {
+  const accessToken = localStorage.getItem('access-token');
+  if (accessToken) {
+    // token 체크 api
+    const check = await client({
+      method: 'GET',
+      url: '/user/login-info',
+      headers: {
+        Authroization: accessToken,
+      },
+    });
+    // check 값이 올바르고 인자로 api 함수 안 넣었을때
+    if (check.data === true && apiCall === undefined) {
+      // 응답으로 넘어온 유저정보 넘겨줌
+      return check;
+    }
+    // check 값 올바르고 인자로 실행시킬 apiCall 함수가 있을때
+    else if (check.data === true && apiCall !== undefined) {
+      // 넣어준 api 함수 실행
+      const res = await apiCall(accessToken);
+      return res;
+    }
+    // check 값이 오류이면
+    else {
+      localStorage.removeItem('access-token');
+      await client({
+        method: 'GET',
+        url: '/loss-leader/logout',
+      });
+      alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
+      history.push('/login');
+    }
+  } else {
+    await client({
+      method: 'GET',
+      url: '/loss-leader/logout',
+    });
+    alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
+    history.push('/login');
   }
 };
 
@@ -186,54 +237,5 @@ export const postApply = async props => {
   } catch (error) {
     const message = error.response.message ?? error.message ?? error;
     alert(message);
-export const checkAccessToken = () => {
-  if (localStorage.getItem('access-token')) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-// apiCall에는 요청하는 axios 함수 = 함수내에 헤더의 토큰값은 이 함수에서 넣어줌
-// history는 useHistory를 가르키는 주소가 할당된 변수
-export const TokenCheck = async (apiCall, history) => {
-  const accessToken = localStorage.getItem('access-token');
-  if (accessToken) {
-    // token 체크 api
-    const check = await client({
-      method: 'GET',
-      url: '/user/login-info',
-      headers: {
-        Authroization: accessToken,
-      },
-    });
-    // check 값이 올바르고 인자로 api 함수 안 넣었을때
-    if (check.data === true && apiCall === undefined) {
-      // 응답으로 넘어온 유저정보 넘겨줌
-      return check;
-    }
-    // check 값 올바르고 인자로 실행시킬 apiCall 함수가 있을때
-    else if (check.data === true && apiCall !== undefined) {
-      // 넣어준 api 함수 실행
-      const res = await apiCall(accessToken);
-      return res;
-    }
-    // check 값이 오류이면
-    else {
-      localStorage.removeItem('access-token');
-      await client({
-        method: 'GET',
-        url: '/loss-leader/logout',
-      });
-      alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
-      history.push('/login');
-    }
-  } else {
-    await client({
-      method: 'GET',
-      url: '/loss-leader/logout',
-    });
-    alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
-    history.push('/login');
   }
 };

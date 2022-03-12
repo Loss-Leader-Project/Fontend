@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Rating } from '@mui/material';
 import { css } from 'styled-components';
-import Tag from './Tag';
+import Tag from '../../Components/Tag';
 import { tab, mobile, brandColor, lightDark } from 'styles/theme';
 
 function ProductInfo({ newData, param }) {
