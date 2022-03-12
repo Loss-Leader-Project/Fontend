@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { tab, mobile } from 'styles/theme';
+import MuiCheckbox from './MuiCheckbox';
 
 function AgreeUsePersonalInfo({ handleValue }) {
   return (
-    <div>
-      <input type='checkbox' name='agreeUserInfo' onChange={handleValue} />
-      <span>(필수)</span>
+    <Contain>
+      <MuiCheckbox name='agreeUserInfo' handleValue={handleValue} label={'(필수)'} />
       <p>상품 공급사 개인정보 제공 동의에 대한 내용을 확인하였으며 이에 동의합니다.</p>
-    </div>
+    </Contain>
   );
 }
 
 export default AgreeUsePersonalInfo;
+
+const Contain = styled.div`
+  margin-left: 2rem;
+  margin-bottom: 2rem;
+`;

@@ -34,7 +34,7 @@ const Banner = styled.img`
   border: 1px solid rgb(68 68 68 /0.3);
   box-shadow: 1rem 1rem 1rem rgb(68 68 68 /0.3);
   ${tab} {
-    width: 80%;
+    width: 70%;
     object-position: center;
   }
   ${mobile} {

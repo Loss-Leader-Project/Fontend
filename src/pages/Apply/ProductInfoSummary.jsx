@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { tab, mobile, lightDark, brandColor } from 'styles/theme';
+import { mobile, lightDark, brandColor } from 'styles/theme';
 
 function ProductInfoSummary({ applyGetData }) {
   const { briefAddress, cuponBenefit, cuponCondition, cuponPrice, storeName } = applyGetData;
@@ -24,9 +24,6 @@ const Title = styled.h3`
   margin-bottom: 1rem;
   color: ${lightDark};
   line-height: 2rem;
-  ${mobile} {
-    font-size: 1rem;
-  }
 `;
 
 const CuponName = styled.h1`
@@ -34,9 +31,6 @@ const CuponName = styled.h1`
   font-weight: 900;
   margin-bottom: 1rem;
   color: ${({ theme, color }) => theme.colors[color]};
-  ${mobile} {
-    font-size: 1.3rem;
-  }
 `;
 
 const CuponPrice = styled.h5`
@@ -44,7 +38,4 @@ const CuponPrice = styled.h5`
   font-weight: 700;
   color: ${brandColor};
   margin: 1rem 0;
-  ${mobile} {
-    font-size: 1rem;
-  }
 `;
