@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { tab, mobile, lightDark } from 'styles/theme';
+import { tab, mobile, lightDark, brandColor } from 'styles/theme';
 import TopImg from './TopImg';
 import ProductInfoSummary from './ProductInfoSummary';
 import OrdererInfo from './OrdererInfo';
@@ -8,10 +8,11 @@ import PaymentInfo from './PaymentInfo';
 import AgreeUsePersonalInfo from './AgreeUsePersonalInfo';
 import { getApply, postApply, getApplyTitle } from 'utils/api';
 import { useParams } from 'react-router';
+import MuiButton from 'Components/MuiButton';
 
 function Apply() {
   const [applyGetData, setApplyGetData] = useState([]);
-  const [applyTitleData, setApplyTitleData] = useState([]);
+  const [applyData, setApplyData] = useState([]);
   const [applyPostData, setApplyPostData] = useState({
     userName: '',
     phoneNumber: '',
@@ -25,7 +26,7 @@ function Apply() {
 
   useEffect(() => {
     getApplyTitle().then(data => {
-      setApplyTitleData(data.titleData);
+      setApplyData(data);
     });
   }, []);
 
@@ -44,7 +45,6 @@ function Apply() {
     } else if (name === 'mileageChecked') {
       if (checked) {
         resultValue = userMileage >= cuponPrice ? cuponPrice : userMileage;
-        console.log(resultValue);
       } else {
         resultValue = 0;
       }
@@ -68,6 +68,11 @@ function Apply() {
   }; // 백엔드 맞출때 구성
 
   const finalPayment = (applyGetData?.cuponPrice || 0) - applyPostData?.mileage;
+
+  const { titleData, orderInfoData } = applyData;
+
+  console.log(applyPostData);
+
   return (
     <Contain>
       <TopImgWrapper>
@@ -75,20 +80,24 @@ function Apply() {
         <ProductInfoSummary {...{ applyGetData }} />
       </TopImgWrapper>
       <InputWrapper>
-        {applyTitleData?.map(({ id, title }) => {
+        {titleData?.map(({ id, title }) => {
           return (
             <Wrapper key={id}>
               <TitleWrapper>
                 <Title>{title}</Title>
               </TitleWrapper>
-              {title === '주문자 정보' && <OrdererInfo {...{ handleValue }} />}
+              {title === '주문자 정보' && <OrdererInfo {...{ orderInfoData, handleValue }} />}
               {title === '결제 정보' && <PaymentInfo {...{ applyGetData, handleValue, applyPostData }} />}
-              {title === '최종 결제금액' && <div>{finalPayment}</div>}
+              {title === '최종 결제금액' && <FinalPaymentAmount>{finalPayment} 원</FinalPaymentAmount>}
               {title === '개인정보 활용 동의' && <AgreeUsePersonalInfo {...{ handleValue }} />}
             </Wrapper>
           );
         })}
-        <button onClick={postRq}>asdasds</button>
+        <MuiButton
+          content={'신청하기'}
+          onClick={postRq}
+          sx={{ margin: '1.25rem 0', height: '3.125rem', fontSize: '1.5rem' }}
+        />
       </InputWrapper>
     </Contain>
   );
@@ -114,6 +123,7 @@ const TopImgWrapper = styled.div`
   flex-direction: row;
   ${tab} {
     flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -121,7 +131,6 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-
   width: 80%;
 `;
 const Wrapper = styled.div`
@@ -140,4 +149,11 @@ const Title = styled.div`
   font-weight: 600;
   padding: 0.625rem 0;
   margin-top: 1.25rem;
+`;
+
+const FinalPaymentAmount = styled.div`
+  font-size: 1.7rem;
+  margin-left: 2rem;
+  font-weight: 500;
+  color: ${brandColor};
 `;

@@ -1,37 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import MuiInput from 'Components/MuiInput';
 import styled from 'styled-components';
-import { tab, mobile } from 'styles/theme';
-import ApplyInput from './ApplyInput';
+import { mobile, tab, pc } from 'styles/theme';
+import ColumnTitle from './ColumnTitle';
 
-function OrdererInfo({ handleValue }) {
+function OrdererInfo({ handleValue, orderInfoData }) {
   return (
     <div>
-      <div>
-        <div>
-          <span>구매자 : </span>
-          <input type='text' name='userName' onChange={handleValue} />
-        </div>
-      </div>
-      <div>
-        <div>
-          <span>전화번호 : </span>
-          <input type='text' name='phoneNumber' onChange={handleValue} />
-        </div>
-      </div>
-      <div>
-        <div>
-          <span>방문시간 : </span>
-          <input type='text' name='visitTime' onChange={handleValue} />
-        </div>
-      </div>
-      <div>
-        <div>
-          <span>방문인원 : </span>
-          <input type='text' name='visitCount' onChange={handleValue} />
-        </div>
-      </div>
+      {orderInfoData.map(({ id, title, name, label }) => {
+        return (
+          <Wrapper key={id}>
+            <ColumnTitle {...{ title }} />
+            <InputWrapper>
+              <MuiInput
+                name={name}
+                label={label}
+                onChange={handleValue}
+                type='text'
+                helperText={`${label}을 입력해주세요`}
+                size='small'
+              />
+            </InputWrapper>
+          </Wrapper>
+        );
+      })}
     </div>
   );
 }
 
 export default OrdererInfo;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  ${tab} {
+    justify-content: space-between;
+  }
+  margin-bottom: 1rem;
+`;
+
+const InputWrapper = styled.div`
+  width: 40%;
+  ${pc} {
+    width: 50%;
+  }
+  ${tab} {
+    width: 70%;
+  }
+  ${mobile} {
+    width: 80%;
+  }
+`;

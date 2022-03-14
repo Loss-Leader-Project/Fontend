@@ -16,5 +16,31 @@
       "id": 4,
       "title": "개인정보 활용 동의"
     }
+  ],
+  "orderInfoData": [
+    {
+      "id": 1,
+      "title": "구매자",
+      "name": "userName",
+      "label": "이름"
+    },
+    {
+      "id": 2,
+      "title": "전화번호",
+      "name": "phoneNumber",
+      "label": "전화번호"
+    },
+    {
+      "id": 3,
+      "title": "방문시간",
+      "name": "visitTime",
+      "label": "방문시간"
+    },
+    {
+      "id": 4,
+      "title": "방문인원",
+      "name": "visitCount",
+      "label": "방문인원"
+    }
   ]
 }
