@@ -1,0 +1,33 @@
+{
+  "footerMenu": [
+    { "id": 1, "name": "프로젝트소개" },
+    { "id": 2, "name": "팀원소개" }
+  ],
+  "footerSubMenu": [
+    {
+      "id": 2,
+      "title": "LOSS-LEADER",
+      "contentList": [
+        { "id": 1, "content": "로스리더 | 사업자등록번호 : 123-23-45678" },
+        { "id": 2, "content": "통신판매업신고번호 : 2022-로스리더-20220204" },
+        { "id": 3, "content": "대표: *** | 개인정보 관리 책임자: ***" },
+        {
+          "id": 4,
+          "content": "로스리더는 통신판매중개자가 아니고 거래 및 개인정보 관리 책임에 아무런 관련 없습니다. 단지 프로젝트를 위한 페이지입니다."
+        }
+      ]
+    }
+  ],
+  "footerIconLink": [
+    {
+      "id": 1,
+      "name": "Frontend",
+      "link": "https://github.com/Loss-Leader-Project/Fontend"
+    },
+    {
+      "id": 2,
+      "name": "Backend",
+      "link": "https://github.com/Loss-Leader-Project/Backend"
+    }
+  ]
+}

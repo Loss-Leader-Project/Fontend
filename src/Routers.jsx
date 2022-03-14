@@ -15,6 +15,7 @@ import BasicModal from 'Components/BasicModal';
 import { useEffect, useState } from 'react';
 import MainInfoProject from 'pages/Main/MainInfoProject';
 import HamburgerMenu from 'Components/HamburgerMenu';
+import Footer from 'Components/Footer';
 
 const Routers = () => {
   const [open, setOpen] = useState(false);
@@ -47,6 +48,7 @@ const Routers = () => {
         <Route exact path={'/list'} component={List} />
         <Route path='*' render={() => <Redirect to='/' />} />
       </Switch>
+      <Footer />
       <BasicModal open={open} handleClose={handleClose} title={'⚠️ 주의 ⚠️'} content={<MainInfoProject />} />
     </BrowserRouter>
   );
