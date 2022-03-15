@@ -6,29 +6,27 @@ import { css } from 'styled-components';
 import Tag from '../../Components/Tag';
 import { tab, mobile, brandColor, lightDark } from 'styles/theme';
 
-function ProductInfo({ newData, param }) {
+function ProductInfo({ storeTopData, param }) {
   const history = useHistory();
-  const { briefAddress, storeName, ratingTotal, cuponCondition, cuponBenefit, cuponPrice, leftCoupon, hashTag } =
-    newData;
 
-  const isApply = leftCoupon === 0;
-  const applyButtonURL = `/images/DetailPageApply${leftCoupon === 0 ? 'Block' : ''}.png`;
+  const isApply = storeTopData?.leftCoupon === 0;
+  const applyButtonURL = `/images/DetailPageApply${storeTopData?.leftCoupon === 0 ? 'Block' : ''}.png`;
 
   const applyPageMove = () => {
-    isApply ? alert('상품 준비중 입니다.') : history.push(`/apply/${param}`); //productId 적기
+    isApply ? alert('상품 준비중 입니다.') : history.push(`/apply/${param.productId}`); //productId 적기
   };
 
   return (
     <Contain>
       <Wrapper>
         <TopInfo>
-          <LocationCuponName marginValue='1rem 0 2rem 1rem'>{briefAddress}</LocationCuponName>
-          <TitlePrice color='lightDark'>{storeName}</TitlePrice>
-          <Tag hashTag={hashTag} className='tag' />
+          <LocationCuponName marginValue='1rem 0 2rem 1rem'>{storeTopData?.briefAddress}</LocationCuponName>
+          <TitlePrice color='lightDark'>{storeTopData?.storeName}</TitlePrice>
+          <Tag hashTag={storeTopData?.storeHashTagResponseList} className='tag' />
           <Rating
             name='rating'
             defaultValue={0}
-            value={ratingTotal || null}
+            value={storeTopData?.avgStar || null}
             precision={0.5}
             size='large'
             className='rating'
@@ -37,11 +35,11 @@ function ProductInfo({ newData, param }) {
         </TopInfo>
         <TabSizeChange>
           <BottomInfo>
-            <LocationCuponName marginValue='0 0 2rem 0'>{`${cuponCondition} ${cuponBenefit}`}</LocationCuponName>
-            <TitlePrice color='brandColor'>{`${cuponPrice} 원`}</TitlePrice>
+            <LocationCuponName marginValue='0 0 2rem 0'>{`${storeTopData?.couponContent} ${storeTopData?.benefitCondition}`}</LocationCuponName>
+            <TitlePrice color='brandColor'>{`${storeTopData?.priceOfCoupon} 원`}</TitlePrice>
           </BottomInfo>
           <div>
-            <ResidualCoupons>{`${leftCoupon}팀 남음`}</ResidualCoupons>
+            <ResidualCoupons>{`${storeTopData?.leftCoupon}팀 남음`}</ResidualCoupons>
             <ApplyButton onClick={applyPageMove} applyButtonURL={applyButtonURL} isApply={isApply} />
           </div>
         </TabSizeChange>

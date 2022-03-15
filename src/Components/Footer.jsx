@@ -102,8 +102,6 @@ const ProjectTitle = styled.p`
 const CompanyContents = styled.p`
   line-height: 1.5rem;
   color: ${lightDark};
-  ${tab} {
-  }
 `;
 
 const IconWrapper = styled.div`
@@ -119,6 +117,9 @@ const Icons = styled.div`
     font-size: 2rem;
     margin-bottom: 0.5rem;
     color: ${lightDark};
+    &:hover {
+      color: ${brandColor};
+    }
   }
   &:hover {
     color: ${brandColor};

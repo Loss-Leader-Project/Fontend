@@ -7,7 +7,7 @@ import OrdererInfo from './OrdererInfo';
 import PaymentInfo from './PaymentInfo';
 import AgreeUsePersonalInfo from './AgreeUsePersonalInfo';
 import { getApply, postApply, getApplyTitle } from 'utils/api';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import MuiButton from 'Components/MuiButton';
 
 function Apply() {
@@ -22,6 +22,7 @@ function Apply() {
     agreeUserInfo: false,
   });
 
+  const history = useHistory();
   const param = useParams();
 
   useEffect(() => {
@@ -65,6 +66,8 @@ function Apply() {
       alert('필수동의사항을 체크해주세요');
       return;
     }
+    console.log(param);
+    history.push(`/completion/${param.productId}`);
   }; // 백엔드 맞출때 구성
 
   const finalPayment = (applyGetData?.cuponPrice || 0) - applyPostData?.mileage;
