@@ -1,15 +1,19 @@
 import { Grid } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { gray, mobile } from 'styles/theme';
-import { OrdersContext } from 'contexts/OrdersProvider';
-import Title from 'Components/common/Title';
+import Title from 'Components/Title';
+import GridItem from './GridItem';
+
 const OrdersHead = () => {
-  const { GridItem, two, fivePointFive, twoPointFive } = useContext(OrdersContext);
+  const two = 2;
+  const fivePointFive = 5.5;
+  const twoPointFive = 2.5;
+
   return (
     <>
       <RecentOrderWrapper>
-        <Title text='최근 주문 정보' m='0' />
+        <Title text='최근 주문 정보' margin='0' />
         <RecentOrderText>최근 30일 내에 주문하신 내역입니다.</RecentOrderText>
       </RecentOrderWrapper>
       <OrdersHeadWrapper container direction='row' justifyContent='center' alignItems='center'>

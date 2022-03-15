@@ -1,12 +1,13 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import { client } from 'utils/api';
+
 const Editor = ({ editorValue, setEditorValue, imgOnChange }) => {
   const quillRef = useRef(null);
 
-  const imageHandler = () => {
+  const imageHandler = useCallback(() => {
     console.log('에디터에서 이미지 버튼을 클릭하면 이 핸들러가 시작됩니다!');
     const input = document.createElement('input');
 
@@ -14,7 +15,7 @@ const Editor = ({ editorValue, setEditorValue, imgOnChange }) => {
     input.setAttribute('accept', 'image/*');
     input.click();
 
-    const inputChange = async () => {
+    input.addEventListener('change', async () => {
       console.log('온체인지');
       const file = input.files[0];
       const formData = new FormData();
@@ -24,27 +25,25 @@ const Editor = ({ editorValue, setEditorValue, imgOnChange }) => {
       // put 이미지 업데이트 url: localhost:8000/review/image-update
 
       try {
-        // const _result = await client.post('/review/image-upload', formData);
-        // 더미데이터
-        const result = {
-          data: {
-            url: 'https://megacoffee-project.s3.ap-northeast-2.amazonaws.com/menus/ecffab8c-29da-40c2-8c10-6f0d4f8d3663.jpg',
-          },
-        };
+        const result = await client.post('/review/image-upload', formData);
+        // 테스트 이미지
+        // const result = {
+        //   data: {
+        //     url: 'https://megacoffee-project.s3.ap-northeast-2.amazonaws.com/menus/ecffab8c-29da-40c2-8c10-6f0d4f8d3663.jpg',
+        //   },
+        // };
         console.log('성공 시, 백엔드가 보내주는 데이터', result.data.url);
         const IMG_URL = result.data.url;
-        // imgOnChange(IMG_URL);
-        imgOnChange('ecffab8c-29da-40c2-8c10-6f0d4f8d3663.jpg');
+        // imgOnChange('ecffab8c-29da-40c2-8c10-6f0d4f8d3663.jpg');
+        imgOnChange(IMG_URL);
         const editor = quillRef.current.getEditor();
         const range = editor.getSelection();
         editor.insertEmbed(range.index, 'image', IMG_URL);
       } catch (error) {
         alert('업로드에 실패했습니다.');
       }
-    };
-
-    input.addEventListener('change', inputChange);
-  };
+    });
+  }, [imgOnChange]);
 
   const modules = useMemo(
     () => ({
@@ -60,7 +59,7 @@ const Editor = ({ editorValue, setEditorValue, imgOnChange }) => {
         },
       },
     }),
-    []
+    [imageHandler]
   );
 
   return (

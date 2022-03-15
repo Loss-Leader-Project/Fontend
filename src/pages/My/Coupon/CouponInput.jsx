@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import Button from 'Components/common/Button';
+import Button from 'Components/Button';
 import React from 'react';
 import styled from 'styled-components';
 import { gray, lightGray, mobile, tab } from 'styles/theme';

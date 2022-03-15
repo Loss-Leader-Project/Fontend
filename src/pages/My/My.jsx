@@ -7,7 +7,7 @@ import MyMenu from './MyMenu';
 import ReviewPage from 'pages/My/Review/ReviewPage';
 import ModifyPage from 'pages/My/Modify/ModifyPage';
 import { tab } from 'styles/theme';
-import ReviewInsertPage from './ReviewInsert/ReviewInsertPage';
+import ReviewInsertPage from './Review/Insert/InsertPage';
 import { Redirect } from 'react-router-dom';
 
 const My = () => {
