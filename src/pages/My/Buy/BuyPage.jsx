@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { client } from 'utils/api';
+import { ApiRq } from 'utils/apiConfig';
+import { myApiURL } from 'utils/apiUrl';
 import Orders from './Orders';
 import UserInfo from './UserInfo';
 
@@ -8,15 +9,9 @@ const BuyPage = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const { data } = await client.get(`/data/orders.json`);
-        setOrders(data.data);
-      } catch (error) {
-        alert(error.message);
-      }
-    };
-    fetchOrders();
+    ApiRq('get', myApiURL.GET_ORDERS)
+      .then(({ data }) => setOrders(data))
+      .catch(alert);
   }, []);
 
   return (

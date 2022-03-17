@@ -5,9 +5,9 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 import styled from 'styled-components';
 import { mobile } from 'styles/theme';
 import Button from 'Components/Button';
-import { fetchUserInfo, fetchUserInfoUpdate } from 'utils/api';
-import { HTTPError } from 'utils/httpErrorMessage';
 import Validation from 'utils/validation';
+import { ApiRq } from 'utils/apiConfig';
+import { myApiURL } from 'utils/apiUrl';
 
 const ModifyContext = createContext(null);
 
@@ -113,14 +113,14 @@ const ModifyPage = () => {
           loginId,
         };
 
-        // 회원가입이 완료되면 유저 id값 넣어주면된다.
-        const { status, message } = await fetchUserInfoUpdate(1, payload);
-        if (status !== 200) throw new Error(message);
+        const userId = 1;
+        // 회원수정이 완료되면 유저 id값 넣어주면된다.
+        await ApiRq('post', myApiURL.GET_USER_INFO_UPDATE(userId), '', payload);
       } catch (error) {
-        if (error.message) {
-          alert(HTTPError.errorHandler(error));
-        } else {
+        if (typeof error === 'object') {
           setErrors(error);
+        } else {
+          alert(error);
         }
       }
     },
@@ -130,7 +130,7 @@ const ModifyPage = () => {
   const handleReset = () => setForm(formInit);
 
   useEffect(() => {
-    fetchUserInfo()
+    ApiRq('get', myApiURL.MOK_GET_USER_INFO)
       .then(userInfo => {
         setForm(userInfo);
         setFormInit(userInfo);

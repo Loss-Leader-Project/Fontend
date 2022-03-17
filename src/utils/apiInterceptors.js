@@ -3,7 +3,7 @@
 
 import axios from 'axios';
 import { API_ENDPOINT } from 'utils/apiBaseUrl';
-import { HTTPError } from './api';
+import { HTTPError } from 'utils/httpErrorMessage';
 
 const axiosInstance = axios.create({
   baseURL: API_ENDPOINT, //baseURL 미리세팅

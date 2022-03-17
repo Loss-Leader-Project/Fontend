@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
-import { client } from 'utils/api';
+import { ApiRq } from 'utils/apiConfig';
 
 const Editor = ({ editorValue, setEditorValue, imgOnChange }) => {
   const quillRef = useRef(null);
@@ -25,7 +25,7 @@ const Editor = ({ editorValue, setEditorValue, imgOnChange }) => {
       // put 이미지 업데이트 url: localhost:8000/review/image-update
 
       try {
-        const result = await client.post('/review/image-upload', formData);
+        const result = await ApiRq('post', '/review/image-upload', '', formData);
         // 테스트 이미지
         // const result = {
         //   data: {

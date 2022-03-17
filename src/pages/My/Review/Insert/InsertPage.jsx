@@ -7,8 +7,9 @@ import Editor from 'Components/Editor';
 import Button from 'Components/Button';
 import validation from 'utils/validation';
 import { flexStyleGroup } from 'styles/theme';
-import { fetchCreateReview } from 'utils/api';
 import Title from 'Components/Title';
+import { ApiRq } from 'utils/apiConfig';
+import { myApiURL } from 'utils/apiUrl';
 
 const TITLE_INIT_VALUE = '';
 const RATING_INIT_VALUE = 3;
@@ -59,8 +60,8 @@ const InsertPage = () => {
       const id = 1;
       const orderNumber = 2012211234;
       const storeId = 1;
-      const pathValiable = `/${id}/${orderNumber}/${storeId}`;
-      await fetchCreateReview(pathValiable, payload);
+      const pathVariable = `/${id}/${orderNumber}/${storeId}`;
+      await ApiRq('post', myApiURL.POST_CREATE_REVIEW(pathVariable), '', payload).catch(alert);
     } catch (errors) {
       setErrors(errors);
     }

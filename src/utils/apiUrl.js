@@ -16,4 +16,17 @@ export const loginApiURL = {};
 
 export const signupApiURL = {};
 
-export const listApiURL = {};
+export const listApiURL = {
+  MOK_GET_LIST: '/data/food-gold.json',
+  GET_LIST: query => `/list?${query}`,
+};
+
+export const myApiURL = {
+  MOK_GET_USER_INFO: '/data/user.json',
+  GET_USER_INFO: id => `/userinfo/${id}`,
+  GET_USER_INFO_UPDATE: id => `/userinfo/${id}`,
+  POST_CREATE_REVIEW: pathVariable => `/reviwe/${pathVariable}`,
+  GET_ORDERS: '/data/orders.json',
+  GET_COUPONS: '/data/coupons.json',
+  GET_REVIEWS: '/data/reviews.json',
+};

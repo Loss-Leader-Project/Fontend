@@ -8,6 +8,8 @@ import Pages from 'Components/Pages';
 import qs from 'query-string';
 import { css } from 'styled-components';
 import { brandColor, gray, lightDark, lightGray, mobile, tab } from 'styles/theme';
+import { ApiRq } from 'utils/apiConfig';
+import { listApiURL } from 'utils/apiUrl';
 
 const List = () => {
   const [items, setItems] = useState([]);
@@ -42,12 +44,12 @@ const List = () => {
   }, [oldQeury]);
 
   useEffect(() => {
-    fetchList(makeQuery(currentPage))
+    ApiRq('get', listApiURL.MOK_GET_LIST)
       .then(({ content, totalPages }) => {
         setItems(content);
         setTotalPage(totalPages);
       })
-      .catch(message => alert(message));
+      .catch(alert);
   }, [makeQuery, currentPage]);
 
   return (

@@ -1,21 +1,16 @@
 import Title from 'Components/Title';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { client } from 'utils/api';
+import { ApiRq } from 'utils/apiConfig';
+import { myApiURL } from 'utils/apiUrl';
 import Review from './Review';
 const ReviewPage = () => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const { data } = await client.get('/data/reviews.json');
-        setReviews(data.data);
-      } catch (error) {
-        alert(error.message);
-      }
-    };
-    fetchReviews();
+    ApiRq('get', myApiURL.GET_REVIEWS)
+      .then(({ data }) => setReviews(data))
+      .catch(alert);
   }, []);
 
   return (
