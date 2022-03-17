@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BottomReview from './BottomReview';
 import TopReview from './TopReview';
-import { getReviews } from 'utils/api';
+import { getReviews, getMokReviews } from 'utils/api';
 
-function ProductReview({ newData }) {
-  const { ratingTotal, reviewCount, reviews } = newData;
-  const [totalPage, setTotalPage] = useState(21); //백엔드에서줌
+function ProductReview() {
   const [currentPage, setCurrentPage] = useState(1); //백엔드에 줘야됨
   const [reviewsData, setReviewsData] = useState([]); //데이터 넣는
 
   const changeCurrentPage = c => {
     setCurrentPage(c);
   };
-
+  useEffect(() => {
+    getMokReviews().then(data => {
+      setReviewsData(data);
+    });
+  }, []);
   // api 연결할때 필요한 reviews api입니다.
   // useEffect(() => {
   //   getReviews().then(({ data }) => {
@@ -29,9 +31,14 @@ function ProductReview({ newData }) {
 
   return (
     <Contain>
-      <TopReview {...{ ratingTotal, reviewCount, totalPage, currentPage, changeCurrentPage }} />
+      <TopReview
+        totalPage={reviewsData?.totalPage}
+        ratingTotal={reviewsData?.avgRating}
+        reviewCount={reviewsData?.reviewCount}
+        {...{ currentPage, changeCurrentPage }}
+      />
       <div>
-        {reviews.map(review => {
+        {reviewsData?.reviews?.map(review => {
           return <BottomReview key={review.id} {...{ review }} />;
         })}
       </div>

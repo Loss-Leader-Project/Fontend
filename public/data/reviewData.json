@@ -1,0 +1,79 @@
+{
+  "reviewCount": 150,
+  "totalPage": 15,
+  "avgRating": 2.5,
+  "reviews": [
+    {
+      "id": 1,
+      "star": 5.0,
+      "userId": "test1",
+      "reviewContent": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "reviewCreateDate": "2012-02-02",
+      "reviewUpdateDate": "2012-02-02",
+      "reviewImage": [
+        {
+          "id": 1,
+          "image": "https://ifh.cc/g/HH0EzH.jpg"
+        },
+        {
+          "id": 2,
+          "image": "https://ifh.cc/g/HH0EzH.jpg"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "star": 2.0,
+      "userId": "test2",
+      "reviewContent": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "reviewCreateDate": "2012-02-02",
+      "reviewUpdateDate": "2012-02-02",
+      "reviewImage": [
+        {
+          "id": 1,
+          "image": "https://ifh.cc/g/HH0EzH.jpg"
+        },
+        {
+          "id": 2,
+          "image": "https://ifh.cc/g/HH0EzH.jpg"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "star": 5.0,
+      "userId": "test3",
+      "reviewContent": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "reviewCreateDate": "2012-02-02",
+      "reviewUpdateDate": "2012-02-02",
+      "reviewImage": [
+        {
+          "id": 1,
+          "image": "https://ifh.cc/g/HH0EzH.jpg"
+        },
+        {
+          "id": 2,
+          "image": "https://ifh.cc/g/HH0EzH.jpg"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "star": 2.5,
+      "userId": "test4",
+      "reviewContent": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "reviewCreateDate": "2012-02-02",
+      "reviewUpdateDate": "2012-02-02",
+      "reviewImage": [
+        {
+          "id": 1,
+          "image": "https://ifh.cc/g/HH0EzH.jpg"
+        },
+        {
+          "id": 2,
+          "image": "https://ifh.cc/g/HH0EzH.jpg"
+        }
+      ]
+    }
+  ]
+}

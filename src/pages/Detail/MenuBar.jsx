@@ -8,7 +8,7 @@ import ProductReview from './ProductReview';
 import styled from 'styled-components';
 import { tab, mobile, brandColor } from 'styles/theme';
 
-function MenuBar({ newData }) {
+function MenuBar({ storeDetailResponse }) {
   const [value, setValue] = useState('1');
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -30,10 +30,10 @@ function MenuBar({ newData }) {
           </Tabs>
         </TabWrapper>
         <TabPanel value='1'>
-          <Description {...{ newData }} />
+          <Description {...{ storeDetailResponse }} />
         </TabPanel>
         <TabPanel value='2'>
-          <ProductReview {...{ newData }} />
+          <ProductReview />
         </TabPanel>
       </TabContext>
     </Contain>
@@ -44,6 +44,7 @@ export default MenuBar;
 
 const Contain = styled.div`
   width: 100%;
+
   & .css-13xfq8m-MuiTabPanel-root {
     ${mobile} {
       padding: 0;

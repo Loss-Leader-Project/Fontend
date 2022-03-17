@@ -4,30 +4,32 @@ import ProductInfo from './ProductInfo';
 import styled from 'styled-components';
 import MenuBar from './MenuBar';
 import { tab, mobile } from 'styles/theme';
-import { getDetail } from 'utils/api';
+import { getProductDetail } from 'utils/api';
 import { useParams } from 'react-router';
 
 function Detail() {
   const [mainImage, setMainImage] = useState('');
-  const [newData, setNewData] = useState({});
-
+  const [productData, setProductData] = useState({});
   const param = useParams();
 
   useEffect(() => {
-    getDetail().then(data => {
-      setNewData(data);
-      setMainImage(data.storeFoodImage[0].image);
+    getProductDetail().then(data => {
+      setProductData(data);
+      setMainImage(data.storeTopData?.storeFoodImageResponseList[0].image);
     });
   }, []);
 
   return (
     <Contain>
       <TopWrapper>
-        <ProductPhoto {...{ newData, mainImage, setMainImage }} />
-        <ProductInfo {...{ newData, param }} />
+        <ProductPhoto
+          storeFoodImageResponseList={productData?.storeTopData?.storeFoodImageResponseList}
+          {...{ mainImage, setMainImage }}
+        />
+        <ProductInfo storeTopData={productData?.storeTopData} {...{ param }} />
       </TopWrapper>
       <BottomWrapper>
-        <MenuBar {...{ newData }} />
+        <MenuBar storeDetailResponse={productData?.storeDetailResponse} />
       </BottomWrapper>
     </Contain>
   );

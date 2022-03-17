@@ -4,7 +4,7 @@ import { faUtensils, faGift, faMotorcycle } from '@fortawesome/free-solid-svg-ic
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { tab, mobile } from 'styles/theme';
 
-function AvailabilityMeals({ serviceMethod }) {
+function AvailabilityMeals({ content }) {
   const availabilityData = [
     {
       ida: 1,
@@ -26,9 +26,9 @@ function AvailabilityMeals({ serviceMethod }) {
     <Contain>
       {availabilityData.map(({ ida, name, icone }) => {
         return (
-          <Wrapper key={ida} availability={serviceMethod?.includes(name)}>
+          <Wrapper key={ida} availability={content?.includes(name)}>
             <FontAwesomeIcon icon={icone} className='availabilityIcon' />
-            <Content availability={serviceMethod?.includes(name)}>{name}</Content>
+            <Content availability={content?.includes(name)}>{name}</Content>
           </Wrapper>
         );
       })}

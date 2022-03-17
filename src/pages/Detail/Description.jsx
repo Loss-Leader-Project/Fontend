@@ -4,29 +4,26 @@ import { faPhoneVolume, faCalendar, faClock, faMap, faStore, faBookmark } from '
 import DescriptionColumn from './DescriptionColumn';
 import { tab, mobile } from 'styles/theme';
 
-function Description({ newData }) {
-  const {
-    storePhoneNumber,
-    operatingTime,
-    operatingPeriod,
-    roadAddress,
-    serviceMethod,
-    storeMenu,
-    storeMenuImage,
-    latitude,
-    longitude,
-  } = newData;
-
+function Description({ storeDetailResponse }) {
   return (
     <Contain>
-      <DescriptionColumn icon={faPhoneVolume} content={storePhoneNumber} />
-      <DescriptionColumn icon={faClock} content={operatingTime} />
-      <DescriptionColumn icon={faCalendar} content={operatingPeriod} />
-      <DescriptionColumn icon={faMap} content={roadAddress} />
-      <DescriptionColumn icon={faStore} content='식사유무' {...{ serviceMethod }} />
-      <DescriptionColumn icon={faBookmark} content='메뉴정보' {...{ storeMenu }} />
-      <DescriptionColumn icon={faBookmark} content='메뉴이미지' url={storeMenuImage} />
-      <DescriptionColumn icon={faMap} content='지도' {...{ longitude, latitude }} />
+      <DescriptionColumn icon={faPhoneVolume} title={storeDetailResponse?.storePhoneNumber} />
+      <DescriptionColumn icon={faClock} title={storeDetailResponse?.operatingTime} />
+      <DescriptionColumn icon={faCalendar} title={storeDetailResponse?.operatingPeriod} />
+      <DescriptionColumn icon={faMap} title={storeDetailResponse?.roadAddress} />
+      <DescriptionColumn icon={faStore} title='식사유무' content={storeDetailResponse?.content} />
+      <DescriptionColumn
+        icon={faBookmark}
+        title='메뉴정보'
+        storeMenuResponseList={storeDetailResponse?.storeMenuResponseList}
+      />
+      <DescriptionColumn icon={faBookmark} title='메뉴이미지' url={storeDetailResponse?.storeMenuImage} />
+      <DescriptionColumn
+        icon={faMap}
+        title='지도'
+        longitude={storeDetailResponse?.longitude}
+        latitude={storeDetailResponse?.latitude}
+      />
     </Contain>
   );
 }

@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { tab, mobile } from 'styles/theme';
 
-function ProductMenuInfo({ storeMenu }) {
+function ProductMenuInfo({ storeMenuResponseList }) {
   return (
     <Contain>
-      {storeMenu?.map(({ id, name, price }) => {
+      {storeMenuResponseList?.map(({ id, name, price }) => {
         return (
           <Wrapper key={id}>
             <Content>{name}</Content>

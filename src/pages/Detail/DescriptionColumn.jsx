@@ -6,17 +6,17 @@ import DescriptionMenuInfo from './DescriptionMenuInfo';
 import NaverMapApi from './NaverMapApi';
 import { tab, mobile, lightGray } from 'styles/theme';
 
-function DescriptionColumn({ icon, content, url, serviceMethod, storeMenu, longitude, latitude }) {
+function DescriptionColumn({ icon, title, url, content, storeMenuResponseList, longitude, latitude }) {
   return (
     <Wrapper>
       <InfoWrapper>
         <FontAwesomeIcon icon={icon} className='infoIcon' />
-        <InfoContent>{content}</InfoContent>
+        <InfoContent>{title}</InfoContent>
       </InfoWrapper>
-      {content === '메뉴정보' && <DescriptionMenuInfo {...{ storeMenu }} />}
-      {content === '식사유무' && <AvailabilityMeals {...{ serviceMethod }} />}
-      {content === '메뉴이미지' && <MenuImage src={url} alt={content} />}
-      {content === '지도' && <NaverMapApi {...{ longitude, latitude }} />}
+      {title === '메뉴정보' && <DescriptionMenuInfo {...{ storeMenuResponseList }} />}
+      {title === '식사유무' && <AvailabilityMeals {...{ content }} />}
+      {title === '메뉴이미지' && <MenuImage src={url} alt={title} />}
+      {title === '지도' && <NaverMapApi {...{ longitude, latitude }} />}
     </Wrapper>
   );
 }

@@ -190,9 +190,19 @@ export const getReviews = async (order = 'createdAt', offset = 0, limit = 5) => 
   }
 };
 
-export const getDetail = async () => {
+export const getMokReviews = async () => {
   try {
-    const { data } = await axios.get('/data/newDetailData.json');
+    const { data } = await axios.get('/data/reviewData.json');
+    return data;
+  } catch (error) {
+    const message = error.response.message ?? error.message ?? error;
+    alert(message);
+  }
+};
+
+export const getProductDetail = async () => {
+  try {
+    const { data } = await axios.get('/data/DetailData.json');
     return data;
   } catch (error) {
     const message = error.response.message ?? error.message ?? error;

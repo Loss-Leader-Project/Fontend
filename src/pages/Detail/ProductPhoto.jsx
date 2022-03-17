@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { tab, mobile } from 'styles/theme';
 
-function ProductPhoto({ newData, mainImage, setMainImage }) {
+function ProductPhoto({ storeFoodImageResponseList, mainImage, setMainImage }) {
   const hoverChangeImage = e => {
     setMainImage(e.target.currentSrc);
   };
@@ -11,7 +11,7 @@ function ProductPhoto({ newData, mainImage, setMainImage }) {
     <Contain>
       <MainImage alt='thumnail' src={mainImage} />
       <SubPhoto>
-        {newData?.storeFoodImage?.map(({ id, name, image }) => {
+        {storeFoodImageResponseList?.storeFoodImage?.map(({ id, name, image }) => {
           return (
             <SubImageWrapper key={id}>
               <SubImage alt={name} src={image} onMouseOver={hoverChangeImage} />
