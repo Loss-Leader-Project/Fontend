@@ -1,14 +1,21 @@
 //status에 따른 message 처리 (정환님코드)
 
 export class HTTPError extends Error {
-  constructor(status) {
+  /**
+   * @param {Error}
+   * 매개변수로 status message 프로퍼티를 갖는 객체를 보내면 됩니다.
+   */
+  constructor({ status, message }) {
     super();
     this.status = status;
     this.init(status);
+    /**
+     * 매개변수로 넘어온 message의 값이 있다면 따로 할당한다.
+     */
+    if (message) this.setMessage(message);
   }
   init(status) {
     if (status === undefined) {
-      //undefined 가 될 경우는 언제?
       this.message = '클라이언트에서 문제가 발생했습니다.';
       this.name = 'Network Error';
     } else if (status === 401) {
@@ -20,6 +27,9 @@ export class HTTPError extends Error {
     } else if (status === 404) {
       this.message = '페이지가 없습니다.';
       this.name = 'Not Found';
+    } else if (status === 419) {
+      this.message = '토큰이 만료되었습니다.';
+      this.name = 'Token completion';
     } else if (status === 500) {
       this.message = '서버에서 오류가 발생했습니다.';
       this.name = 'Internal Server Error';
@@ -27,11 +37,9 @@ export class HTTPError extends Error {
       this.message = '시간 초과했습니다.';
       this.name = 'Gateway Timeout';
     } else if (status > 500) {
-      //500번때랑 500번때 초과일때 2가지를 설청한 이유?
       this.message = '서버에서 오류가 발생했습니다.';
       this.name = 'Internal Server Error';
     } else if (status >= 400) {
-      // 이것도 마찬가지
       this.message = '클라이언트에서 오류가 발생했습니다.';
       this.name = 'Client Error';
     }

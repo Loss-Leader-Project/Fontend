@@ -8,6 +8,12 @@ import Button from 'Components/Button';
 import Validation from 'utils/validation';
 import { ApiRq } from 'utils/apiConfig';
 import { myApiURL } from 'utils/apiUrl';
+import { useHistory } from 'react-router-dom';
+
+/**
+ *  로그인 구현 되면 제거 합니다.
+ */
+const Authorization = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb3NzbGVhZGVyIiwibG9naW5JZCI6ImRucjE0IiwiaWQiOjEsImV4cCI6MTY0Nzc4ODI1NH0.DsU2LOXSF0ROpQvtSfQi5TMSHiJn8DhgMjBJjZA0h2c7nC17CNVp_EUgnvcBPXRe6ATOvmMUYkvSHrWRj3fnCA`;
 
 const ModifyContext = createContext(null);
 
@@ -25,8 +31,12 @@ const FORM_INIT = {
 
 const ModifyPage = () => {
   const [form, setForm] = useState(FORM_INIT);
+  /*
+   * 초기화 버튼에 이용
+   */
   const [formInit, setFormInit] = useState(null);
   const [errors, setErrors] = useState({});
+  const { replace } = useHistory();
 
   const handleFormOnChange = useCallback(({ target }) => {
     const { id, value, name } = target;
@@ -50,6 +60,27 @@ const ModifyPage = () => {
       };
     });
   }, []);
+
+  const handleReset = () => setForm(formInit);
+
+  /**
+   * @param {number} status
+   * @param {number} targetStatus
+   * @param {string} path
+   * @param {Function} callback replace push 등 쓰고 싶은 함수로 유연하게 변경 가능하도록 설계
+   */
+  const statusCheck = (status, targetStatus, path, callback) => {
+    if (status === targetStatus) callback(path);
+  };
+
+  const handleStatus = useCallback(
+    ({ status, message }) => {
+      alert(message);
+      statusCheck(status, 419, '/login', path => replace(path));
+      statusCheck(status, 200, '/my/coupon', path => replace(path));
+    },
+    [replace]
+  );
 
   const handleModitySubmit = useCallback(
     async e => {
@@ -113,30 +144,32 @@ const ModifyPage = () => {
           loginId,
         };
 
-        const userId = 1;
-        // 회원수정이 완료되면 유저 id값 넣어주면된다.
-        await ApiRq('post', myApiURL.GET_USER_INFO_UPDATE(userId), '', payload);
+        /**
+         * 정환님 로그인 구현되면 토큰 값 헤더로 넘기면 됩니다.
+         * 지금은 테스트를 위해 임의 값을 넣었습니다.
+         */
+        await ApiRq('post', myApiURL.GET_USER_INFO_UPDATE, '', payload, { Authorization });
+        handleStatus({ status: 200, message: '수정되었습니다.' });
       } catch (error) {
-        if (typeof error === 'object') {
-          setErrors(error);
-        } else {
-          alert(error);
-        }
+        if (typeof error === 'object') return setErrors(error);
+        handleStatus(error);
       }
     },
-    [form]
+    [form, handleStatus]
   );
 
-  const handleReset = () => setForm(formInit);
-
+  /**
+   * 정환님 로그인 구현되면 토큰 값 헤더로 넘기면 됩니다.
+   * 지금은 테스트를 위해 임의 값을 넣었습니다.
+   */
   useEffect(() => {
-    ApiRq('get', myApiURL.MOK_GET_USER_INFO)
+    ApiRq('get', myApiURL.GET_USER_INFO, '', '', { Authorization })
       .then(userInfo => {
         setForm(userInfo);
         setFormInit(userInfo);
       })
-      .catch(alert);
-  }, []);
+      .catch(error => handleStatus(error));
+  }, [handleStatus]);
 
   const value = useMemo(
     () => ({
