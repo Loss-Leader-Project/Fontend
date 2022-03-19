@@ -46,8 +46,8 @@ const Routers = () => {
         <Route exact path='/product/:productId' component={Detail} />
         <Route exact path='/apply/:productId' component={Apply} />
         <Route exact path='/completion/:productId' component={Completion} />
-        <Route path={'/my'} component={My} />
-        <Route exact path={'/list'} component={List} />
+        <Route path='/my' component={My} />
+        <Route exact path='/list' component={List} />
         <Route path='*' render={() => <Redirect to='/' />} />
       </Switch>
       <Footer />
