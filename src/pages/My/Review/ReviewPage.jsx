@@ -9,10 +9,7 @@ import validation from 'utils/validation';
 import Filter from './Filter';
 import qs from 'query-string';
 import { useLocation, useHistory } from 'react-router-dom';
-
-/**
- * 정환님 로그인 코드 넘어오면 지우고 코드 수정 할려고합니다.
- */
+import { TokenCheck } from 'utils/api';
 
 const ReviewPage = () => {
   const [reviews, setReviews] = useState([]);
@@ -23,7 +20,7 @@ const ReviewPage = () => {
   const [currentSize] = useState(20);
   const { search } = useLocation();
   const oldQeury = useMemo(() => qs.parse(search), [search]);
-  const { replace } = useHistory();
+  const history = useHistory();
 
   const makeQuery = useCallback(
     (page = 0) =>
@@ -35,21 +32,9 @@ const ReviewPage = () => {
     [oldQeury, currentSize]
   );
 
-  const statusCheck = (status, targetStatus, path, callback) => {
-    if (status === targetStatus) callback(path);
-  };
-
-  const handleStatus = useCallback(
-    ({ status, message }) => {
-      alert(message);
-      statusCheck(status, 419, '/login', path => replace(path));
-    },
-    [replace]
-  );
-
   const fetchReviews = useCallback(
     async pageNumber => {
-      try {
+      TokenCheck(async Authorization => {
         const _query = makeQuery(pageNumber - 1);
         const { data } = await ApiRq('get', myApiURL.GET_REVIEWS(_query), null, null, { Authorization: '' });
         const { reviewListing } = data;
@@ -57,11 +42,9 @@ const ReviewPage = () => {
         setCurrentPage(number + 1);
         setReviews(reviewListing.content);
         totalPagesRef.current = totalPages;
-      } catch ({ data: { code, message } }) {
-        handleStatus({ status: code, message });
-      }
+      }, history);
     },
-    [makeQuery, handleStatus]
+    [makeQuery, history]
   );
 
   const handleChange = useCallback(({ target: { value } }) => setCurrentFilter(value), []);

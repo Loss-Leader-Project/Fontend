@@ -4,46 +4,34 @@ import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import { ApiRq } from 'utils/apiConfig';
 
-const Editor = ({ editorValue, setEditorValue, imgOnChange }) => {
+const Editor = ({ editorValue, setEditorValue, editorImgs, imgOnChange }) => {
   const quillRef = useRef(null);
 
   const imageHandler = useCallback(() => {
-    console.log('에디터에서 이미지 버튼을 클릭하면 이 핸들러가 시작됩니다!');
     const input = document.createElement('input');
-
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
     input.click();
 
-    input.addEventListener('change', async () => {
-      console.log('온체인지');
-      const file = input.files[0];
+    const uploadFile = async file => {
+      const UPLOAD_ENDPOINT = '/review/image-upload';
       const formData = new FormData();
+      formData.append('image', file);
+      const { data: url } = await ApiRq('post', UPLOAD_ENDPOINT, null, formData);
+      return url;
+    };
 
-      // post 이미지 등록 url : localhost:8000/review/image-upload
-      // delete 이미지 삭제 url : localhost:8000/review/image-delete
-      // put 이미지 업데이트 url: localhost:8000/review/image-update
-
+    input.addEventListener('change', async ({ target }) => {
       try {
-        const result = await ApiRq('post', '/review/image-upload', '', formData);
-        // 테스트 이미지
-        // const result = {
-        //   data: {
-        //     url: 'https://megacoffee-project.s3.ap-northeast-2.amazonaws.com/menus/ecffab8c-29da-40c2-8c10-6f0d4f8d3663.jpg',
-        //   },
-        // };
-        console.log('성공 시, 백엔드가 보내주는 데이터', result.data.url);
-        const IMG_URL = result.data.url;
-        // imgOnChange('ecffab8c-29da-40c2-8c10-6f0d4f8d3663.jpg');
-        imgOnChange(IMG_URL);
-        const editor = quillRef.current.getEditor();
-        const range = editor.getSelection();
-        editor.insertEmbed(range.index, 'image', IMG_URL);
+        if (editorImgs.length === 5) return;
+        const file = target.files[0];
+        const url = await uploadFile(file);
+        imgOnChange(url);
       } catch (error) {
         alert('업로드에 실패했습니다.');
       }
     });
-  }, [imgOnChange]);
+  }, [imgOnChange, editorImgs]);
 
   const modules = useMemo(
     () => ({
@@ -54,9 +42,7 @@ const Editor = ({ editorValue, setEditorValue, imgOnChange }) => {
           [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }, { align: [] }],
           ['image'],
         ],
-        handlers: {
-          image: imageHandler,
-        },
+        handlers: { image: imageHandler },
       },
     }),
     [imageHandler]

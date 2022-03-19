@@ -65,7 +65,7 @@ const BuyPage = () => {
       <BuysWrapper>
         <BuysHead />
         {isEmpty ? (
-          <Empty text='구매 내역이 없습니다.' />
+          <Empty text='구매내역이 없습니다.' />
         ) : (
           buys.map(item => <BuyItem key={item.orderNumber} {...item} />)
         )}

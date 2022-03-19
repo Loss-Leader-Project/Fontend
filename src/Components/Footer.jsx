@@ -25,7 +25,7 @@ export default function Footer() {
         {footerData.footerMenu?.map(menu => {
           return (
             //팀원소개 페이지도 구현예정
-            <Menues to={`/${menu.name === '팀원소개' ? 'teamInfo' : ''}`} key={menu.id}>
+            <Menues to={`/${menu.name === '팀원소개' ? 'teamsInfo' : ''}`} key={menu.id}>
               {menu.name}
             </Menues>
           );
