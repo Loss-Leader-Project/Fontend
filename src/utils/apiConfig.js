@@ -12,7 +12,7 @@ export const ApiRq = async (method, url, params = '', data, headers) => {
       headers,
     });
 
-    return res.data;
+    return res;
   } catch (error) {
     throw error;
   }

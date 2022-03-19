@@ -27,6 +27,7 @@ export const listApiURL = {
  * GET_ORDERS 구매 정보
  * GET_COUPONS 쿠폰 정보
  * GET_REVIEWS 작성한 업체 리뷰
+ * MOCK_GET_REVIEWS 업체 리뷰 목데이터
  */
 export const myApiURL = {
   GET_USER_INFO: `/user/info`,
@@ -34,5 +35,6 @@ export const myApiURL = {
   POST_CREATE_REVIEW: pathVariable => `/reviwe/${pathVariable}`,
   GET_ORDERS: '/data/orders.json',
   GET_COUPONS: '/data/coupons.json',
-  GET_REVIEWS: '/data/reviews.json',
+  GET_REVIEWS: (query = '') => `/review/listing-user?${query}`,
+  MOCK_GET_REVIEWS: '/data/reviewData.json',
 };

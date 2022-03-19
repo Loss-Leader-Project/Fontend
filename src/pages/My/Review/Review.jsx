@@ -3,57 +3,75 @@ import styled from 'styled-components';
 import Title from 'Components/Title';
 import { brandColor, flexStyleGroup, mobile, tab } from 'styles/theme';
 import { Rating } from '@mui/material';
-import DoNotDisturbOnOutlinedIcon from '@mui/icons-material/DoNotDisturbOnOutlined';
+import { Link } from 'react-router-dom';
 
-const Review = ({ title, content, rating, name, url }) => {
+const Review = ({ content, star, userName, imageIdentifyList, storeId, storeName, briefAddress }) => {
+  const [image] = imageIdentifyList;
+  const url = `${process.env.REACT_APP_REVIEW_IMG_URL}/${image.imageIdentify}`;
+  const producPath = `/product/${storeId}`;
+
   return (
-    <ReviewWrapper>
-      <ReviewImg src={url} alt='thumnailImg' />
+    <ReviewWrapper to={producPath}>
+      <StoreImgWrapper>
+        <StoreImg src={url} alt='storeImg' />
+      </StoreImgWrapper>
       <ReviewInfoWrapper>
-        <Title text={title} margin='0 0 0.9375rem 0' />
+        <Title text={`[ ${briefAddress} ] ${storeName}`} margin='0 0 0.9375rem 0' />
         <ReviewContent>{content}</ReviewContent>
         <RatingOrNameWrapper>
-          <CustomRating name='read-only' value={rating} readOnly />
-          <span>{name}</span>
+          <CustomRating name='read-only' value={star} readOnly />
+          <span>{userName}</span>
         </RatingOrNameWrapper>
-        <ReviewDeleteWrapper>
-          <span>리뷰삭제</span>
-          <DoNotDisturbOnOutlinedIcon />
-        </ReviewDeleteWrapper>
       </ReviewInfoWrapper>
     </ReviewWrapper>
   );
 };
 
-const ReviewWrapper = styled.div`
+const ReviewWrapper = styled(Link)`
   height: 15.625rem;
   margin-bottom: 1.5625rem;
   ${flexStyleGroup('auto', 'auto')}
   gap:0.9375rem;
+  position: relative;
 
   ${mobile} {
     height: auto;
+    position: unset;
     flex-direction: column;
   }
 `;
 
 const ReviewInfoWrapper = styled.div`
-  position: relative;
+  ${mobile} {
+    position: relative;
+  }
 `;
 
-const ReviewImg = styled.img`
+const StoreImgWrapper = styled.div`
+  display: inline-block;
+  width: 100%;
+  max-width: 350px;
+  overflow: hidden;
+  ${mobile} {
+    max-width: 100%;
+  }
+`;
+
+const StoreImg = styled.img`
   object-fit: cover;
   object-position: center;
-  ${mobile} {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.25s ease-in;
+  &:hover {
+    transform: scale(1.02);
   }
 `;
 const ReviewContent = styled.div`
   width: 70%;
   line-height: 1.5;
   color: #a1a1a1;
-  font-size: 1.125rem;
+  font-size: 0.9375rem;
   max-height: 50%;
   margin-bottom: 0.9375rem;
   ${tab} {
@@ -67,17 +85,6 @@ const RatingOrNameWrapper = styled.div`
   color: #8a8a8a;
   font-size: 1.1875rem;
   font-weight: 500;
-`;
-
-const ReviewDeleteWrapper = styled.div`
-  position: absolute;
-  right: 0;
-  ${flexStyleGroup('auto', 'center')}
-  gap:0.625rem;
-  color: #b9b9b9;
-  font-size: 1.125rem;
-  font-weight: 600;
-  top: -0.3125rem;
 `;
 
 const CustomRating = styled(Rating)`
