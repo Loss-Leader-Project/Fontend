@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 /**
  *  로그인 구현 되면 제거 합니다.
  */
-const Authorization = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb3NzbGVhZGVyIiwibG9naW5JZCI6ImRucjE0IiwiaWQiOjEsImV4cCI6MTY0Nzc4ODI1NH0.DsU2LOXSF0ROpQvtSfQi5TMSHiJn8DhgMjBJjZA0h2c7nC17CNVp_EUgnvcBPXRe6ATOvmMUYkvSHrWRj3fnCA`;
+const Authorization = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb3NzbGVhZGVyIiwibG9naW5JZCI6ImRucjE0IiwiaWQiOjEsImV4cCI6MTY0ODAyMzU4OX0.2tuUwuQsaPqH799uHcTSKMGXDTKyQvsXx8G0kF1MqJwPVSjY5HOpcaG0GF7jePPP6Bc9MU5pzXmd7Yn5xik6Lg`;
 
 const ModifyContext = createContext(null);
 
@@ -62,6 +62,12 @@ const ModifyPage = () => {
   }, []);
 
   const handleReset = () => setForm(formInit);
+
+  const changeStringNull = value => {
+    if (typeof value !== 'string') throw new TypeError('value is not string');
+    if (value === '') return null;
+    return value;
+  };
 
   /**
    * @param {number} status
@@ -132,27 +138,33 @@ const ModifyPage = () => {
           }
         );
 
+        /**
+         * 비밀번호, 추천인 아이디 빈 문자열로 요청하지않고 null을 넣어줘야 된다.
+         */
         const payload = {
-          oldPassword,
-          newPassword,
-          newPasswordConfirm,
+          oldPassword: changeStringNull(oldPassword),
+          newPassword: changeStringNull(oldPassword),
+          newPasswordConfirm: changeStringNull(newPasswordConfirm),
           birthDate,
           phoneNumber,
-          recommendedPerson,
+          recommendedPerson: changeStringNull(recommendedPerson),
           userName,
           email,
           loginId,
         };
-
         /**
          * 정환님 로그인 구현되면 토큰 값 헤더로 넘기면 됩니다.
          * 지금은 테스트를 위해 임의 값을 넣었습니다.
          */
-        await ApiRq('post', myApiURL.GET_USER_INFO_UPDATE, '', payload, { Authorization });
+        await ApiRq('patch', myApiURL.GET_USER_INFO_UPDATE, '', payload, { Authorization });
         handleStatus({ status: 200, message: '수정되었습니다.' });
       } catch (error) {
-        if (typeof error === 'object') return setErrors(error);
-        handleStatus(error);
+        if ('data' in error) {
+          const { code, message } = error.data;
+          handleStatus({ status: code, message });
+          return;
+        }
+        setErrors(error);
       }
     },
     [form, handleStatus]
@@ -164,11 +176,26 @@ const ModifyPage = () => {
    */
   useEffect(() => {
     ApiRq('get', myApiURL.GET_USER_INFO, '', '', { Authorization })
-      .then(userInfo => {
-        setForm(userInfo);
-        setFormInit(userInfo);
+      .then(({ data }) => {
+        const _obj = {
+          ...data,
+          newPassword: '',
+          newPasswordConfirm: '',
+          oldPassword: '',
+          /**
+           * recommendedPerson를 미 입력한 유저는 null로 응답이 온다.
+           * Mui rating에 null을 넘겨주면 에러를 발생시킨다.
+           * */
+          recommendedPerson: data.recommendedPerson ?? '',
+        };
+
+        setForm(_obj);
+        setFormInit(_obj);
       })
-      .catch(error => handleStatus(error));
+      .catch(({ data }) => {
+        const { code, message } = data;
+        handleStatus({ status: code, message });
+      });
   }, [handleStatus]);
 
   const value = useMemo(
