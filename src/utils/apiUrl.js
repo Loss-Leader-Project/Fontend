@@ -26,6 +26,7 @@ export const loginApiURL = {
   LOCAL_GET_LOGIN_NAVER: '/lossleader/callback/naver',
   LOCAL_GET_LOGIN_LOGOUT_KAKAO: '/logout/kakao',
   LOCAL_GET_LOGIN_LOGOUT: '/logout',
+  LOCAL_GET_LOGIN_USERINFO: '/user/info',
 };
 
 export const signupApiURL = {
@@ -52,7 +53,7 @@ export const myApiURL = {
   GET_USER_INFO: `/user/info`,
   GET_USER_INFO_UPDATE: `/user/info`,
   POST_CREATE_REVIEW: pathVariable => `/reviwe/${pathVariable}`,
-  GET_ORDERS: '/data/orders.json',
+  GET_BUYS: '/order/product/history',
   GET_COUPONS: '/data/coupons.json',
   GET_REVIEWS: (query = '') => `/review/listing-user?${query}`,
   MOCK_GET_REVIEWS: '/data/reviewData.json',

@@ -8,12 +8,8 @@ import Button from 'Components/Button';
 import Validation from 'utils/validation';
 import { ApiRq } from 'utils/apiConfig';
 import { myApiURL } from 'utils/apiUrl';
+import { TokenCheck } from 'utils/api';
 import { useHistory } from 'react-router-dom';
-
-/**
- *  로그인 구현 되면 제거 합니다.
- */
-const Authorization = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb3NzbGVhZGVyIiwibG9naW5JZCI6ImRucjE0IiwiaWQiOjEsImV4cCI6MTY0ODAyMzU4OX0.2tuUwuQsaPqH799uHcTSKMGXDTKyQvsXx8G0kF1MqJwPVSjY5HOpcaG0GF7jePPP6Bc9MU5pzXmd7Yn5xik6Lg`;
 
 const ModifyContext = createContext(null);
 
@@ -36,7 +32,7 @@ const ModifyPage = () => {
    */
   const [formInit, setFormInit] = useState(null);
   const [errors, setErrors] = useState({});
-  const { replace } = useHistory();
+  const history = useHistory();
 
   const handleFormOnChange = useCallback(({ target }) => {
     const { id, value, name } = target;
@@ -82,10 +78,9 @@ const ModifyPage = () => {
   const handleStatus = useCallback(
     ({ status, message }) => {
       alert(message);
-      statusCheck(status, 419, '/login', path => replace(path));
-      statusCheck(status, 200, '/my/coupon', path => replace(path));
+      statusCheck(status, 200, '/my/coupon', path => history.replace(path));
     },
-    [replace]
+    [history]
   );
 
   const handleModitySubmit = useCallback(
@@ -143,11 +138,11 @@ const ModifyPage = () => {
          */
         const payload = {
           oldPassword: changeStringNull(oldPassword),
-          newPassword: changeStringNull(oldPassword),
+          newPassword: changeStringNull(newPassword),
           newPasswordConfirm: changeStringNull(newPasswordConfirm),
+          recommendedPerson: changeStringNull(recommendedPerson),
           birthDate,
           phoneNumber,
-          recommendedPerson: changeStringNull(recommendedPerson),
           userName,
           email,
           loginId,
@@ -156,7 +151,11 @@ const ModifyPage = () => {
          * 정환님 로그인 구현되면 토큰 값 헤더로 넘기면 됩니다.
          * 지금은 테스트를 위해 임의 값을 넣었습니다.
          */
-        await ApiRq('patch', myApiURL.GET_USER_INFO_UPDATE, '', payload, { Authorization });
+        await TokenCheck(
+          token => ApiRq('patch', myApiURL.GET_USER_INFO_UPDATE, '', payload, { Authorization: token }),
+          history
+        );
+
         handleStatus({ status: 200, message: '수정되었습니다.' });
       } catch (error) {
         if ('data' in error) {
@@ -167,15 +166,11 @@ const ModifyPage = () => {
         setErrors(error);
       }
     },
-    [form, handleStatus]
+    [form, handleStatus, history]
   );
 
-  /**
-   * 정환님 로그인 구현되면 토큰 값 헤더로 넘기면 됩니다.
-   * 지금은 테스트를 위해 임의 값을 넣었습니다.
-   */
   useEffect(() => {
-    ApiRq('get', myApiURL.GET_USER_INFO, '', '', { Authorization })
+    TokenCheck(null, history)
       .then(({ data }) => {
         const _obj = {
           ...data,
@@ -196,7 +191,7 @@ const ModifyPage = () => {
         const { code, message } = data;
         handleStatus({ status: code, message });
       });
-  }, [handleStatus]);
+  }, [handleStatus, history]);
 
   const value = useMemo(
     () => ({

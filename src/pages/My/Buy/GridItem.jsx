@@ -15,9 +15,11 @@ const TextWrapper = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 0.875rem;
   ${mobile} {
     padding: 0 0.3125rem;
   }
+  line-height: 1.2;
 `;
 
 export default GridItem;

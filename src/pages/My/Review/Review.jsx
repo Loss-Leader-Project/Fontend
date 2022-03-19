@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 
 const Review = ({ content, star, userName, imageIdentifyList, storeId, storeName, briefAddress }) => {
   const [image] = imageIdentifyList;
-  const url = `${process.env.REACT_APP_REVIEW_IMG_URL}/${image.imageIdentify}`;
+  const url = `${process.env.REACT_APP_REVIEW_IMG_URL}/${image?.imageIdentify ?? 'noimg.jpg'}`;
   const producPath = `/product/${storeId}`;
-
+  const html = content.replace(/&lt;/g, '<');
   return (
     <ReviewWrapper to={producPath}>
       <StoreImgWrapper>
@@ -17,7 +17,7 @@ const Review = ({ content, star, userName, imageIdentifyList, storeId, storeName
       </StoreImgWrapper>
       <ReviewInfoWrapper>
         <Title text={`[ ${briefAddress} ] ${storeName}`} margin='0 0 0.9375rem 0' />
-        <ReviewContent>{content}</ReviewContent>
+        <ReviewContent dangerouslySetInnerHTML={{ __html: html }} />
         <RatingOrNameWrapper>
           <CustomRating name='read-only' value={star} readOnly />
           <span>{userName}</span>
@@ -42,6 +42,7 @@ const ReviewWrapper = styled(Link)`
 `;
 
 const ReviewInfoWrapper = styled.div`
+  min-width: 40%;
   ${mobile} {
     position: relative;
   }

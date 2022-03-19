@@ -2,7 +2,6 @@ import axios from 'axios';
 import { ApiRq } from './apiConfig';
 import { loginApiURL } from './apiUrl';
 
-// api.js 사라질 코드
 export const client = axios.create({
   baseURL: 'http://localhost:3000',
   timeout: 5000,
@@ -40,23 +39,11 @@ export const TokenCheck = async (apiCall, history) => {
   const accessToken = localStorage.getItem('access-token');
   if (accessToken) {
     // token 체크 api
-    const check = await client({
-      method: 'GET',
-      url: '/user/login-info',
-      headers: {
-        Authroization: accessToken,
-      },
-    });
-    // check 값이 오류이면
-    if (check.data.status === 419) {
-      localStorage.removeItem('access-token');
-      await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT);
-      alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
-      history.push('/login');
-    } else {
-      // check 값이 올바르고 인자로 api 함수 안 넣었을때
-      // 응답으로 넘어온 유저정보 넘겨줌
-      if (check.data && apiCall === undefined) {
+    try {
+      const check = await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_USERINFO, null, null, {
+        Authorization: accessToken,
+      });
+      if (check.data && apiCall === null) {
         return check;
       }
       // check 값 올바르고 인자로 실행시킬 apiCall 함수가 있을때
@@ -64,6 +51,13 @@ export const TokenCheck = async (apiCall, history) => {
         // 넣어준 api 함수 실행
         const res = await apiCall(accessToken);
         return res;
+      }
+    } catch (error) {
+      if (error.data.code === 419) {
+        localStorage.removeItem('access-token');
+        await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT);
+        alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
+        history.push('/login');
       }
     }
   } else {
