@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { gray, lightDark, mobile, tab } from 'styles/theme';
-import { checkAccessToken, client } from 'utils/api';
+import { checkAccessToken } from 'utils/api';
+import { ApiRq } from 'utils/apiConfig';
+import { loginApiURL } from 'utils/apiUrl';
 
 const HamburgerMenu = ({ menuopen }) => {
   const history = useHistory();
@@ -49,10 +51,7 @@ const HamburgerMenu = ({ menuopen }) => {
               checkLogin
                 ? async () => {
                     localClear();
-                    await client({
-                      method: 'GET',
-                      url: '/loss-leader/logout',
-                    });
+                    await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT);
                   }
                 : () => {
                     historyMove('/signup');

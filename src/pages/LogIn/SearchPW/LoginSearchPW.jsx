@@ -3,14 +3,15 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import theme, { gray, lightGray } from 'styles/theme';
-import { checkBlank, checkFlag } from 'pages/LogIn/check';
-import { getPassword } from '../api';
 import LoginEmailLayout from '../LoginEmailLayout';
 import BasicModal from 'Components/BasicModal';
 import FindPasswordModalBody from './FindPasswordModalBody';
-import { regExpCheck } from 'pages/SignUp/check';
 import MuiInput from 'Components/MuiInput';
 import MuiButton from 'Components/MuiButton';
+import { checkBlankLogin, checkFlag } from 'utils/check';
+import Validation from 'utils/validation';
+import { ApiRq } from 'utils/apiConfig';
+import { loginApiURL } from 'utils/apiUrl';
 
 const LoginSearchPW = () => {
   const [email, setEmail] = useState('');
@@ -55,18 +56,8 @@ const LoginSearchPW = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [vaild, setVaild] = useState('');
+  const [valid, setValid] = useState('');
   const [helpTextBirthday, sethelpTextBirthday] = useState('주민번호를 앞에서부터 7자 입력하세요');
-
-  const FindPasswordAPI = (id, birthday, email) => {
-    getPassword(id, birthday, email).then(res => {
-      if (res.data.status) {
-        setVaild(false);
-      } else {
-        setVaild(true);
-      }
-    });
-  };
 
   return (
     <div>
@@ -109,15 +100,27 @@ const LoginSearchPW = () => {
               }}
               content='비밀번호 찾기'
               onClick={async () => {
-                if (await checkBlank(SearchFromData, flag, handleFlag)) return;
-                if (await regExpCheck('birthday', SearchFromData.birthday, handleFlag, sethelpTextBirthday)) return;
+                if (await checkBlankLogin(SearchFromData, flag, handleFlag)) return;
+
+                if (await !Validation.isBirthDayCheck(SearchFromData.birthday)) {
+                  handleFlag('birthday', true);
+                  sethelpTextBirthday('주민번호를 앞에서부터 7자를 입력하세요');
+                  return;
+                }
+
                 if (await checkFlag(flag)) return;
 
-                await FindPasswordAPI(
-                  SearchFromData.id,
-                  SearchFromData.birthday,
-                  `${SearchFromData.mailId}@${SearchFromData.email}`
-                );
+                await ApiRq('post', loginApiURL.LOCAL_POST_SEARCHPW, null, {
+                  birthDate: SearchFromData.birthday,
+                  email: `${SearchFromData.mailId}@${SearchFromData.email}`,
+                  loginId: SearchFromData.id,
+                })
+                  .then(() => {
+                    setValid(true);
+                  })
+                  .catch(() => {
+                    setValid(false);
+                  });
 
                 handleOpen();
               }}
@@ -146,7 +149,7 @@ const LoginSearchPW = () => {
         open={open}
         handleClose={handleClose}
         title={'비밀번호 찾기 결과'}
-        content={<FindPasswordModalBody handleClose={handleClose} vaild={vaild} />}
+        content={<FindPasswordModalBody handleClose={handleClose} valid={valid} />}
       />
     </div>
   );

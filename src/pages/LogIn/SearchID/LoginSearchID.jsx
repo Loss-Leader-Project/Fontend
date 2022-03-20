@@ -2,15 +2,16 @@ import { Container, Grid, Stack } from '@mui/material';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { checkBlank, checkFlag } from 'pages/LogIn/check';
 import theme, { gray, lightGray } from 'styles/theme';
 import FindIdModalBody from './FindIdModalBody';
-import { postFindId } from '../api';
 import BasicModal from 'Components/BasicModal';
 import LoginEmailLayout from '../LoginEmailLayout';
-import { regExpCheck } from 'pages/SignUp/check';
 import MuiInput from 'Components/MuiInput';
 import MuiButton from 'Components/MuiButton';
+import { checkBlankLogin, checkFlag } from 'utils/check';
+import Validation from 'utils/validation';
+import { ApiRq } from 'utils/apiConfig';
+import { loginApiURL } from 'utils/apiUrl';
 
 const LoginSearchID = () => {
   const [email, setEmail] = useState('');
@@ -59,15 +60,15 @@ const LoginSearchID = () => {
 
   const [helpTextBirthday, sethelpTextBirthday] = useState('주민번호를 앞에서부터 7자 입력하세요');
 
-  const FindIdAPI = data => {
-    postFindId({ ...data }).then(res => {
-      if (res.data.loginId) {
-        setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
-      } else if (res.data.status === 404) {
-        setFindId(<FindIdModalBody valid={false} />);
-      }
-    });
-  };
+  // const FindIdAPI = data => {
+  //   postFindId({ ...data }).then(res => {
+  //     if (res.data.loginId) {
+  //       setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
+  //     } else if (res.data.status === 404) {
+  //       setFindId(<FindIdModalBody valid={false} />);
+  //     }
+  //   });
+  // };
 
   return (
     <div>
@@ -110,15 +111,33 @@ const LoginSearchID = () => {
                 '&:hover': { bgcolor: `${theme.colors.gray}` },
               }}
               onClick={async () => {
-                if (await checkBlank(SearchFromData, flag, handleFlag)) return;
+                if (await checkBlankLogin(SearchFromData, flag, handleFlag)) return;
 
-                if (await regExpCheck('birthday', SearchFromData.birthday, handleFlag)) return;
-
-                if (await regExpCheck('birthday', SearchFromData.birthday, handleFlag, sethelpTextBirthday)) return;
+                if (await !Validation.isBirthDayCheck(SearchFromData.birthday)) {
+                  handleFlag('birthday', true);
+                  sethelpTextBirthday('주민번호를 앞에서부터 7자를 입력하세요');
+                  return;
+                }
 
                 if (await checkFlag(flag)) return;
 
-                await FindIdAPI(SearchFromData);
+                // await FindIdAPI(SearchFromData);
+
+                await ApiRq('post', loginApiURL.LOCAL_POST_SEARCHID, null, {
+                  birthDate: SearchFromData.birthday,
+                  email: SearchFromData.mailId + '@' + SearchFromData.email,
+                  userName: SearchFromData.name,
+                })
+                  .then(res => {
+                    if (res.data.loginId) {
+                      setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
+                    }
+                  })
+                  .catch(res => {
+                    if (res.data.status === 404) {
+                      setFindId(<FindIdModalBody valid={false} />);
+                    }
+                  });
 
                 handleOpen();
               }}

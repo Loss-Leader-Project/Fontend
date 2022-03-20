@@ -1,4 +1,4 @@
-export const naverClientId = '7H03cZzIx6Jg80eaoNcP';
+export const naverClientId = 'MrLhZGLeBYRF_Uy9YwY3';
 
 export const naverRedirectURL = 'http://localhost:3000/login';
 

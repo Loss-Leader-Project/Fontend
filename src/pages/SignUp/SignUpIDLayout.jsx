@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import { brandColor, gray, mobile } from 'styles/theme';
 import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CheckIdSame } from './api';
 import MuiInput from 'Components/MuiInput';
 import MuiButton from 'Components/MuiButton';
+import { ApiRq } from 'utils/apiConfig';
+import { signupApiURL } from 'utils/apiUrl';
 
 const SignUpIDLayout = props => {
   return (
@@ -32,12 +33,22 @@ const SignUpIDLayout = props => {
             content='중복확인'
             sx={{ fontSize: '0.75rem', height: '2.5rem', width: 'auto', padding: '5px' }}
             onClick={() => {
-              CheckIdSame(props.value).then(res => {
-                if (res.data.status) {
-                  props.handleFlag('id', true);
-                  props.sethelpText(res.data.message);
-                }
-              });
+              if (props.value === '') {
+                props.handleFlag('id', true);
+                return;
+              }
+
+              ApiRq('get', signupApiURL.LOCAL_GET_SIGNUP_IDCHECK, { loginId: props.value })
+                .then(() => {
+                  alert('사용가능한 아이디입니다.');
+                })
+                .then(props.handleFlag('id', false))
+                .catch(res => {
+                  if (res.data.status) {
+                    props.handleFlag('id', true);
+                    props.sethelpText(res.data.message);
+                  }
+                });
             }}
           />
         </CustomStack>

@@ -5,12 +5,15 @@ import SignUpInput from './SignUpInput';
 import SignUpEmailCheck from './SignUpEmailCheck';
 import SignUpEmailLayout from './SignUpEmailLayout';
 import SignUpPostNumberLayout from './SignUpPostNumberLayout';
-import { checkBlank, checkFlag, regExpCheck } from 'pages/SignUp/check';
 import { lightDark } from 'styles/theme';
 import SignupEmailSubmit from './SignupEmailSubmit';
 import SignUpIDLayout from './SignUpIDLayout';
-import { postSignUp } from './api';
 import MuiButton from 'Components/MuiButton';
+import { ChangeFlagfalse, checkBlankSignUp, checkFlag } from 'utils/check';
+import validation from 'utils/validation';
+import { ApiRq } from 'utils/apiConfig';
+import { signupApiURL } from 'utils/apiUrl';
+import { useHistory } from 'react-router';
 
 const SignUp = props => {
   const [email, setEmail] = useState('');
@@ -96,6 +99,8 @@ const SignUp = props => {
   };
 
   const [emailValidFlag, setEmailValidFlag] = useState(true);
+
+  const history = useHistory();
 
   return (
     <div>
@@ -242,26 +247,63 @@ const SignUp = props => {
           handleValue={handleValue}
           value={SignupFormData.recommendId}
           flag={flag.recommend}
-          helpText={helpTextRecommend}
+          helperText={helpTextRecommend}
           NotMust
         />
         <MuiButton
           content='확인'
           sx={{ margin: '1.25rem 0', height: '3.125rem' }}
           onClick={async () => {
-            const mail = SignupFormData.mailId + '@' + SignupFormData.email;
+            const data = {
+              birthDate: SignupFormData.birthday,
+              briefAddress: SignupFormData.address === '' ? null : SignupFormData.address,
+              confirmPassword: SignupFormData.passwordCheck,
+              detailAddress: SignupFormData.detailAddress === '' ? null : SignupFormData.detailAddress,
+              email: SignupFormData.mailId + '@' + SignupFormData.email,
+              emailCertification: Number(SignupFormData.emailSubmit),
+              loginId: SignupFormData.id,
+              password: SignupFormData.password,
+              phoneNumber: SignupFormData.phone,
+              postalCode: SignupFormData.postNumber === '' ? null : SignupFormData.postNumber,
+              recommendedPerson: SignupFormData.recommendId === '' ? null : SignupFormData.recommendId,
+              userName: SignupFormData.name,
+            };
 
-            if (await checkBlank(SignupFormData, flag, handleFlag)) return;
+            ChangeFlagfalse(flag, handleFlag);
 
-            if (await regExpCheck('id', SignupFormData.id, handleFlag, sethelpTextID)) return;
+            if (await checkBlankSignUp(SignupFormData, flag, handleFlag)) return;
 
-            if (await regExpCheck('password', SignupFormData.password, handleFlag, sethelpTextPW)) return;
+            if (await !validation.isIdCheck(SignupFormData.id)) {
+              handleFlag('id', true);
+              sethelpTextID('영문,숫자를 포함한 5자이상 19자이하로 다시 입력하세요.');
+              return;
+            }
+
+            if (await !validation.isPasswordCheck(SignupFormData.password)) {
+              handleFlag('password', true);
+              sethelpTextPW('숫자,특수문자를 포함한 8자이상 16자이하로 다시 입력하세요.');
+              return;
+            }
 
             if (await checkSamePW()) return;
 
-            if (await regExpCheck('email', mail, handleFlag, sethelpTextMailID, sethelpTextEmail)) return;
+            if (await !validation.isEmailCheck(data.email)) {
+              handleFlag('mailId', true);
+              handleFlag('email', true);
+              sethelpTextMailID('아이디를 다시 확인하세요');
+              sethelpTextEmail('메일 주소형식을 확인하세요');
+              return;
+            }
 
-            if (await regExpCheck('birthday', SignupFormData.birthday, handleFlag, sethelpTextBirthday)) return;
+            if (await !validation.isPhonenumberCheck(SignupFormData.phone)) {
+              handleFlag('phone', true);
+            }
+
+            if (await !validation.isBirthDayCheck(SignupFormData.birthday)) {
+              handleFlag('birthday', true);
+              sethelpTextBirthday('주민번호를 앞에서부터 7자를 입력하세요');
+              return;
+            }
 
             if (emailValidFlag) {
               handleFlag('emailSubmit', true);
@@ -272,24 +314,31 @@ const SignUp = props => {
 
             if (SignupFormData.agreeMail === false) alert('메일 수신 동의는 필수사항입니다.');
 
-            postSignUp({ ...SignupFormData }).then(data => {
-              if (data.error) {
-                switch (data.status) {
+            console.log(data);
+
+            ApiRq('post', signupApiURL.LOCAL_POST_SIGNUP, '', data)
+              .then(() => {
+                alert('회원가입에 성공하셨습니다.');
+                history.push('/login');
+              })
+              .catch(res => {
+                switch (res.data.status) {
                   case 409:
-                    sethelpTextID('이미 존재하는 아이디입니다.');
+                    sethelpTextID(res.data.message);
+                    handleFlag('id', true);
                     break;
                   case 400:
-                    sethelpTextPWCheck('비밀번호가 일치하지 않습니다.');
+                    sethelpTextEmailSubmit(res.data.message);
+                    handleFlag('emailSubmit', true);
                     break;
                   case 404:
-                    sethelpTextRecommend('추천인 아이디가 존재하지 않습니다.');
+                    sethelpTextRecommend(res.data.message);
                     handleFlag('recommend', true);
                     break;
                   default:
                     break;
                 }
-              }
-            });
+              });
           }}
         />
       </CustomContainer>

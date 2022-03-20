@@ -4,7 +4,8 @@ import MuiInput from 'Components/MuiInput';
 import React from 'react';
 import styled from 'styled-components';
 import { gray } from 'styles/theme';
-import { emailValidRequest } from './api';
+import { ApiRq } from 'utils/apiConfig';
+import { signupApiURL } from 'utils/apiUrl';
 
 const SignupEmailSubmit = props => {
   return (
@@ -25,15 +26,23 @@ const SignupEmailSubmit = props => {
             content='인증하기'
             sx={{ fontSize: '0.75rem', height: '2.5rem', width: 'auto', padding: '5px' }}
             onClick={() => {
-              emailValidRequest(props.value).then(res => {
-                if (res.data === '인증성공') {
+              ApiRq(
+                'post',
+                signupApiURL.LOCAL_POST_SIGNUP_EMAILCHECK,
+                null,
+                { number: Number(props.value) },
+                { emailverification: localStorage.getItem('email-token') }
+              )
+                .then(() => {
                   props.setEmailValidFlag(false);
-                } else if (res.data.status) {
+                  props.handleFlag('emailSubmit', false);
+                  localStorage.removeItem('email-token');
+                })
+                .catch(res => {
                   props.setEmailValidFlag(true);
                   props.handleFlag('emailSubmit', true);
-                  props.sethelpText(res.data.message);
-                }
-              });
+                  props.sethelpText('이메일 인증 시간이 지났습니다. 다시 인증요청을 해주세요.');
+                });
             }}
           />
         </CustomStack>
