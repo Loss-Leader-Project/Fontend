@@ -17,8 +17,7 @@ export const loginApiURL = {};
 export const signupApiURL = {};
 
 export const listApiURL = {
-  MOK_GET_LIST: '/data/food-gold.json',
-  GET_LIST: query => `/list?${query}`,
+  GET_LIST: query => `/store/list/?${query}`,
 };
 
 export const myApiURL = {

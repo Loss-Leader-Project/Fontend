@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
-import Fliters from 'pages/List/Fliters';
-import { fetchList } from 'utils/api';
+import Filters from 'pages/List/Filters';
 import { useLocation } from 'react-router';
 import Pages from 'Components/Pages';
 import qs from 'query-string';
@@ -10,6 +9,7 @@ import { css } from 'styled-components';
 import { brandColor, gray, lightDark, lightGray, mobile, tab } from 'styles/theme';
 import { ApiRq } from 'utils/apiConfig';
 import { listApiURL } from 'utils/apiUrl';
+import { Link } from 'react-router-dom';
 
 const List = () => {
   const [items, setItems] = useState([]);
@@ -44,17 +44,25 @@ const List = () => {
   }, [oldQeury]);
 
   useEffect(() => {
-    ApiRq('get', listApiURL.MOK_GET_LIST)
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [currentPage]);
+
+  useEffect(() => {
+    const _query = makeQuery(currentPage);
+    ApiRq('get', listApiURL.GET_LIST(_query))
       .then(({ content, totalPages }) => {
         setItems(content);
         setTotalPage(totalPages);
       })
-      .catch(alert);
+      .catch(console.log);
   }, [makeQuery, currentPage]);
-
   return (
     <ListWrapper>
-      <Fliters handleChange={handleChange} size={currentSize} />
+      <Filters handleChange={handleChange} size={currentSize} />
       <CardsWrapper>
         {items.map(item => (
           <Card key={item.id} {...item} />
@@ -66,6 +74,7 @@ const List = () => {
 };
 
 const Card = ({
+  id,
   packaging,
   storeMeal,
   delivery,
@@ -74,11 +83,12 @@ const Card = ({
   thumbnailImage,
   couponGradeName,
   priceOfCoupon,
+  benefitCondition,
 }) => {
   return (
-    <CardWrapper>
+    <CardWrapper to={`/product/${id}`}>
       <CardImgWrapper>
-        <img src={thumbnailImage} alt='cardImg' />
+        <img src={`${process.env.REACT_APP_STORE_IMG_URL}/${thumbnailImage}`} alt='cardImg' />
       </CardImgWrapper>
       <CardRankWrapper>
         <CardRank rank={couponGradeName}>{couponGradeName}</CardRank>
@@ -86,13 +96,16 @@ const Card = ({
         {delivery && <CardSeviceImg src={`${process.env.PUBLIC_URL}/images/delivery.svg`} alt='serviceImg' />}
         {storeMeal && <CardSeviceImg src={`${process.env.PUBLIC_URL}/images/storeMeal.svg`} alt='serviceImg' />}
       </CardRankWrapper>
-      <CardTitle>{`[${briefAddress}] ${storeName}`}</CardTitle>
+      <CardTitle>
+        <StoreName>{`[ ${briefAddress} ] ${storeName}`}</StoreName>
+        {`${benefitCondition}`}
+      </CardTitle>
       <CardDiscount>{`${priceOfCoupon}원 할인`}</CardDiscount>
     </CardWrapper>
   );
 };
 
-const CardWrapper = styled.div`
+const CardWrapper = styled(Link)`
   width: 25%;
   padding: 0.3rem;
   margin-bottom: 1.563rem;
@@ -117,6 +130,10 @@ const CardWrapper = styled.div`
       padding: 0;
     }
   }
+
+  &:hover img[alt~='cardImg'] {
+    transform: scale(1.015);
+  }
 `;
 
 const CardRankWrapper = styled.div`
@@ -134,24 +151,26 @@ const CardRank = styled.span`
   text-align: center;
 
   ${({ rank }) => {
-    return rank !== 'Silver'
+    // Silver로 들어오는걸 방어하기 위해 정규식 사용
+    return /.*Silver.*/gi.test(rank)
       ? css`
-          background: ${lightDark};
-          color: rgba(240, 230, 140, 1);
-        `
-      : css`
           background: ${lightGray};
           color: ${lightDark};
-          font-weight: 900;
+        `
+      : css`
+          background: ${lightDark};
+          color: rgba(240, 230, 140, 1);
         `;
   }}
 `;
 
 const CardImgWrapper = styled.div`
+  overflow: hidden;
   img {
     width: 100%;
     object-fit: cover;
     object-position: center;
+    transition: transform 0.2s ease;
   }
 `;
 
@@ -166,10 +185,19 @@ const CardTitle = styled.h6`
   white-space: nowrap;
   font-size: 1.1rem;
   color: ${gray};
+  line-height: 1.5;
 `;
 
-const CardDiscount = styled.div`
+const StoreName = styled.div`
+  font-size: 1.125rem;
+  font-weight: 900;
+  margin-right: 0.3125rem;
+  display: inline-block;
+`;
+
+const CardDiscount = styled.p`
   color: ${brandColor};
+  font-size: 1.125rem;
 `;
 
 const ListWrapper = styled.section`
@@ -179,8 +207,6 @@ const ListWrapper = styled.section`
 const CardsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 0.625rem;
 `;
 
 export default List;

@@ -11,22 +11,22 @@ const Nav = () => {
     () => [
       {
         id: 1,
-        path: `${path}?tier=all`,
+        path: `${path}?tier=all&sorting=desc`,
         text: '전체',
       },
       {
         id: 2,
-        path: `${path}?tier=gold`,
+        path: `${path}?tier=gold&sorting=desc`,
         text: '골드',
       },
       {
         id: 3,
-        path: `${path}?tier=silver`,
+        path: `${path}?tier=silver&sorting=desc`,
         text: '실버',
       },
       {
         id: 4,
-        path: `${path}?tier=hotplace`,
+        path: `${path}?tier=hotplace&sorting=desc`,
         text: '핫플레이',
       },
     ],
