@@ -7,14 +7,14 @@ import Carousel from './Carousel';
 import { tab, mobile, brandColor, lightGray } from 'styles/theme';
 
 function BottomReview({ review }) {
-  const { star, userId, reviewUpdateDate, reviewImage, reviewContent } = review;
+  const { star, userName, lastModifiedDate, imageIdentifyList, content } = review;
 
   return (
     <BottomWrapper>
       <TopInfo>
         <FontAwesomeIcon icon={faUserCircle} className='icon' />
         <Info>
-          <div>{userId}</div>
+          <div>{userName}</div>
           <RatingWrapper>
             <Rating
               name='rating'
@@ -25,12 +25,12 @@ function BottomReview({ review }) {
               className='rating'
               readOnly
             />
-            <RatingNumberDate fontSize='0.8rem'>{reviewUpdateDate}</RatingNumberDate>
+            <RatingNumberDate fontSize='0.8rem'>{lastModifiedDate}</RatingNumberDate>
           </RatingWrapper>
         </Info>
       </TopInfo>
-      <Content>{reviewContent}</Content>
-      <Carousel {...{ reviewImage }} altText='리뷰이미지' autoPlay={false} />
+      <Content>{content}</Content>
+      <Carousel {...{ imageIdentifyList }} altText='리뷰이미지' autoPlay={false} />
     </BottomWrapper>
   );
 }
@@ -40,7 +40,7 @@ export default BottomReview;
 const BottomWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 5rem 0 10rem 0;
+  margin: 5rem 0 15rem 0;
   ${tab} {
     margin: 5rem 0 5rem 0;
   }

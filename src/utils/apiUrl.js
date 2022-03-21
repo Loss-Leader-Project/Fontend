@@ -2,7 +2,8 @@
 //변수명 규칙 : LOCAL or MOK + GET or POST + PageName + SubName
 
 export const detailApiURL = {
-  LOCAL_GET_DETAIL: '/data/newDetailData.json',
+  LOCAL_GET_DETAIL: '/store/detail',
+  LOCAL_GET_REVIEW: '/review/listing-store/?storeId=1&page=0&size=20',
 };
 
 export const applyApiURL = {

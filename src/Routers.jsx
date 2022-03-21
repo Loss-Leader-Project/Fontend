@@ -17,6 +17,7 @@ import MainInfoProject from 'pages/Main/MainInfoProject';
 import HamburgerMenu from 'Components/HamburgerMenu';
 import Footer from 'Components/Footer';
 import Completion from 'pages/Completion/Completion';
+import TeamsInfo from 'pages/TeamsInfo/TeamsInfo';
 
 const Routers = () => {
   const [open, setOpen] = useState(false);
@@ -48,6 +49,7 @@ const Routers = () => {
         <Route exact path='/completion/:productId' component={Completion} />
         <Route path='/my' component={My} />
         <Route exact path='/list' component={List} />
+        <Route exact path='/teamsInfo' component={TeamsInfo} />
         <Route path='*' render={() => <Redirect to='/' />} />
       </Switch>
       <Footer />

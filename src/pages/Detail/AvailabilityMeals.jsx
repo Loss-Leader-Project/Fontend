@@ -4,31 +4,34 @@ import { faUtensils, faGift, faMotorcycle } from '@fortawesome/free-solid-svg-ic
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { tab, mobile } from 'styles/theme';
 
-function AvailabilityMeals({ content }) {
+function AvailabilityMeals({ storeMeal, packaging, delivery }) {
   const availabilityData = [
     {
       ida: 1,
       name: '매장식사',
       icone: faUtensils,
+      isOn: storeMeal,
     },
     {
       ida: 2,
       name: '포장',
       icone: faGift,
+      isOn: packaging,
     },
     {
       ida: 3,
       name: '배달',
       icone: faMotorcycle,
+      isOn: delivery,
     },
   ];
   return (
     <Contain>
-      {availabilityData.map(({ ida, name, icone }) => {
+      {availabilityData.map(({ ida, name, icone, isOn }) => {
         return (
-          <Wrapper key={ida} availability={content?.includes(name)}>
+          <Wrapper key={ida} availability={isOn}>
             <FontAwesomeIcon icon={icone} className='availabilityIcon' />
-            <Content availability={content?.includes(name)}>{name}</Content>
+            <Content availability={isOn}>{name}</Content>
           </Wrapper>
         );
       })}

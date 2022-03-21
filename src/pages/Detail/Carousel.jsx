@@ -3,9 +3,9 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
+import { changeImageUrl } from './changeImageUrl';
 
-function Carousel({ reviewImage, altText, autoPlay }) {
-  //목데랑 alt 부분 자동으로 넘겨지는부분 인ㅈ로 받기
+function Carousel({ imageIdentifyList, altText, autoPlay }) {
   const sliderSettings = {
     className: 'center',
     dots: true,
@@ -13,23 +13,23 @@ function Carousel({ reviewImage, altText, autoPlay }) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: autoPlay, //이부분 바꿈
+    autoplay: autoPlay,
     autoplaySpeed: 3000,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
-
+  const imagesChange = changeImageUrl(imageIdentifyList, '리뷰');
   return (
     <SliderContainer>
       <Slider {...sliderSettings}>
-        {reviewImage?.map(({ id, image }) => {
+        {imagesChange.map(({ id, image }) => {
           return <img key={id} src={image} alt={altText} />;
         })}
       </Slider>
     </SliderContainer>
   );
 }
-
+//
 export default Carousel;
 
 function PrevArrow(props) {

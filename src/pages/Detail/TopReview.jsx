@@ -4,7 +4,7 @@ import { Rating } from '@mui/material';
 import { brandColor, lightGray, lightDark } from 'styles/theme';
 import Pages from '../../Components/Pages';
 
-function TopReview({ ratingTotal, reviewCount, totalPage, currentPage, changeCurrentPage }) {
+function TopReview({ avgStar, reviewCount, totalPage, currentPage, changeCurrentPage }) {
   return (
     <TopWrapper>
       <TotalInfo>
@@ -13,12 +13,12 @@ function TopReview({ ratingTotal, reviewCount, totalPage, currentPage, changeCur
           <Rating
             name='rating'
             defaultValue={0}
-            value={ratingTotal || null}
+            value={avgStar || null}
             precision={0.5}
             className='totalRating'
             readOnly
           />
-          <RatingNumberDate fontSize='1.2rem'>{ratingTotal}</RatingNumberDate>
+          <RatingNumberDate fontSize='1.2rem'>{avgStar}</RatingNumberDate>
         </TotalRatingInfo>
       </TotalInfo>
       <Pages {...{ totalPage, currentPage, changeCurrentPage }} />

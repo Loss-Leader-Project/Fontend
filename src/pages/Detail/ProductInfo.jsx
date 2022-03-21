@@ -1,20 +1,14 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+
 import styled from 'styled-components';
 import { Rating } from '@mui/material';
 import { css } from 'styled-components';
 import Tag from '../../Components/Tag';
 import { tab, mobile, brandColor, lightDark } from 'styles/theme';
 
-function ProductInfo({ storeTopData, param }) {
-  const history = useHistory();
-
-  const isApply = storeTopData?.leftCoupon === 0;
+function ProductInfo({ storeTopData, applyPageMove }) {
   const applyButtonURL = `/images/DetailPageApply${storeTopData?.leftCoupon === 0 ? 'Block' : ''}.png`;
-
-  const applyPageMove = () => {
-    isApply ? alert('상품 준비중 입니다.') : history.push(`/apply/${param.productId}`); //productId 적기
-  };
+  const isApply = storeTopData?.leftCoupon === 0;
 
   return (
     <Contain>
