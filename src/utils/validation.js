@@ -46,11 +46,11 @@ export default class Validation {
    * @returns {boolean}
    */
   static emptyCheck(value) {
+    if (value === '' || value === 0 || value === undefined || value === null) return true;
     if (typeof value === 'object') {
       if (Array.isArray(value)) return value.length === 0;
       return Object.keys(value).length === 0;
     }
-    if (value === '' || value === 0 || value === undefined || value === null) return true;
     return false;
   }
 

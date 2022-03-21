@@ -20,10 +20,17 @@ export const listApiURL = {
   GET_LIST: query => `/store/list/?${query}`,
 };
 
+/**
+ * GET_USER_INFO 유저정보 가져오기
+ * GET_USER_INFO_UPDATE 유저정보 수정
+ * POST_CREATE_REVIEW 업체 리뷰 작성
+ * GET_ORDERS 구매 정보
+ * GET_COUPONS 쿠폰 정보
+ * GET_REVIEWS 작성한 업체 리뷰
+ */
 export const myApiURL = {
-  MOK_GET_USER_INFO: '/data/user.json',
-  GET_USER_INFO: id => `/userinfo/${id}`,
-  GET_USER_INFO_UPDATE: id => `/userinfo/${id}`,
+  GET_USER_INFO: `/user/info`,
+  GET_USER_INFO_UPDATE: `/user/info`,
   POST_CREATE_REVIEW: pathVariable => `/reviwe/${pathVariable}`,
   GET_ORDERS: '/data/orders.json',
   GET_COUPONS: '/data/coupons.json',
