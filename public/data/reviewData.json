@@ -1,79 +1,430 @@
 {
-  "reviewCount": 150,
-  "totalPage": 15,
-  "avgRating": 2.5,
-  "reviews": [
+  "content": [
     {
       "id": 1,
-      "star": 5.0,
-      "userId": "test1",
-      "reviewContent": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
-      "reviewCreateDate": "2012-02-02",
-      "reviewUpdateDate": "2012-02-02",
-      "reviewImage": [
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
         {
           "id": 1,
-          "image": "https://ifh.cc/g/HH0EzH.jpg"
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
         },
         {
           "id": 2,
-          "image": "https://ifh.cc/g/HH0EzH.jpg"
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
         }
-      ]
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
     },
     {
       "id": 2,
-      "star": 2.0,
-      "userId": "test2",
-      "reviewContent": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
-      "reviewCreateDate": "2012-02-02",
-      "reviewUpdateDate": "2012-02-02",
-      "reviewImage": [
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
         {
           "id": 1,
-          "image": "https://ifh.cc/g/HH0EzH.jpg"
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
         },
         {
           "id": 2,
-          "image": "https://ifh.cc/g/HH0EzH.jpg"
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
         }
-      ]
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
     },
     {
       "id": 3,
-      "star": 5.0,
-      "userId": "test3",
-      "reviewContent": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
-      "reviewCreateDate": "2012-02-02",
-      "reviewUpdateDate": "2012-02-02",
-      "reviewImage": [
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
         {
           "id": 1,
-          "image": "https://ifh.cc/g/HH0EzH.jpg"
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
         },
         {
           "id": 2,
-          "image": "https://ifh.cc/g/HH0EzH.jpg"
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
         }
-      ]
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
     },
     {
       "id": 4,
-      "star": 2.5,
-      "userId": "test4",
-      "reviewContent": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
-      "reviewCreateDate": "2012-02-02",
-      "reviewUpdateDate": "2012-02-02",
-      "reviewImage": [
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
         {
           "id": 1,
-          "image": "https://ifh.cc/g/HH0EzH.jpg"
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
         },
         {
           "id": 2,
-          "image": "https://ifh.cc/g/HH0EzH.jpg"
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
         }
-      ]
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 5,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 6,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 7,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 8,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 9,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 10,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 11,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 12,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 13,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 14,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 15,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 16,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 17,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 18,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 19,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
+    },
+    {
+      "id": 20,
+      "content": "꽃차에 관심이 생겨서 여러군데 찾아보다가 신청했습니다. 친절하게 꽃차에 대해 설명해주셨고 직접 우려준 꽃차도 대만족입니다. 꽃차만들기 체험을 해보면서 더욱 더 흥미가 생겼네요^^",
+      "title": "꽃차를 추천합니다.",
+      "imageIdentifyList": [
+        {
+          "id": 1,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        },
+        {
+          "id": 2,
+          "imageIdentify": "b85bbbda-34af-42b1-918d-de64296a5b1a.jpg"
+        }
+      ],
+      "star": 5.0,
+      "userName": "로스리더",
+      "storeName": "꽃차",
+      "storeId": 37,
+      "briefAddress": "주안동"
     }
-  ]
+  ],
+  "empty": true,
+  "first": true,
+  "last": true,
+  "number": 0,
+  "numberOfElements": 0,
+  "pageable": {
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 0,
+    "paged": true,
+    "sort": {
+      "empty": true,
+      "sorted": true,
+      "unsorted": true
+    },
+    "unpaged": true
+  },
+  "size": 20,
+  "sort": {
+    "empty": true,
+    "sorted": true,
+    "unsorted": true
+  },
+  "totalElements": 0,
+  "totalPages": 1,
+  "avgStar": 3.5
 }

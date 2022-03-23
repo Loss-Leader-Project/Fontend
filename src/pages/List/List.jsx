@@ -18,6 +18,7 @@ const List = () => {
   const [totalPage, setTotalPage] = useState(0);
   const [currentSize, setCurrentSize] = useState(20);
   const oldQeury = useMemo(() => qs.parse(search), [search]);
+  const { tier } = oldQeury;
 
   const makeQuery = useCallback(
     (page = 1) =>
@@ -60,6 +61,7 @@ const List = () => {
       })
       .catch(console.log);
   }, [makeQuery, currentPage]);
+
   return (
     <ListWrapper>
       <Filters handleChange={handleChange} size={currentSize} />
@@ -68,7 +70,7 @@ const List = () => {
           <Card key={item.id} {...item} />
         ))}
       </CardsWrapper>
-      <Pages currentPage={currentPage} totalPage={totalPage} changeCurrentPage={handlePage} />
+      {tier !== 'hotplace' && <Pages currentPage={currentPage} totalPage={totalPage} changeCurrentPage={handlePage} />}
     </ListWrapper>
   );
 };

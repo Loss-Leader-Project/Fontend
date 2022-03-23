@@ -3,7 +3,6 @@
 
 import axios from 'axios';
 import { API_ENDPOINT } from 'utils/apiBaseUrl';
-import { HTTPError } from 'utils/httpErrorMessage';
 
 const axiosInstance = axios.create({
   baseURL: API_ENDPOINT, //baseURL 미리세팅
@@ -15,11 +14,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   response => Promise.resolve(response),
-  ({ response }) => {
-    const { status } = response;
-    const { message } = response.data;
-    return Promise.reject(new HTTPError({ status, message }));
-  }
+  ({ response }) => Promise.reject(response)
 );
 
 export default axiosInstance;
