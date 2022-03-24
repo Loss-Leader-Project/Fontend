@@ -5,7 +5,7 @@ import TopReview from './TopReview';
 import { detailApiURL } from 'utils/apiUrl';
 import { ApiRq } from 'utils/apiConfig';
 
-function ProductReview({ avgStar }) {
+function ProductReview({ avgStar, param }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [reviewsData, setReviewsData] = useState([]);
   const changeCurrentPage = c => {
@@ -13,16 +13,18 @@ function ProductReview({ avgStar }) {
   };
 
   useEffect(() => {
-    ApiRq('GET', detailApiURL.REAL_GET_REVIEW, { storeId: 1, page: 0 }).then(data => {
-      setReviewsData(data);
+    ApiRq('GET', detailApiURL.LOCAL_GET_REVIEW, { storeId: param.productId, page: 0, size: 5 }).then(data => {
+      setReviewsData(data?.data);
     });
   }, []);
 
   useEffect(() => {
-    ApiRq('GET', detailApiURL.REAL_GET_REVIEW, { storeId: 1, page: currentPage - 1 }).then(data => {
-      setReviewsData(data);
-    });
-  }, [currentPage]);
+    ApiRq('GET', detailApiURL.LOCAL_GET_REVIEW, { storeId: param.productId, page: currentPage - 1, size: 5 }).then(
+      data => {
+        setReviewsData(data?.data);
+      }
+    );
+  }, [currentPage, param]);
 
   return (
     <Contain>

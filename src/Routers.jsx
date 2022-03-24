@@ -48,7 +48,7 @@ const Routers = () => {
         <Route exact path='/product/:productId' component={Detail} />
         <Route exact path='/product/:productId/:review' component={Detail} />
         <Route exact path='/apply/:productId' component={Apply} />
-        <Route exact path='/completion/:productId' component={Completion} />
+        <Route exact path='/completion/:orderNumber' component={Completion} />
         <Route path='/my' component={My} />
         <Route exact path='/list' component={List} />
         <Route exact path='/teamsInfo' component={TeamsInfo} />

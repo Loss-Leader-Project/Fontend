@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { mobile, tab, pc } from 'styles/theme';
 import ColumnTitle from './ColumnTitle';
 
-function OrdererInfo({ handleValue, orderInfoData }) {
+function OrdererInfo({ handleValue, orderInfoData, flag }) {
   return (
     <div>
       {orderInfoData.map(({ id, title, name, label }) => {
@@ -19,6 +19,7 @@ function OrdererInfo({ handleValue, orderInfoData }) {
                 type='text'
                 helperText={`${label}을 입력해주세요`}
                 size='small'
+                flag={flag[name]}
               />
             </InputWrapper>
           </Wrapper>

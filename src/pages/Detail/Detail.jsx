@@ -7,8 +7,9 @@ import { tab, mobile } from 'styles/theme';
 import { useParams } from 'react-router';
 import { detailApiURL } from 'utils/apiUrl';
 import { ApiRq } from 'utils/apiConfig';
-import { changeImageUrl } from './changeImageUrl';
+import { changeImageUrl } from 'utils/changeImageUrl';
 import { useHistory } from 'react-router-dom';
+import TokenCheck from 'utils/TokenCheck.js';
 
 function Detail() {
   const [mainImage, setMainImage] = useState('');
@@ -16,42 +17,57 @@ function Detail() {
   const [subImages, setSubImages] = useState([]);
   const param = useParams();
   const history = useHistory();
+  const accessToken = localStorage.getItem('access-token');
 
   useEffect(() => {
-    ApiRq('GET', detailApiURL.REAL_GET_DETAIL, { storeId: param.productId }).then(data => {
-      const imageUrles = changeImageUrl(data?.storeTopData?.storeFoodImageResponseList, '업체');
-      setSubImages([imageUrles[1], imageUrles[2], imageUrles[3], imageUrles[4]]);
-      setMainImage(imageUrles[0].image);
-      setProductData(data);
+    TokenCheck(
+      accessToken =>
+        ApiRq('GET', detailApiURL.LOCAL_GET_DETAIL, { storeId: param.productId }, null, { Authorization: accessToken }),
+      null
+    ).then(data => {
+      setProductData(data?.data);
+      imageFirstSetting(data?.data);
     });
-  }, []);
+  }, [param.productId, accessToken]);
 
-  const hoverChangeImage = e => {
-    const imageUrles = changeSubImageArr(e.target.alt);
+  const imageFirstSetting = productData => {
+    const imageUrles = changeImageUrl(productData?.storeTopData?.storeFoodImageResponseList, '업체');
+    setSubImages([imageUrles[1], imageUrles[2], imageUrles[3], imageUrles[4]]);
+    setMainImage(imageUrles[0].image);
+  };
+
+  const clickChangeImage = e => {
+    const imageUrles = changeSubImageArr(e.target.id);
     setSubImages(imageUrles);
     setMainImage(e.target.currentSrc);
   };
 
-  const changeSubImageArr = hoverName => {
-    const imageArr = productData.storeTopData?.storeFoodImageResponseList?.filter(({ name }) => {
-      return name !== hoverName;
+  const changeSubImageArr = idN => {
+    const imageArr = productData.storeTopData?.storeFoodImageResponseList?.filter(({ id }) => {
+      return `${id}` !== idN;
     });
     return changeImageUrl(imageArr, '업체');
   };
 
   const applyPageMove = () => {
-    const isApply = productData?.storeTopData?.leftCoupon === 0;
-    isApply ? alert('상품 준비중 입니다.') : history.push(`/apply/${param.productId}`);
+    TokenCheck(() => null, history).then(data => {
+      const isApply = productData?.storeTopData?.leftCoupon === 0;
+      isApply ? alert('상품 준비중 입니다.') : history.push(`/apply/${param.productId}`);
+    });
   };
 
   return (
     <Contain>
       <TopWrapper>
-        <ProductPhoto {...{ mainImage, hoverChangeImage, subImages }} />
+        <ProductPhoto {...{ mainImage, clickChangeImage, subImages }} />
         <ProductInfo storeTopData={productData?.storeTopData} {...{ applyPageMove }} />
       </TopWrapper>
       <BottomWrapper>
-        <MenuBar avgStar={productData?.storeTopData?.avgStar} storeDetailResponse={productData?.storeDetailResponse} />
+        <MenuBar
+          avgStar={productData?.storeTopData?.avgStar}
+          storeDetailResponse={productData?.storeDetailResponse}
+          {...{ param }}
+        />
       </BottomWrapper>
     </Contain>
   );

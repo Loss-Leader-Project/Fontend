@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { tab, mobile } from 'styles/theme';
+import { changeImageUrl } from 'utils/changeImageUrl';
 
-function TopImg({ applyGetData }) {
+function TopImg({ productData }) {
   const imageUrl = [
     {
       id: 1,
@@ -12,7 +13,7 @@ function TopImg({ applyGetData }) {
     {
       id: 2,
       name: 'thumnail',
-      url: applyGetData.thumnail,
+      url: changeImageUrl(productData.thumbnailImage, '업체'),
     },
   ];
 

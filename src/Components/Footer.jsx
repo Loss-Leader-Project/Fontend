@@ -19,14 +19,15 @@ export default function Footer() {
 
   const fontawsomeIconImage = [faGithub, faGitSquare, faCopy];
 
+  console.log(footerData);
   return (
     <Contain>
       <div>
-        {footerData.footerMenu?.map(menu => {
+        {footerData.footerMenu?.map(({ name, id }) => {
           return (
             //팀원소개 페이지도 구현예정
-            <Menues to={`/${menu.name === '팀원소개' ? 'teamsInfo' : ''}`} key={menu.id}>
-              {menu.name}
+            <Menues to={`/${name === '팀원소개' ? 'teamsInfo' : ''}`} key={id}>
+              {name}
             </Menues>
           );
         })}

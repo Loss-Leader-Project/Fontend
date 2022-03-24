@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { tab, mobile } from 'styles/theme';
 
-function ProductPhoto({ subImages, mainImage, hoverChangeImage }) {
+function ProductPhoto({ subImages, mainImage, clickChangeImage }) {
   return (
     <Contain>
       <MainImage alt='thumnail' src={mainImage} />
@@ -10,7 +10,7 @@ function ProductPhoto({ subImages, mainImage, hoverChangeImage }) {
         {subImages?.map(({ id, name, image }) => {
           return (
             <SubImageWrapper key={id}>
-              <SubImage alt={name} src={image} onClick={hoverChangeImage} />
+              <SubImage id={id} alt={name} src={image} onClick={clickChangeImage} />
             </SubImageWrapper>
           );
         })}

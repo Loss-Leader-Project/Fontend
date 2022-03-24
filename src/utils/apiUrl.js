@@ -3,12 +3,14 @@
 
 export const detailApiURL = {
   LOCAL_GET_DETAIL: '/store/detail',
-  LOCAL_GET_REVIEW: '/review/listing-store/?storeId=1&page=0&size=20',
+  LOCAL_GET_REVIEW: '/review/listing-store',
 };
 
 export const applyApiURL = {
   MOK_GET_APPLY_TITLE: '/data/applyTitle.json',
-  LOCAL_GET_APPLY: '/data/applyData.json',
+  LOCAL_GET_APPLY: '/order/store',
+  LOCAL_POST_APPLY: '/order/store',
+  LOCAL_GET_COMPLETION: '/order/detail',
 };
 
 export const mainApiURL = {

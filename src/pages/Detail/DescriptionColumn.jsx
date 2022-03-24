@@ -5,7 +5,7 @@ import AvailabilityMeals from './AvailabilityMeals';
 import DescriptionMenuInfo from './DescriptionMenuInfo';
 import NaverMapApi from './NaverMapApi';
 import { tab, mobile, lightGray } from 'styles/theme';
-import { changeImageUrl } from './changeImageUrl';
+import { changeImageUrl } from 'utils/changeImageUrl';
 
 function DescriptionColumn({
   icon,

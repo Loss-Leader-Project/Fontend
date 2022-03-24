@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
@@ -8,11 +8,16 @@ import ProductReview from './ProductReview';
 import styled from 'styled-components';
 import { tab, mobile, brandColor } from 'styles/theme';
 
-function MenuBar({ avgStar, storeDetailResponse }) {
+function MenuBar({ param, avgStar, storeDetailResponse }) {
   const [value, setValue] = useState('1');
   const handleChange = (e, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    setValue(param.review ? '2' : '1');
+  }, [param]);
+
   return (
     <Contain>
       <TabContext value={value}>
@@ -33,7 +38,7 @@ function MenuBar({ avgStar, storeDetailResponse }) {
           <Description {...{ storeDetailResponse }} />
         </TabPanel>
         <TabPanel value='2'>
-          <ProductReview {...{ avgStar }} />
+          <ProductReview {...{ avgStar, param }} />
         </TabPanel>
       </TabContext>
     </Contain>

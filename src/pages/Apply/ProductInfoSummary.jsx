@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import { mobile, lightDark, brandColor } from 'styles/theme';
+import { lightDark, brandColor } from 'styles/theme';
 
-function ProductInfoSummary({ applyGetData }) {
-  const { briefAddress, cuponBenefit, cuponCondition, cuponPrice, storeName } = applyGetData;
+function ProductInfoSummary({ productData }) {
+  const { briefAddress, benefitCondition, couponContent, priceOfCoupon, storeName } = productData;
   return (
     <div>
       <Title>
         [{briefAddress}] {storeName}
       </Title>
-      <CuponName>{cuponCondition}</CuponName>
-      <CuponName>{cuponBenefit}</CuponName>
-      <CuponPrice>{cuponPrice}원</CuponPrice>
+      <CuponName>{benefitCondition}</CuponName>
+      <CuponName>{couponContent}</CuponName>
+      <CuponPrice>{priceOfCoupon}원</CuponPrice>
     </div>
   );
 }
