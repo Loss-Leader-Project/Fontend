@@ -55,7 +55,8 @@ const List = () => {
   useEffect(() => {
     const _query = makeQuery(currentPage);
     ApiRq('get', listApiURL.GET_LIST(_query))
-      .then(({ content, totalPages }) => {
+      .then(({ data }) => {
+        const { content, totalPages } = data;
         setItems(content);
         setTotalPage(totalPages);
       })
