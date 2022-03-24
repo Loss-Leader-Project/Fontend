@@ -2,12 +2,8 @@
 // const host = process.env.REACT_APP_API_ENDPOINT || 'localhost';
 // const port = 3000;
 
-// const API_ENDPOINT = `http://${host}:${port}`;
-// export { API_ENDPOINT };
-
 const host = process.env.REACT_APP_API_HOST ?? 'localhost';
 const port = process.env.REACT_APP_API_PORT ?? 3000;
 
 const API_ENDPOINT = `${host}:${port}`;
-
 export { API_ENDPOINT };

@@ -8,9 +8,9 @@ import ProductReview from './ProductReview';
 import styled from 'styled-components';
 import { tab, mobile, brandColor } from 'styles/theme';
 
-function MenuBar({ storeDetailResponse }) {
+function MenuBar({ avgStar, storeDetailResponse }) {
   const [value, setValue] = useState('1');
-  const handleChange = (event, newValue) => {
+  const handleChange = (e, newValue) => {
     setValue(newValue);
   };
   return (
@@ -33,7 +33,7 @@ function MenuBar({ storeDetailResponse }) {
           <Description {...{ storeDetailResponse }} />
         </TabPanel>
         <TabPanel value='2'>
-          <ProductReview />
+          <ProductReview {...{ avgStar }} />
         </TabPanel>
       </TabContext>
     </Contain>

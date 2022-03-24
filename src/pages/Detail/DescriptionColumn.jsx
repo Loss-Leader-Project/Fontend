@@ -5,8 +5,20 @@ import AvailabilityMeals from './AvailabilityMeals';
 import DescriptionMenuInfo from './DescriptionMenuInfo';
 import NaverMapApi from './NaverMapApi';
 import { tab, mobile, lightGray } from 'styles/theme';
+import { changeImageUrl } from './changeImageUrl';
 
-function DescriptionColumn({ icon, title, url, content, storeMenuResponseList, longitude, latitude }) {
+function DescriptionColumn({
+  icon,
+  title,
+  image,
+  storeMeal,
+  packaging,
+  delivery,
+  storeMenuResponseList,
+  longitude,
+  latitude,
+}) {
+  const imageUrl = changeImageUrl(image, '업체');
   return (
     <Wrapper>
       <InfoWrapper>
@@ -14,8 +26,8 @@ function DescriptionColumn({ icon, title, url, content, storeMenuResponseList, l
         <InfoContent>{title}</InfoContent>
       </InfoWrapper>
       {title === '메뉴정보' && <DescriptionMenuInfo {...{ storeMenuResponseList }} />}
-      {title === '식사유무' && <AvailabilityMeals {...{ content }} />}
-      {title === '메뉴이미지' && <MenuImage src={url} alt={title} />}
+      {title === '식사유무' && <AvailabilityMeals {...{ storeMeal, packaging, delivery }} />}
+      {title === '메뉴이미지' && <MenuImage src={imageUrl} alt={title} />}
       {title === '지도' && <NaverMapApi {...{ longitude, latitude }} />}
     </Wrapper>
   );

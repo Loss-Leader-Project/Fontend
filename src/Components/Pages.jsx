@@ -23,6 +23,7 @@ function Pages({ totalPage, currentPage, changeCurrentPage }) {
     }
     setTotalArr(pageArr);
   }, [startEndPage]);
+
   useEffect(() => {
     changeCurrentPage(startEndPage.start);
   }, [startEndPage]);
