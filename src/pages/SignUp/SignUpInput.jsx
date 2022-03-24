@@ -7,7 +7,6 @@ import { brandColor, gray, mobile } from 'styles/theme';
 import MuiInput from 'Components/MuiInput';
 
 const SignUpInput = props => {
-  console.log(props.NotMust);
   return (
     <CustomGridContainer>
       <MustItem item lg={3} md={3} sm={3} xs={3}>

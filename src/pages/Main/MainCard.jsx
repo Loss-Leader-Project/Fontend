@@ -1,14 +1,25 @@
 import { Rating } from '@mui/material';
 import React from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 
 const MainCard = props => {
+  const history = useHistory();
+
+  const moveDetail = id => {
+    history.push(`/product/${id}`);
+  };
+
   return (
-    <CardWrapper>
+    <CardWrapper
+      onClick={() => {
+        moveDetail(props.id);
+      }}
+    >
       {props.name === 'hotplace' && (
         <div>
           <div>
-            <CardImg src={`${props.imgUrl}`} alt='cardImg' />
+            <CardImg src={`${process.env.REACT_APP_STORE_IMG_URL}/${props.imgUrl}`} alt='cardImg' />
           </div>
           <div>
             <CardTitle>
@@ -21,7 +32,7 @@ const MainCard = props => {
       {props.name === 'bestreview' && (
         <div>
           <div>
-            <CardImg src={`${props.reviewImage}`} alt='cardImg' />
+            <CardImg src={`${process.env.REACT_APP_REVIEW_IMG_URL}/${props.reviewImage}`} alt='cardImg' />
           </div>
           <div>
             <CardContent name={props.name}>{props.reviewContent}</CardContent>

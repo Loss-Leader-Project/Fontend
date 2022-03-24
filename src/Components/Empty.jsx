@@ -14,7 +14,7 @@ const Container = styled.div`
 
   ${mobile} {
     font-size: 1rem;
-  }
+  } ;
 `;
 
 export default Empty;

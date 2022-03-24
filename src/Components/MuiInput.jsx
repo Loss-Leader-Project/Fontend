@@ -44,7 +44,6 @@ const CustomField = styled(TextField)`
     `}
 
   .MuiOutlinedInput-root {
-    height: 2.5rem;
     & fieldset,
     &.Mui-focused fieldset,
     &:hover fieldset {

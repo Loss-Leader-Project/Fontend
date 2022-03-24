@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { ApiRq } from './apiConfig';
+import { loginApiURL } from './apiUrl';
 
 // api.js 사라질 코드
 export const client = axios.create({
@@ -46,12 +48,9 @@ export const TokenCheck = async (apiCall, history) => {
       },
     });
     // check 값이 오류이면
-    if (check.data.code === 419) {
+    if (check.data.status === 419) {
       localStorage.removeItem('access-token');
-      await client({
-        method: 'GET',
-        url: '/loss-leader/logout',
-      });
+      await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT);
       alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
       history.push('/login');
     } else {
@@ -68,10 +67,7 @@ export const TokenCheck = async (apiCall, history) => {
       }
     }
   } else {
-    await client({
-      method: 'GET',
-      url: '/loss-leader/logout',
-    });
+    await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT);
     alert('로그인이 만료되었습니다. 다시 로그인하십시오.');
     history.push('/login');
   }

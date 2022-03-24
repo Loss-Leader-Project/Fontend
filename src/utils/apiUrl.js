@@ -11,11 +11,29 @@ export const applyApiURL = {
   LOCAL_GET_APPLY: '/data/applyData.json',
 };
 
-export const mainApiURL = {};
+export const mainApiURL = {
+  MOK_GET_HOTPLACE: '/data/mainfood-hotplace.json',
+  MOK_GET_BESTREVIEW: '/data/mainfood-bestreview.json',
+  LOCAL_GET_HOTPLACE: '/store/listing-hot',
+  LOCAL_GET_BESTREVIEW: '/review/listing-hot',
+};
 
-export const loginApiURL = {};
+export const loginApiURL = {
+  LOCAL_POST_LOGIN: '/login',
+  LOCAL_POST_SEARCHID: '/login/id',
+  LOCAL_POST_SEARCHPW: '/login/password',
+  LOCAL_GET_LOGIN_KAKAO: '/lossleader/callback/kakao',
+  LOCAL_GET_LOGIN_NAVER: '/lossleader/callback/naver',
+  LOCAL_GET_LOGIN_LOGOUT_KAKAO: '/logout/kakao',
+  LOCAL_GET_LOGIN_LOGOUT: '/logout',
+};
 
-export const signupApiURL = {};
+export const signupApiURL = {
+  LOCAL_GET_SIGNUP_IDCHECK: '/lossleader-user/loginid',
+  LOCAL_POST_SIGNUP: '/lossleader-user',
+  LOCAL_POST_SIGNUP_EMAILCHECK: '/lossleader-user/number',
+  LOCAL_POST_SIGNUP_EMAILREQUEST: '/lossleader-user/email',
+};
 
 export const listApiURL = {
   GET_LIST: query => `/store/list/?${query}`,

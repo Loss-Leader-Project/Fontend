@@ -10,6 +10,7 @@ export const ApiRq = async (method, url, params = '', data, headers) => {
       params,
       data,
       headers,
+      credentials: 'include',
     });
 
     return res;

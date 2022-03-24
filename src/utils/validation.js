@@ -5,7 +5,7 @@ export default class Validation {
   static password = /^(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
   static email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   static phonenumber = /^(010)[0-9]{3,4}[0-9]{4}$/;
-  static birthday = /^([0,9])[0-9]{6}$/;
+  static birthday = /^([0-9])[0-9]{6}$/;
   static username = /^[가-힣]{3,9}$/;
   static errors = {};
 

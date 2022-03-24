@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
 import { brandColor, gray, lightDark, lightGray } from 'styles/theme';
-import { checkBlank, checkFlag } from 'pages/LogIn/check';
-import { Login } from './api';
 import LoginNaver from './LoginNaver';
 import { KAKAO_AUTH_URL } from '../../utils/OAuth';
 import { useDispatch } from 'react-redux';
@@ -12,6 +10,9 @@ import { loginCheckAction } from 'modules/reducers/loginReducer';
 import { checkAccessToken } from 'utils/api';
 import MuiInput from 'Components/MuiInput';
 import MuiButton from 'Components/MuiButton';
+import { checkBlankLogin, checkFlag } from 'utils/check';
+import { ApiRq } from 'utils/apiConfig';
+import { loginApiURL } from 'utils/apiUrl';
 
 const LogIn = () => {
   const [checked, setChecked] = useState(false);
@@ -57,28 +58,32 @@ const LogIn = () => {
 
   const getNaverToken = location => {
     if (location.hash) {
-      setToken(location.hash.split('=')[1].split('&')[0]);
+      setToken({ naver: location.hash.split('=')[1].split('&')[0] });
     } else if (location.search) {
-      setToken(location.search.split('=')[1]);
+      setToken({ kakao: location.search.split('=')[1] });
     }
   };
 
   useEffect(() => {
-    getNaverToken(location);
-  }, [location]);
+    if (token !== '') {
+      if ('naver' in token) {
+        ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_NAVER, { code: token.naver }).then(res => {
+          console.log(res);
+          localStorage.setItem('access-token', res.headers.authorization.split(' ')[1]);
+          history.push('/');
+        });
+      } else {
+        ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_KAKAO, { code: token.kakao }).then(res => {
+          localStorage.setItem('access-token', res.headers.authorization.split(' ')[1]);
+          history.push('/');
+        });
+      }
+    } else {
+      getNaverToken(location);
+    }
+  }, [location, token, history]);
 
   const dispatch = useDispatch();
-
-  const LoginAPI = (id, password) => {
-    Login(id, password)
-      .then(res => {
-        localStorage.setItem('access-token', res.headers.Authroization);
-      })
-      .catch(error => {
-        console.log(error);
-        return true;
-      });
-  };
 
   return (
     <>
@@ -111,11 +116,21 @@ const LogIn = () => {
               sx={{ height: '8rem' }}
               content='로그인'
               onClick={async () => {
-                if (await checkBlank(loginFormData, flag, handleFlag)) return;
+                if (await checkBlankLogin(loginFormData, flag, handleFlag)) return;
 
                 if (await checkFlag(flag)) return;
 
-                if (await LoginAPI(loginFormData.id, loginFormData.password)) return;
+                await ApiRq('post', loginApiURL.LOCAL_POST_LOGIN, null, {
+                  loginId: loginFormData.id,
+                  password: loginFormData.password,
+                })
+                  .then(res => {
+                    localStorage.setItem('access-token', res.headers.authorization.split(' ')[1]);
+                    history.push('/');
+                  })
+                  .catch(error => {
+                    alert('로그인 정보가 틀렸습니다. 다시 확인해주세요.');
+                  });
 
                 dispatch(loginCheckAction(checkAccessToken()));
               }}

@@ -5,10 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Grid, Stack } from '@mui/material';
 import styled from 'styled-components';
 import { gray, mobile } from 'styles/theme';
-import { regExpCheck } from './check';
-import { emailRequest } from './api';
+
 import MuiInput from 'Components/MuiInput';
 import MuiButton from 'Components/MuiButton';
+
+import Validation from 'utils/validation';
+import { ApiRq } from 'utils/apiConfig';
+import { signupApiURL } from 'utils/apiUrl';
 
 const SignUpEmailLayout = props => {
   return (
@@ -35,18 +38,26 @@ const SignUpEmailLayout = props => {
             content='인증요청'
             sx={{ fontSize: '0.75rem', height: '2.5rem', width: 'auto', padding: '5px' }}
             onClick={async () => {
-              if (
-                await regExpCheck(
-                  'email',
-                  props.userEmail,
-                  props.handleFlag,
-                  props.sethelpTextMailID,
-                  props.sethelpTextEmail
-                )
-              )
+              if (await !Validation.isEmailCheck(props.userEmail)) {
+                props.handleFlag('mailId', true);
+                props.handleFlag('email', true);
+                props.sethelpTextMailID('아이디를 다시 확인하세요');
+                props.sethelpTextEmail('메일 주소형식을 확인하세요');
                 return;
+              } else {
+                props.handleFlag('mailId', false);
+                props.handleFlag('email', false);
+              }
 
-              await emailRequest(props.userEmail);
+              await ApiRq('post', signupApiURL.LOCAL_POST_SIGNUP_EMAILREQUEST, null, { email: props.userEmail })
+                .then(res => {
+                  localStorage.setItem('email-token', res.headers.emailverification);
+                })
+                .catch(() => {
+                  props.handleFlag('mailId', true);
+                  props.handleFlag('email', true);
+                  props.sethelpTextMailID('사용중인 이메일입니다.');
+                });
 
               props.handleFlag('emailSubmit', true);
               props.sethelpTextEmailSubmit('인증유효기간 3분이내에 입력해주세요');
