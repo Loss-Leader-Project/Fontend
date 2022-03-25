@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Coupons from './Coupons';
-import { ApiRq } from 'utils/apiConfig';
 import { myApiURL } from 'utils/apiUrl';
 
 const History = () => {
   const [coupons, setCoupons] = useState([]);
 
   useEffect(() => {
-    ApiRq('get', myApiURL.GET_COUPONS)
+    fetch(myApiURL.GET_COUPONS)
+      .then(response => response.json())
       .then(({ data }) => setCoupons(data))
       .catch(alert);
   }, []);

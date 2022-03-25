@@ -39,6 +39,11 @@ const StyledButton = styled.button`
     `};
 
   ${ButtonHover};
+
+  &:disabled {
+    background-color: rgba(241, 241, 241, 0.5);
+    color: #000;
+  }
 `;
 
 export default Button;

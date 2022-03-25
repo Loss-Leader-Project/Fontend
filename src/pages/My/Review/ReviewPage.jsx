@@ -13,7 +13,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 /**
  * 정환님 로그인 코드 넘어오면 지우고 코드 수정 할려고합니다.
  */
-const Authorization = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb3NzbGVhZGVyIiwibG9naW5JZCI6ImJhYm8iLCJpZCI6MiwiZXhwIjoxNjQ4MDIyMjI3fQ.ZZG8qTJ5AWodNqh1elqC0RiSsuWzXuIG4NSHJPDJkuZs1GfEsl6JatQ5oG_hx0JXI6MupSE3iFeQesfkQSFZwA`;
 
 const ReviewPage = () => {
   const [reviews, setReviews] = useState([]);
@@ -52,7 +51,7 @@ const ReviewPage = () => {
     async pageNumber => {
       try {
         const _query = makeQuery(pageNumber - 1);
-        const { data } = await ApiRq('get', myApiURL.GET_REVIEWS(_query), null, null, { Authorization });
+        const { data } = await ApiRq('get', myApiURL.GET_REVIEWS(_query), null, null, { Authorization: '' });
         const { reviewListing } = data;
         const { number, totalPages } = reviewListing;
         setCurrentPage(number + 1);

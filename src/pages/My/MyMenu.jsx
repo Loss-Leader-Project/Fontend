@@ -26,11 +26,6 @@ const MyMenu = ({ path = '/my' }) => {
         text: '회원정보변경',
         path: `${path}`,
       },
-      {
-        id: 5,
-        text: '리뷰등록(임시)',
-        path: `${path}/review/insert`,
-      },
     ],
     [path]
   );

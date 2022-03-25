@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { brandColor, flexStyleGroup, gray, lightDark, mobile } from 'styles/theme';
 
-const UserInfo = ({ id, point }) => {
+const UserInfo = ({ id, mileage }) => {
   return (
     <UserInfoWrapper>
       <UserInfoInnerWrapper>
@@ -11,14 +11,13 @@ const UserInfo = ({ id, point }) => {
           <p>즐거운 쇼핑 되세요</p>
         </UserId>
         <UserPoint>
-          <p>{id}님의 포인트</p>
-          <p className='point'>{point}P</p>
+          <p>{id}님의 마일리지</p>
+          <p className='mileage'>{mileage}P</p>
         </UserPoint>
       </UserInfoInnerWrapper>
     </UserInfoWrapper>
   );
 };
-
 const UserInfoWrapper = styled.div`
   padding: 0.9375rem 1.875rem;
   background-color: rgba(185, 185, 185, 0.2);
@@ -57,7 +56,7 @@ const UserPoint = styled.div`
     flex: 4;
     font-size: 0.75rem;
   }
-  .point {
+  .mileage {
     color: ${brandColor};
     font-size: 1.5625rem;
   }
