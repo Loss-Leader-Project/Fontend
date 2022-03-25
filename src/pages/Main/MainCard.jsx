@@ -10,14 +10,18 @@ const MainCard = props => {
     history.push(`/product/${id}`);
   };
 
+  const moveReview = id => {
+    history.push(`/product/${id}/review`);
+  };
+
   return (
-    <CardWrapper
-      onClick={() => {
-        moveDetail(props.id);
-      }}
-    >
+    <CardWrapper>
       {props.name === 'hotplace' && (
-        <div>
+        <div
+          onClick={() => {
+            moveDetail(props.id);
+          }}
+        >
           <div>
             <CardImg src={`${process.env.REACT_APP_STORE_IMG_URL}/${props.imgUrl}`} alt='cardImg' />
           </div>
@@ -29,27 +33,50 @@ const MainCard = props => {
           </div>
         </div>
       )}
-      {props.name === 'bestreview' && (
-        <div>
-          <div>
-            <CardImg src={`${process.env.REACT_APP_REVIEW_IMG_URL}/${props.reviewImage}`} alt='cardImg' />
+      {props.name === 'bestreview' &&
+        (props.reviewImage === null || props.reviewImage === undefined ? (
+          <div
+            onClick={() => {
+              moveReview(props.storeId);
+            }}
+          >
+            <CardTitle>{props.reviewTitle}</CardTitle>
+            <CardSpan>{props.userName}</CardSpan>
+            <CardContent>{props.reviewContent}</CardContent>
+            <CustomRating
+              name='rating'
+              defaultValue={0}
+              value={props.star || null}
+              precision={0.5}
+              size='small'
+              readOnly
+            />
           </div>
-          <div>
-            <CardContent name={props.name}>{props.reviewContent}</CardContent>
-            <CardContent>
-              <CustomRating
-                name='rating'
-                defaultValue={0}
-                value={props.star || null}
-                precision={0.5}
-                size='small'
-                readOnly
-              />
-              <CardSpan>{props.userName}</CardSpan>
-            </CardContent>
+        ) : (
+          <div
+            onClick={() => {
+              moveReview(props.storeId);
+            }}
+          >
+            <div>
+              <CardImg src={`${process.env.REACT_APP_REVIEW_IMG_URL}/${props.reviewImage}`} alt='cardImg' />
+            </div>
+            <div>
+              <CardContent name={props.name}>{props.reviewContent}</CardContent>
+              <CardContent>
+                <CustomRating
+                  name='rating'
+                  defaultValue={0}
+                  value={props.star || null}
+                  precision={0.5}
+                  size='small'
+                  readOnly
+                />
+                <CardSpan>{props.userName}</CardSpan>
+              </CardContent>
+            </div>
           </div>
-        </div>
-      )}
+        ))}
     </CardWrapper>
   );
 };
@@ -61,6 +88,7 @@ const CardWrapper = styled.div`
   flex-direction: column;
   display: flex;
   gap: 0.313rem;
+  cursor: pointer;
 
   ${({ theme }) => theme.media.tab} {
     &:nth-child(n) {

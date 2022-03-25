@@ -34,7 +34,6 @@ export const checkBlankSignUp = (formData, flag, handleFlag) => {
 
 export const ChangeFlagfalse = (flag, handleFlag) => {
   for (let [key, value] of Object.entries(flag)) {
-    console.log(key, value);
     if (value === true) handleFlag(key, false);
   }
 };

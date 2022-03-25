@@ -60,15 +60,37 @@ const LoginSearchID = () => {
 
   const [helpTextBirthday, sethelpTextBirthday] = useState('주민번호를 앞에서부터 7자 입력하세요');
 
-  // const FindIdAPI = data => {
-  //   postFindId({ ...data }).then(res => {
-  //     if (res.data.loginId) {
-  //       setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
-  //     } else if (res.data.status === 404) {
-  //       setFindId(<FindIdModalBody valid={false} />);
-  //     }
-  //   });
-  // };
+  const PostLoginSearchId = async () => {
+    if (await checkBlankLogin(SearchFromData, flag, handleFlag)) return;
+
+    if (await !Validation.isBirthDayCheck(SearchFromData.birthday)) {
+      handleFlag('birthday', true);
+      sethelpTextBirthday('주민번호를 앞에서부터 7자를 입력하세요');
+      return;
+    }
+
+    if (await checkFlag(flag)) return;
+
+    // await FindIdAPI(SearchFromData);
+
+    await ApiRq('post', loginApiURL.LOCAL_POST_SEARCHID, null, {
+      birthDate: SearchFromData.birthday,
+      email: SearchFromData.mailId + '@' + SearchFromData.email,
+      userName: SearchFromData.name,
+    })
+      .then(res => {
+        if (res.data.loginId) {
+          setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
+        }
+      })
+      .catch(res => {
+        if (res.data.status === 404) {
+          setFindId(<FindIdModalBody valid={false} />);
+        }
+      });
+
+    handleOpen();
+  };
 
   return (
     <div>
@@ -84,6 +106,7 @@ const LoginSearchID = () => {
                 value={SearchFromData.name}
                 onChange={handleValue}
                 helperText='아이디를 입력하세요'
+                onKeyUp={PostLoginSearchId}
               />
               <MuiInput
                 name='birthday'
@@ -92,6 +115,7 @@ const LoginSearchID = () => {
                 flag={flag.birthday}
                 onChange={handleValue}
                 helperText={helpTextBirthday}
+                onKeyUp={PostLoginSearchId}
               />
               <LoginEmailLayout
                 email={email}
@@ -99,6 +123,7 @@ const LoginSearchID = () => {
                 value={{ mailId: SearchFromData.mailId, email: SearchFromData.email }}
                 handleValue={handleValue}
                 mailHandleChange={mailHandleChange}
+                onKeyUp={PostLoginSearchId}
               />
             </Stack>
           </Grid>
@@ -110,37 +135,7 @@ const LoginSearchID = () => {
                 bgcolor: `${theme.colors.gray}`,
                 '&:hover': { bgcolor: `${theme.colors.gray}` },
               }}
-              onClick={async () => {
-                if (await checkBlankLogin(SearchFromData, flag, handleFlag)) return;
-
-                if (await !Validation.isBirthDayCheck(SearchFromData.birthday)) {
-                  handleFlag('birthday', true);
-                  sethelpTextBirthday('주민번호를 앞에서부터 7자를 입력하세요');
-                  return;
-                }
-
-                if (await checkFlag(flag)) return;
-
-                // await FindIdAPI(SearchFromData);
-
-                await ApiRq('post', loginApiURL.LOCAL_POST_SEARCHID, null, {
-                  birthDate: SearchFromData.birthday,
-                  email: SearchFromData.mailId + '@' + SearchFromData.email,
-                  userName: SearchFromData.name,
-                })
-                  .then(res => {
-                    if (res.data.loginId) {
-                      setFindId(<FindIdModalBody id={res.data.loginId} valid={true} />);
-                    }
-                  })
-                  .catch(res => {
-                    if (res.data.status === 404) {
-                      setFindId(<FindIdModalBody valid={false} />);
-                    }
-                  });
-
-                handleOpen();
-              }}
+              onClick={PostLoginSearchId}
             />
           </Grid>
         </Grid>

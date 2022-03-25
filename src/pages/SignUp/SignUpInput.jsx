@@ -26,6 +26,7 @@ const SignUpInput = props => {
           flag={props.flag}
           helperText={props.helperText}
           onChange={props.handleValue}
+          onKeyUp={props.onKeyUp}
         />
       </Grid>
     </CustomGridContainer>

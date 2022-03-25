@@ -15,6 +15,9 @@ export const ApiRq = async (method, url, params = '', data, headers) => {
 
     return res;
   } catch (error) {
+    if (error.status === 404) {
+      window.location.replace('/error');
+    }
     throw error;
   }
 };

@@ -2,9 +2,11 @@ export const naverClientId = 'MrLhZGLeBYRF_Uy9YwY3';
 
 export const naverRedirectURL = 'http://localhost:3000/login';
 
-const kakaoClientId = '161c894276b2df1d4fd0d19aa9aebcb1';
+export const naverSecret = 'UHa2lICTGf';
 
-const kakaoRedirectURL = 'http://localhost:3000/login';
+const kakaoClientId = '066cdaa50bdaebd7e266d0ca6d6c4b2c';
+
+export const kakaoRedirectURL = 'http://localhost:3000/login';
 
 export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectURL}&response_type=code&prompt=login`;
 

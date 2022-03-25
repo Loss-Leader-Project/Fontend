@@ -18,6 +18,7 @@ import HamburgerMenu from 'Components/HamburgerMenu';
 import Footer from 'Components/Footer';
 import Completion from 'pages/Completion/Completion';
 import TeamsInfo from 'pages/TeamsInfo/TeamsInfo';
+import Error404 from 'Error404';
 
 const Routers = () => {
   const [open, setOpen] = useState(false);
@@ -37,7 +38,7 @@ const Routers = () => {
     <BrowserRouter>
       <Header menuopen={menuOpen} setMenuOpen={setMenuOpen} />
       <Nav />
-      <HamburgerMenu menuopen={menuOpen} />
+      <HamburgerMenu menuopen={menuOpen} setMenuOpen={setMenuOpen} />
       <Switch>
         <Route exact path='/' component={Main} />
         <Route exact path='/login' component={LogIn} />
@@ -50,6 +51,7 @@ const Routers = () => {
         <Route path='/my' component={My} />
         <Route exact path='/list' component={List} />
         <Route exact path='/teamsInfo' component={TeamsInfo} />
+        <Route exact path='/error' component={Error404} />
         <Route path='*' render={() => <Redirect to='/' />} />
       </Switch>
       <Footer />

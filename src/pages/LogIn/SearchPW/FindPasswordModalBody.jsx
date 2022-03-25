@@ -7,8 +7,6 @@ import { brandColor, mobile } from 'styles/theme';
 const FindPasswordModalBody = ({ handleClose, valid }) => {
   const history = useHistory();
 
-  console.log(valid);
-
   return (
     <>
       {valid ? (
