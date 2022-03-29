@@ -2,6 +2,7 @@ import { Rating } from '@mui/material';
 import React from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { brandColor, gray, lightDark, mobile, tab } from 'styles/theme';
 
 const MainCard = props => {
   const history = useHistory();
@@ -34,24 +35,26 @@ const MainCard = props => {
         </div>
       )}
       {props.name === 'bestreview' &&
-        (props.reviewImage === null || props.reviewImage === undefined ? (
-          <div
+        (props.reviewImage === null || props.reviewImage === null ? (
+          <NoReviewImgWrap
             onClick={() => {
               moveReview(props.storeId);
             }}
           >
-            <CardTitle>{props.reviewTitle}</CardTitle>
+            <NoReviewTitle>{props.reviewTitle}</NoReviewTitle>
             <CardSpan>{props.userName}</CardSpan>
-            <CardContent>{props.reviewContent}</CardContent>
-            <CustomRating
-              name='rating'
-              defaultValue={0}
-              value={props.star || null}
-              precision={0.5}
-              size='small'
-              readOnly
-            />
-          </div>
+            <div>
+              <CustomRating
+                name='rating'
+                defaultValue={0}
+                value={props.star || null}
+                precision={0.5}
+                size='large'
+                readOnly
+              />
+            </div>
+            <NoReviewImgContent>{props.reviewContent}</NoReviewImgContent>
+          </NoReviewImgWrap>
         ) : (
           <div
             onClick={() => {
@@ -90,7 +93,7 @@ const CardWrapper = styled.div`
   gap: 0.313rem;
   cursor: pointer;
 
-  ${({ theme }) => theme.media.tab} {
+  ${tab} {
     &:nth-child(n) {
       padding: 0 0.35rem;
     }
@@ -100,7 +103,7 @@ const CardWrapper = styled.div`
     width: 100%;
   }
 
-  ${({ theme }) => theme.media.mobile} {
+  ${mobile} {
     &:nth-child(n) {
       padding: 0;
     }
@@ -120,13 +123,13 @@ const CardTitle = styled.h6`
   white-space: nowrap;
   font-size: 1.1rem;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const CardSpan = styled.span`
   margin-top: 0.1875rem;
   margin-left: 0.625rem;
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${gray};
 `;
 
 const CardContent = styled.p`
@@ -137,15 +140,50 @@ const CardContent = styled.p`
   font-size: 1rem;
   font-weight: 600;
 
-  color: ${({ name, theme }) => (name === 'hotplace' ? theme.colors.brandColor : theme.colors.lightDark)};
+  color: ${({ name, theme }) => (name === 'hotplace' ? brandColor : lightDark)};
   display: flex;
   align-items: center;
 `;
 
 const CustomRating = styled(Rating)`
   &&& {
-    color: ${({ theme }) => theme.colors.brandColor};
+    color: ${brandColor};
   }
+`;
+
+const NoReviewImgWrap = styled.div`
+  border: 3px solid ${brandColor};
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 300px;
+  padding: 10px;
+
+  ${tab} {
+    height: 250px;
+  }
+`;
+
+const NoReviewTitle = styled.h4`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: ${lightDark};
+`;
+
+const NoReviewImgContent = styled.p`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0.3125rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  color: ${lightDark};
+  display: flex;
+  align-items: center;
 `;
 
 export default MainCard;
