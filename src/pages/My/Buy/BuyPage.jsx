@@ -8,7 +8,7 @@ import BuyItem from './BuysItem';
 import BuysHead from './BuysHead';
 import UserInfo from './UserInfo';
 import { useHistory } from 'react-router-dom';
-import { TokenCheck } from 'utils/api';
+import TokenCheck from 'utils/TokenCheck'
 import Validation from 'utils/validation';
 import Empty from 'Components/Empty';
 

@@ -9,7 +9,7 @@ import validation from 'utils/validation';
 import Filter from './Filter';
 import qs from 'query-string';
 import { useLocation, useHistory } from 'react-router-dom';
-import { TokenCheck } from 'utils/api';
+import TokenCheck from 'utils/TokenCheck';
 
 const ReviewPage = () => {
   const [reviews, setReviews] = useState([]);
@@ -36,7 +36,7 @@ const ReviewPage = () => {
     async pageNumber => {
       TokenCheck(async Authorization => {
         const _query = makeQuery(pageNumber - 1);
-        const { data } = await ApiRq('get', myApiURL.GET_REVIEWS(_query), null, null, { Authorization: '' });
+        const { data } = await ApiRq('get', myApiURL.GET_REVIEWS(_query), null, null, { Authorization });
         const { reviewListing } = data;
         const { number, totalPages } = reviewListing;
         setCurrentPage(number + 1);
