@@ -5,29 +5,41 @@ import MuiInput from 'Components/MuiInput';
 import GridContainer from './GridContainer';
 import { useModifyContext } from './ModifyPage';
 
+const USER_ROLE = 'ROLE_USER';
+
 const AdditionalInfo = () => {
   const { form, handleFormOnChange, errors } = useModifyContext();
   const { recommendedPerson } = errors;
   const [currentYear, currentMonth, currentDay] = getBirthDay(form.birthDate);
+  const { role } = form;
   const year = Array.from({ length: 73 }, (_, idx) => 1950 + idx);
   const month = Array.from({ length: 12 }, (_, idx) => idx + 1);
   const day = Array.from({ length: 31 }, (_, idx) => idx + 1);
 
   return (
     <>
-      <GridContainer text='생일'>
-        <SelectWrapper>
-          <SelectBox name='year' suffix='년' array={year} value={currentYear} handleFormOnChange={handleFormOnChange} />
-          <SelectBox
-            name='month'
-            suffix='월'
-            array={month}
-            value={currentMonth}
-            handleFormOnChange={handleFormOnChange}
-          />
-          <SelectBox name='day' suffix='일' array={day} value={currentDay} handleFormOnChange={handleFormOnChange} />
-        </SelectWrapper>
-      </GridContainer>
+      {role === USER_ROLE && (
+        <GridContainer text='생일'>
+          <SelectWrapper>
+            <SelectBox
+              name='year'
+              suffix='년'
+              array={year}
+              value={currentYear}
+              handleFormOnChange={handleFormOnChange}
+            />
+            <SelectBox
+              name='month'
+              suffix='월'
+              array={month}
+              value={currentMonth}
+              handleFormOnChange={handleFormOnChange}
+            />
+            <SelectBox name='day' suffix='일' array={day} value={currentDay} handleFormOnChange={handleFormOnChange} />
+          </SelectWrapper>
+        </GridContainer>
+      )}
+
       <GridContainer
         text='추천인아이디'
         children={

@@ -97,37 +97,41 @@ const ModifyPage = () => {
           userName,
           email,
           loginId,
+          role,
         } = form;
 
         Validation.check(
           ({ isIdCheck, isPasswordCheck, emptyCheck, isUserNameCheck, isPhonenumberCheck, errors, makeError }) => {
-            if (!emptyCheck(oldPassword) && !isPasswordCheck(oldPassword)) {
-              makeError('oldPassword', '현재 비밀번호 조건이 맞지않습니다.');
-            }
-            if (!emptyCheck(newPassword) && !isPasswordCheck(newPassword)) {
-              makeError('newPassword', '새로운 비밀번호 조건이 맞지않습니다.');
+            if (role === 'ROLE_USER') {
+              if (emptyCheck(userName)) {
+                makeError('userName', '이름이 빈칸입니다.');
+              }
+              if (!isUserNameCheck(userName)) {
+                makeError('userName', '이름 조건이 맞지않습니다.');
+              }
+              if (!emptyCheck(oldPassword) && !isPasswordCheck(oldPassword)) {
+                makeError('oldPassword', '현재 비밀번호 조건이 맞지않습니다.');
+              }
+              if (!emptyCheck(newPassword) && !isPasswordCheck(newPassword)) {
+                makeError('newPassword', '새로운 비밀번호 조건이 맞지않습니다.');
+              }
+
+              if (!emptyCheck(newPasswordConfirm) && !isPasswordCheck(newPasswordConfirm)) {
+                makeError('newPasswordConfirm', '새로운 비밀번호 확인 조건이 맞지않습니다.');
+              }
+              if (!emptyCheck(phoneNumber) && !isPhonenumberCheck(phoneNumber)) {
+                makeError('phoneNumber', '휴대번호 조건이 맞지않습니다.');
+              }
+              if (newPassword !== newPasswordConfirm) {
+                makeError('newPassword', '비밀번호가 서로 틀립니다.');
+                makeError('newPasswordConfirm', '비밀번호가 서로 틀립니다.');
+              }
+              if (emptyCheck(phoneNumber)) {
+                makeError('phoneNumber', '휴대번호가 빈칸입니다.');
+              }
             }
             if (!emptyCheck(recommendedPerson) && !isIdCheck(recommendedPerson)) {
               makeError('recommendedPerson', '추천인아이디 조건이 맞지않습니다.');
-            }
-            if (!emptyCheck(newPasswordConfirm) && !isPasswordCheck(newPasswordConfirm)) {
-              makeError('newPasswordConfirm', '새로운 비밀번호 확인 조건이 맞지않습니다.');
-            }
-            if (!emptyCheck(phoneNumber) && !isPhonenumberCheck(phoneNumber)) {
-              makeError('phoneNumber', '휴대번호 조건이 맞지않습니다.');
-            }
-            if (newPassword !== newPasswordConfirm) {
-              makeError('newPassword', '비밀번호가 서로 틀립니다.');
-              makeError('newPasswordConfirm', '비밀번호가 서로 틀립니다.');
-            }
-            if (emptyCheck(phoneNumber)) {
-              makeError('phoneNumber', '휴대번호가 빈칸입니다.');
-            }
-            if (emptyCheck(userName)) {
-              makeError('userName', '이름이 빈칸입니다.');
-            }
-            if (!isUserNameCheck(userName)) {
-              makeError('userName', '이름 조건이 맞지않습니다.');
             }
             return errors;
           }
@@ -182,6 +186,8 @@ const ModifyPage = () => {
            * Mui rating에 null을 넘겨주면 에러를 발생시킨다.
            * */
           recommendedPerson: data.recommendedPerson ?? '',
+          phoneNumber: data.phoneNumber ?? '',
+          birthDate: data.birthDate ?? '0012311',
         };
 
         setForm(_obj);
@@ -192,6 +198,7 @@ const ModifyPage = () => {
         handleStatus({ status: code, message });
       });
   }, [handleStatus, history]);
+
 
   const value = useMemo(
     () => ({
