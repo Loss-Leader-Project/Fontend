@@ -25,7 +25,7 @@ export const loginApiURL = {
   LOCAL_GET_LOGIN_KAKAO: '/lossleader/callback/kakao',
   LOCAL_GET_LOGIN_NAVER: '/lossleader/callback/naver',
   LOCAL_GET_LOGIN_LOGOUT_KAKAO: '/logout/kakao',
-  LOCAL_GET_LOGIN_LOGOUT: '/logout',
+  LOCAL_GET_LOGIN_LOGOUT: '/oauthLogout',
   LOCAL_GET_LOGIN_USERINFO: '/user/info',
 };
 

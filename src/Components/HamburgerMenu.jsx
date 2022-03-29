@@ -54,8 +54,10 @@ const HamburgerMenu = ({ menuopen, setMenuOpen }) => {
             onClick={
               checkLogin
                 ? async () => {
+                    await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT, null, null, {
+                      Authorization: localStorage.getItem('access-token'),
+                    });
                     localClear();
-                    await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT);
                     history.push('/login');
                   }
                 : () => {
