@@ -52,9 +52,10 @@ export const listApiURL = {
 export const myApiURL = {
   GET_USER_INFO: `/user/info`,
   GET_USER_INFO_UPDATE: `/user/info`,
-  POST_CREATE_REVIEW: pathVariable => `/reviwe/${pathVariable}`,
+  POST_CREATE_REVIEW: `/review`,
   GET_BUYS: '/order/product/history',
   GET_COUPONS: '/data/coupons.json',
+  DELETE_REVIEW_IMG: `/review/image-delete`,
   GET_REVIEWS: (query = '') => `/review/listing-user?${query}`,
   MOCK_GET_REVIEWS: '/data/reviewData.json',
 };

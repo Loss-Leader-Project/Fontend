@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "성지수",
+      "postion": "FE",
+      "imgUrl": "https://avatars.githubusercontent.com/u/87159108?v=4",
+      "githublink": "https://github.com/seong-ji-sue"
+    },
+    {
+      "id": 2,
+      "name": "김정환",
+      "postion": "FE",
+      "imgUrl": "https://avatars.githubusercontent.com/u/65111990?v=4",
+      "githublink": "https://github.com/padd60"
+    },
+    {
+      "id": 3,
+      "name": "이민욱",
+      "postion": "FE",
+      "imgUrl": "https://avatars.githubusercontent.com/u/26589722?v=4",
+      "githublink": "https://github.com/dnr14"
+    },
+    {
+      "id": 4,
+      "name": "서영빈",
+      "postion": "BE",
+      "imgUrl": "https://avatars.githubusercontent.com/u/64253285?v=4",
+      "githublink": "https://github.com/syb1231"
+    },
+    {
+      "id": 5,
+      "name": "정회운",
+      "postion": "BE",
+      "imgUrl": "https://avatars.githubusercontent.com/u/67584874?v=4",
+      "githublink": "https://github.com/cousim46"
+    }
+  ]
+}

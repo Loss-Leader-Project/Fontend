@@ -14,7 +14,7 @@ const BuyItem = ({ orderDate, orderNumber, storeName, priceOfCoupon, couponConte
   const twoPointFive = 2.5;
   const text = isReview ? '리뷰 작성 완료' : '리뷰쓰기';
   const productName = `[ ${storeName} ] ${couponContent} 구매`;
-  const intertPath = {
+  const insertPath = {
     pathname: `/my/review/insert`,
     state: { orderNumber, storeId, productName },
   };
@@ -30,7 +30,7 @@ const BuyItem = ({ orderDate, orderNumber, storeName, priceOfCoupon, couponConte
       <GridItem size={fivePointFive} text={productName} />
       <GridItem size={two} text={`${priceOfCoupon}원`} />
       <GridItem size={twoPointFive}>
-        <Link to={intertPath}>
+        <Link to={insertPath}>
           <Button
             disabled={isReview}
             text={text}
