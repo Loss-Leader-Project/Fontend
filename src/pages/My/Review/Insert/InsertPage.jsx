@@ -11,7 +11,7 @@ import Title from 'Components/Title';
 import { ApiRq } from 'utils/apiConfig';
 import { myApiURL } from 'utils/apiUrl';
 import { useHistory, useLocation } from 'react-router-dom';
-import { TokenCheck } from 'utils/api';
+import TokenCheck from 'utils/TokenCheck';
 
 const TITLE_INIT_VALUE = '';
 const RATING_INIT_VALUE = 3;

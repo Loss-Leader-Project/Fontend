@@ -8,7 +8,7 @@ import Button from 'Components/Button';
 import Validation from 'utils/validation';
 import { ApiRq } from 'utils/apiConfig';
 import { myApiURL } from 'utils/apiUrl';
-import { TokenCheck } from 'utils/api';
+import TokenCheck from 'utils/TokenCheck';
 import { useHistory } from 'react-router-dom';
 
 const ModifyContext = createContext(null);
