@@ -9,7 +9,7 @@ import { checkAccessToken } from 'utils/api';
 import { ApiRq } from 'utils/apiConfig';
 import { loginApiURL } from 'utils/apiUrl';
 
-const HamburgerMenu = ({ menuopen }) => {
+const HamburgerMenu = ({ menuopen, setMenuOpen }) => {
   const history = useHistory();
 
   const checkLogin = useSelector(state => state.loginReducer);
@@ -30,7 +30,11 @@ const HamburgerMenu = ({ menuopen }) => {
   };
 
   return (
-    <CustomContainer>
+    <CustomContainer
+      onMouseLeave={() => {
+        setMenuOpen('none');
+      }}
+    >
       <CustomGridContainer container className={menuopen}>
         <Box item>
           <GridText
@@ -52,6 +56,7 @@ const HamburgerMenu = ({ menuopen }) => {
                 ? async () => {
                     localClear();
                     await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT);
+                    history.push('/login');
                   }
                 : () => {
                     historyMove('/signup');

@@ -28,6 +28,11 @@ const RecommandBox = () => {
 
   const [menu, setMenu] = useState('');
 
+  const RandomRequest = async () => {
+    await setRandomIndex(Math.floor(Math.random() * menuList.length));
+    await setMenu(menuList[randomIndex]);
+  };
+
   return (
     <Container>
       <TextBox>
@@ -38,13 +43,7 @@ const RecommandBox = () => {
         <span>{menu}</span>
       </RandomText>
       <RecommandButton>
-        <MuiButton
-          content='추천받기'
-          onClick={async () => {
-            await setRandomIndex(Math.floor(Math.random() * menuList.length));
-            await setMenu(menuList[randomIndex]);
-          }}
-        />
+        <MuiButton content='추천받기' onClick={RandomRequest} />
       </RecommandButton>
     </Container>
   );

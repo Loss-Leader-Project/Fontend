@@ -10,6 +10,7 @@ import { loginCheckAction } from 'modules/reducers/loginReducer';
 import { checkAccessToken } from 'utils/api';
 import { ApiRq } from 'utils/apiConfig';
 import { loginApiURL } from 'utils/apiUrl';
+import { useHistory } from 'react-router';
 
 const Header = ({ menuopen, setMenuOpen }) => {
   const handleMenuOpenToggle = () => {
@@ -33,6 +34,8 @@ const Header = ({ menuopen, setMenuOpen }) => {
     await dispatch(loginCheckAction(checkAccessToken()));
   };
 
+  const history = useHistory();
+
   return (
     <CustomContainer>
       <Grid container direction='row' justifyContent='center' alignItems='center'>
@@ -52,6 +55,7 @@ const Header = ({ menuopen, setMenuOpen }) => {
                 onClick={async () => {
                   localClear();
                   await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT);
+                  history.push('/login');
                 }}
               >
                 로그아웃

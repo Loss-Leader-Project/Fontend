@@ -1,6 +1,7 @@
 import { TextField } from '@mui/material';
 import React from 'react';
 import styled, { css } from 'styled-components';
+import EnterKey from 'utils/EnterKey';
 
 const MuiInput = props => {
   return (
@@ -26,6 +27,9 @@ const MuiInput = props => {
       }
       {...(props.flag ? { helperText: `${props.helperText}`, error: true } : {})}
       onChange={props.onChange}
+      onKeyUp={e => {
+        EnterKey(e, props.onKeyUp);
+      }}
     />
   );
 };

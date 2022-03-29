@@ -55,10 +55,12 @@ const LogIn = () => {
   const location = useLocation();
 
   const [token, setToken] = useState('');
+  const [state, setState] = useState('');
 
   const getNaverToken = location => {
     if (location.hash) {
       setToken({ naver: location.hash.split('=')[1].split('&')[0] });
+      setState(location.hash.split('=')[2].split('&')[0]);
     } else if (location.search) {
       setToken({ kakao: location.search.split('=')[1] });
     }
@@ -67,8 +69,10 @@ const LogIn = () => {
   useEffect(() => {
     if (token !== '') {
       if ('naver' in token) {
-        ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_NAVER, { code: token.naver }).then(res => {
-          console.log(res);
+        ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_NAVER, {
+          code: token.naver,
+          state: state,
+        }).then(res => {
           localStorage.setItem('access-token', res.headers.authorization.split(' ')[1]);
           history.push('/');
         });
@@ -81,9 +85,29 @@ const LogIn = () => {
     } else {
       getNaverToken(location);
     }
-  }, [location, token, history]);
+  }, [location, token, history, state]);
 
   const dispatch = useDispatch();
+
+  const PostLogin = async () => {
+    if (await checkBlankLogin(loginFormData, flag, handleFlag)) return;
+
+    if (await checkFlag(flag)) return;
+
+    await ApiRq('post', loginApiURL.LOCAL_POST_LOGIN, null, {
+      loginId: loginFormData.id,
+      password: loginFormData.password,
+    })
+      .then(res => {
+        localStorage.setItem('access-token', res.headers.authorization.split(' ')[1]);
+        history.push('/');
+      })
+      .catch(error => {
+        alert('로그인 정보가 틀렸습니다. 다시 확인해주세요.');
+      });
+
+    dispatch(loginCheckAction(checkAccessToken()));
+  };
 
   return (
     <>
@@ -98,6 +122,7 @@ const LogIn = () => {
                 value={loginFormData.id}
                 onChange={handleValue}
                 helperText='아이디를 입력해주세요'
+                onKeyUp={PostLogin}
               />
               <MuiInput
                 name='password'
@@ -108,33 +133,12 @@ const LogIn = () => {
                 flag={flag.password}
                 onChange={handleValue}
                 helperText='비밀번호를 입력해주세요'
+                onKeyUp={PostLogin}
               />
             </Stack>
           </Grid>
           <Grid item sm={3} xs={3}>
-            <MuiButton
-              sx={{ height: '8rem' }}
-              content='로그인'
-              onClick={async () => {
-                if (await checkBlankLogin(loginFormData, flag, handleFlag)) return;
-
-                if (await checkFlag(flag)) return;
-
-                await ApiRq('post', loginApiURL.LOCAL_POST_LOGIN, null, {
-                  loginId: loginFormData.id,
-                  password: loginFormData.password,
-                })
-                  .then(res => {
-                    localStorage.setItem('access-token', res.headers.authorization.split(' ')[1]);
-                    history.push('/');
-                  })
-                  .catch(error => {
-                    alert('로그인 정보가 틀렸습니다. 다시 확인해주세요.');
-                  });
-
-                dispatch(loginCheckAction(checkAccessToken()));
-              }}
-            />
+            <MuiButton sx={{ height: '8rem' }} content='로그인' onClick={PostLogin} />
           </Grid>
         </Grid>
         <Grid container direction='row' alignItems='center'>

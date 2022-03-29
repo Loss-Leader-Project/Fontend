@@ -59,6 +59,32 @@ const LoginSearchPW = () => {
   const [valid, setValid] = useState('');
   const [helpTextBirthday, sethelpTextBirthday] = useState('주민번호를 앞에서부터 7자 입력하세요');
 
+  const PostLoginSearchPW = async () => {
+    if (await checkBlankLogin(SearchFromData, flag, handleFlag)) return;
+
+    if (await !Validation.isBirthDayCheck(SearchFromData.birthday)) {
+      handleFlag('birthday', true);
+      sethelpTextBirthday('주민번호를 앞에서부터 7자를 입력하세요');
+      return;
+    }
+
+    if (await checkFlag(flag)) return;
+
+    await ApiRq('post', loginApiURL.LOCAL_POST_SEARCHPW, null, {
+      birthDate: SearchFromData.birthday,
+      email: `${SearchFromData.mailId}@${SearchFromData.email}`,
+      loginId: SearchFromData.id,
+    })
+      .then(() => {
+        setValid(true);
+      })
+      .catch(() => {
+        setValid(false);
+      });
+
+    handleOpen();
+  };
+
   return (
     <div>
       <CustomContainer maxWidth='sm'>
@@ -73,6 +99,7 @@ const LoginSearchPW = () => {
                 flag={flag.id}
                 onChange={handleValue}
                 helperText='아이디를 입력하세요'
+                onKeyUp={PostLoginSearchPW}
               />
               <MuiInput
                 name='birthday'
@@ -81,6 +108,7 @@ const LoginSearchPW = () => {
                 flag={flag.birthday}
                 onChange={handleValue}
                 helperText={helpTextBirthday}
+                onKeyUp={PostLoginSearchPW}
               />
               <LoginEmailLayout
                 email={email}
@@ -88,6 +116,7 @@ const LoginSearchPW = () => {
                 value={{ mailId: SearchFromData.mailId, email: SearchFromData.email }}
                 handleValue={handleValue}
                 mailHandleChange={mailHandleChange}
+                onKeyUp={PostLoginSearchPW}
               />
             </Stack>
           </Grid>
@@ -99,31 +128,7 @@ const LoginSearchPW = () => {
                 '&:hover': { bgcolor: `${theme.colors.gray}` },
               }}
               content='비밀번호 찾기'
-              onClick={async () => {
-                if (await checkBlankLogin(SearchFromData, flag, handleFlag)) return;
-
-                if (await !Validation.isBirthDayCheck(SearchFromData.birthday)) {
-                  handleFlag('birthday', true);
-                  sethelpTextBirthday('주민번호를 앞에서부터 7자를 입력하세요');
-                  return;
-                }
-
-                if (await checkFlag(flag)) return;
-
-                await ApiRq('post', loginApiURL.LOCAL_POST_SEARCHPW, null, {
-                  birthDate: SearchFromData.birthday,
-                  email: `${SearchFromData.mailId}@${SearchFromData.email}`,
-                  loginId: SearchFromData.id,
-                })
-                  .then(() => {
-                    setValid(true);
-                  })
-                  .catch(() => {
-                    setValid(false);
-                  });
-
-                handleOpen();
-              }}
+              onClick={PostLoginSearchPW}
             />
           </Grid>
         </Grid>

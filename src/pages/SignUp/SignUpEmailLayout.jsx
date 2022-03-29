@@ -14,6 +14,31 @@ import { ApiRq } from 'utils/apiConfig';
 import { signupApiURL } from 'utils/apiUrl';
 
 const SignUpEmailLayout = props => {
+  const PostEmailRequest = async () => {
+    if (await !Validation.isEmailCheck(props.userEmail)) {
+      props.handleFlag('mailId', true);
+      props.handleFlag('email', true);
+      props.sethelpTextMailID('아이디를 다시 확인하세요');
+      props.sethelpTextEmail('메일 주소형식을 확인하세요');
+      return;
+    } else {
+      props.handleFlag('mailId', false);
+      props.handleFlag('email', false);
+    }
+
+    await ApiRq('post', signupApiURL.LOCAL_POST_SIGNUP_EMAILREQUEST, null, { email: props.userEmail })
+      .then(res => {
+        localStorage.setItem('email-token', res.headers.emailverification);
+      })
+      .catch(() => {
+        props.handleFlag('mailId', true);
+        props.handleFlag('email', true);
+        props.sethelpTextMailID('사용중인 이메일입니다.');
+      });
+
+    props.handleFlag('emailSubmit', true);
+    props.sethelpTextEmailSubmit('인증유효기간 3분이내에 입력해주세요');
+  };
   return (
     <CustomGridContainer>
       <MustItem item lg={3} md={3} sm={3} xs={3}>
@@ -32,36 +57,13 @@ const SignUpEmailLayout = props => {
             value={props.value.mailId}
             helperText={props.helpTextMailID}
             onChange={props.handleValue}
+            onKeyUp={PostEmailRequest}
           />
           <SignUpEmail {...props} />
           <MuiButton
             content='인증요청'
             sx={{ fontSize: '0.75rem', height: '2.5rem', width: 'auto', padding: '5px' }}
-            onClick={async () => {
-              if (await !Validation.isEmailCheck(props.userEmail)) {
-                props.handleFlag('mailId', true);
-                props.handleFlag('email', true);
-                props.sethelpTextMailID('아이디를 다시 확인하세요');
-                props.sethelpTextEmail('메일 주소형식을 확인하세요');
-                return;
-              } else {
-                props.handleFlag('mailId', false);
-                props.handleFlag('email', false);
-              }
-
-              await ApiRq('post', signupApiURL.LOCAL_POST_SIGNUP_EMAILREQUEST, null, { email: props.userEmail })
-                .then(res => {
-                  localStorage.setItem('email-token', res.headers.emailverification);
-                })
-                .catch(() => {
-                  props.handleFlag('mailId', true);
-                  props.handleFlag('email', true);
-                  props.sethelpTextMailID('사용중인 이메일입니다.');
-                });
-
-              props.handleFlag('emailSubmit', true);
-              props.sethelpTextEmailSubmit('인증유효기간 3분이내에 입력해주세요');
-            }}
+            onClick={PostEmailRequest}
           />
         </CustomStack>
       </Grid>
