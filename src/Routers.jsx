@@ -46,6 +46,7 @@ const Routers = () => {
         <Route exact path='/login/searchPW' component={LoginSearchPW} />
         <Route exact path='/signup' component={SignUp} />
         <Route exact path='/product/:productId' component={Detail} />
+        <Route exact path='/product/:productId/:review' component={Detail} />
         <Route exact path='/apply/:productId' component={Apply} />
         <Route exact path='/completion/:productId' component={Completion} />
         <Route path='/my' component={My} />
