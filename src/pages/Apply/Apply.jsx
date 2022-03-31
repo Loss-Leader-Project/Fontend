@@ -6,81 +6,146 @@ import ProductInfoSummary from './ProductInfoSummary';
 import OrdererInfo from './OrdererInfo';
 import PaymentInfo from './PaymentInfo';
 import AgreeUsePersonalInfo from './AgreeUsePersonalInfo';
-import { getApply, postApply, getApplyTitle } from 'utils/api';
+import { getApplyTitle } from 'utils/api';
 import { useHistory, useParams } from 'react-router';
 import MuiButton from 'Components/MuiButton';
+import { applyApiURL } from 'utils/apiUrl';
+import { ApiRq } from 'utils/apiConfig';
+import validation from 'utils/validation';
+import TokenCheck from 'utils/TokenCheck.js';
 
 function Apply() {
-  const [applyGetData, setApplyGetData] = useState([]);
-  const [applyData, setApplyData] = useState([]);
+  const history = useHistory();
+  const param = useParams();
+  const accessToken = localStorage.getItem('access-token');
+  const [MockData, setMockData] = useState([]);
+  const [productData, setProductData] = useState([]);
   const [applyPostData, setApplyPostData] = useState({
     userName: '',
     phoneNumber: '',
     visitTime: '',
     visitCount: 0,
     mileage: 0,
-    agreeUserInfo: false,
+    allUseMileage: false,
+    orderAgree: false,
+  });
+  const [flag, setFlag] = useState({
+    userName: true,
+    phoneNumber: true,
+    visitTime: true,
+    visitCount: true,
+    mileage: true,
+    orderAgree: true,
   });
 
-  const history = useHistory();
-  const param = useParams();
+  useEffect(() => {
+    TokenCheck(
+      accessToken =>
+        ApiRq('GET', applyApiURL.LOCAL_GET_APPLY, { storeId: param.productId }, null, { Authorization: accessToken }),
+      history
+    ).then(data => {
+      setProductData({ ...data?.data, priceOfCoupon: Number(data?.data.priceOfCoupon) });
+    });
+  }, [param, accessToken, history]);
 
   useEffect(() => {
     getApplyTitle().then(data => {
-      setApplyData(data);
+      setMockData(data);
     });
   }, []);
 
-  useEffect(() => {
-    getApply().then(data => {
-      setApplyGetData(data);
+  const handleFlag = (name, value, checked) => {
+    let boolean = false;
+    let resultValue;
+    switch (name) {
+      case 'userName':
+        if (!validation.isUserNameCheck(value)) {
+          boolean = Boolean(value);
+        }
+        break;
+      case 'phoneNumber':
+        if (!validation.isPhonenumberCheck(value)) {
+          boolean = Boolean(value);
+        }
+        break;
+      case 'visitTime':
+        boolean = Boolean(value);
+        break;
+      case 'visitCount':
+        resultValue = Number(value);
+        boolean = resultValue >= 0 && resultValue <= 5;
+        break;
+      case 'mileage':
+        resultValue = Number(value);
+        boolean = resultValue >= 0 && resultValue <= productData.priceOfCoupon;
+        break;
+      case 'orderAgree':
+        boolean = checked;
+        break;
+      default:
+        break;
+    }
+    setFlag(previousState => {
+      return { ...previousState, [name]: !boolean };
     });
-  }, []);
+  };
 
   const handleValue = e => {
     const { name, value, checked } = e.target;
-    const { userMileage, cuponPrice } = applyGetData;
     let resultValue;
-    if (name === 'agreeUserInfo') {
-      resultValue = checked;
-    } else if (name === 'mileageChecked') {
-      if (checked) {
-        resultValue = userMileage >= cuponPrice ? cuponPrice : userMileage;
-      } else {
-        resultValue = 0;
-      }
-    } else {
-      resultValue = value;
+    handleFlag(name, value, checked);
+    switch (name) {
+      case 'orderAgree':
+        resultValue = checked;
+        break;
+      case 'allUseMileage':
+        resultValue = checked;
+        setApplyPostData(previousState => {
+          return { ...previousState, mileage: checked ? productData.priceOfCoupon : 0 };
+        });
+        break;
+      case 'mileage':
+        resultValue = Number(value);
+        setApplyPostData(previousState => {
+          return { ...previousState, allUseMileage: resultValue === Number(productData.priceOfCoupon) };
+        });
+        break;
+      default:
+        resultValue = value;
+        break;
     }
+
     setApplyPostData(previousState => {
       return { ...previousState, [name]: resultValue };
     });
   };
 
   const postRq = () => {
-    if (finalPayment !== 0) {
-      alert('결제금액이 남았습니다');
-      return;
-    }
-    if (!applyPostData.agreeUserInfo) {
-      alert('필수동의사항을 체크해주세요');
-      return;
-    }
-    console.log(param);
-    history.push(`/completion/${param.productId}`);
-  }; // 백엔드 맞출때 구성
+    TokenCheck(
+      accessToken =>
+        ApiRq(
+          'POST',
+          applyApiURL.LOCAL_POST_APPLY,
+          { storeId: param.productId },
+          { ...applyPostData },
+          { Authorization: accessToken }
+        ),
+      history
+    ).then(data => {
+      alert(data.data.message);
+      history.push(`/completion/${data.data.orderNumber}`);
+    });
+  };
 
-  const finalPayment = (applyGetData?.cuponPrice || 0) - applyPostData?.mileage;
+  const finalPayment = (productData.priceOfCoupon || 0) - (applyPostData.mileage || 0);
 
-  const { titleData, orderInfoData } = applyData;
-
-  console.log(applyPostData);
+  const { titleData, orderInfoData } = MockData;
 
   return (
     <Contain>
       <TopImgWrapper>
-        <TopImg {...{ applyGetData }} />
-        <ProductInfoSummary {...{ applyGetData }} />
+        <TopImg {...{ productData }} />
+        <ProductInfoSummary {...{ productData }} />
       </TopImgWrapper>
       <InputWrapper>
         {titleData?.map(({ id, title }) => {
@@ -89,8 +154,8 @@ function Apply() {
               <TitleWrapper>
                 <Title>{title}</Title>
               </TitleWrapper>
-              {title === '주문자 정보' && <OrdererInfo {...{ orderInfoData, handleValue }} />}
-              {title === '결제 정보' && <PaymentInfo {...{ applyGetData, handleValue, applyPostData }} />}
+              {title === '주문자 정보' && <OrdererInfo {...{ orderInfoData, handleValue, flag }} />}
+              {title === '결제 정보' && <PaymentInfo {...{ productData, handleValue, applyPostData, flag }} />}
               {title === '최종 결제금액' && <FinalPaymentAmount>{finalPayment} 원</FinalPaymentAmount>}
               {title === '개인정보 활용 동의' && <AgreeUsePersonalInfo {...{ handleValue }} />}
             </Wrapper>

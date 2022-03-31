@@ -22,7 +22,8 @@ function NaverMapApi({ latitude, longitude }) {
           width: '70%',
           height: '30rem',
         }}
-        defaultCenter={asd.center}
+        center={asd.center}
+        onCenterChanged={center => setasd({ center })}
         defaultZoom={15}
       >
         <Marker key={1} position={new navermaps.LatLng(asd.center.lat, asd.center.lng)} animation={2} />

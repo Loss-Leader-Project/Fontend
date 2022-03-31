@@ -5,12 +5,12 @@ import MuiInput from 'Components/MuiInput';
 import { mobile, tab, pc } from 'styles/theme';
 import MuiCheckbox from './MuiCheckbox';
 
-function PaymentInfo({ applyPostData, applyGetData, handleValue }) {
+function PaymentInfo({ productData, handleValue, flag, applyPostData }) {
   return (
     <div>
       <Wrapper>
         <ColumnTitle title='결제금액' />
-        <AmountInfo>{applyGetData.cuponPrice}원</AmountInfo>
+        <AmountInfo>{productData.priceOfCoupon}원</AmountInfo>
       </Wrapper>
       <Wrapper>
         <ColumnTitle title='마일리지사용' />
@@ -19,13 +19,19 @@ function PaymentInfo({ applyPostData, applyGetData, handleValue }) {
             name='mileage'
             label={'마일리지'}
             onChange={handleValue}
-            defaultValue={applyPostData.mileageChecked}
-            type='number'
+            value={applyPostData.mileage}
+            type='text'
             helperText={`${'마일리지'}을 입력해주세요`}
             size='small'
+            flag={flag.mileage}
           />
         </InputWrapper>
-        <MuiCheckbox name='mileageChecked' handleValue={handleValue} label={'전액사용'} />
+        <MuiCheckbox
+          name='allUseMileage'
+          value={applyPostData.allUseMileage}
+          handleValue={handleValue}
+          label={'전액사용'}
+        />
       </Wrapper>
     </div>
   );

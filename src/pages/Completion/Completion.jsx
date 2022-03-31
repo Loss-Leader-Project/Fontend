@@ -1,22 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getApply } from 'utils/api';
 import { tab, mobile } from 'styles/theme';
 import TopImg from 'pages/Apply/TopImg';
 import ProductInfoSummary from 'pages/Apply/ProductInfoSummary';
 import MuiButton from 'Components/MuiButton';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
+import { applyApiURL } from 'utils/apiUrl';
+import { ApiRq } from 'utils/apiConfig';
+import TokenCheck from 'utils/TokenCheck.js';
 
 function Completion() {
   const [applyGetData, setApplyGetData] = useState([]);
 
   const history = useHistory();
+  const accessToken = localStorage.getItem('access-token');
+  const param = useParams();
 
   useEffect(() => {
-    getApply().then(data => {
-      setApplyGetData(data);
+    TokenCheck(
+      accessToken =>
+        ApiRq('GET', applyApiURL.LOCAL_GET_COMPLETION, { orderNumber: param.orderNumber }, null, {
+          Authorization: accessToken,
+        }),
+      null
+    ).then(data => {
+      setApplyGetData(data.data);
     });
-  }, []);
+  }, [param, accessToken]);
 
   const pageMove = page => {
     history.push(page);
@@ -25,10 +35,13 @@ function Completion() {
   return (
     <Contain>
       <TopImgWrapper>
-        <TopImg {...{ applyGetData }} />
-        <ProductInfoSummary {...{ applyGetData }} />
+        <TopImg productData={applyGetData} />
+        <ProductInfoSummary productData={applyGetData} />
       </TopImgWrapper>
       <InfoWrapper>
+        <OrderInfos>이름 : {applyGetData.userName}</OrderInfos>
+        <OrderInfos>인원수 : {applyGetData.visitCount}</OrderInfos>
+        <OrderInfos>시간 : {applyGetData.visitTime}</OrderInfos>
         <Info>신청이 완료되었습니다</Info>
       </InfoWrapper>
 
@@ -78,7 +91,8 @@ const Wrapper = styled.div`
 
 const InfoWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   background-color: #e9ecef;
 `;
 
@@ -86,4 +100,10 @@ const Info = styled.p`
   font-size: 2rem;
   font-weight: 700;
   margin: 1rem;
+`;
+
+const OrderInfos = styled.div`
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
 `;
