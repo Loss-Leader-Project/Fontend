@@ -53,8 +53,10 @@ const Header = ({ menuopen, setMenuOpen }) => {
             {checkLogin ? (
               <LogoutText
                 onClick={async () => {
+                  await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT, null, null, {
+                    Authorization: localStorage.getItem('access-token'),
+                  });
                   localClear();
-                  await ApiRq('get', loginApiURL.LOCAL_GET_LOGIN_LOGOUT);
                   history.push('/login');
                 }}
               >
