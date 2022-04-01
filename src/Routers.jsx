@@ -19,6 +19,7 @@ import Footer from 'Components/Footer';
 import Completion from 'pages/Completion/Completion';
 import TeamsInfo from 'pages/TeamsInfo/TeamsInfo';
 import Error404 from 'Error404';
+import ProjectInfo from 'pages/ProjectInfo/ProjectInfo';
 
 const Routers = () => {
   const [open, setOpen] = useState(false);
@@ -52,6 +53,7 @@ const Routers = () => {
         <Route path='/my' component={My} />
         <Route exact path='/list' component={List} />
         <Route exact path='/teamsInfo' component={TeamsInfo} />
+        <Route exact path='/projectInfo' component={ProjectInfo} />
         <Route exact path='/error' component={Error404} />
         <Route path='*' render={() => <Redirect to='/' />} />
       </Switch>

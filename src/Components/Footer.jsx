@@ -10,7 +10,6 @@ export default function Footer() {
   const [footerData, setFooterData] = useState([]);
 
   useEffect(() => {
-    //api 공통 모듈 머징되면 수정예정
     fetch('/data/footerData.json')
       .then(res => res.json())
       .then(data => setFooterData(data))
@@ -19,14 +18,12 @@ export default function Footer() {
 
   const fontawsomeIconImage = [faGithub, faGitSquare, faCopy];
 
-  console.log(footerData);
   return (
     <Contain>
       <div>
         {footerData.footerMenu?.map(({ name, id }) => {
           return (
-            //팀원소개 페이지도 구현예정
-            <Menues to={`/${name === '팀원소개' ? 'teamsInfo' : ''}`} key={id}>
+            <Menues to={`/${name === '팀원소개' ? 'teamsInfo' : 'projectInfo'}`} key={id}>
               {name}
             </Menues>
           );
