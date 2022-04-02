@@ -19,16 +19,16 @@ function App() {
     <React.StrictMode>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <RenderAfterNavermapsLoaded
+          {/* <RenderAfterNavermapsLoaded
             ncpClientId={'nh1l9cbip1'}
             error={<p>Maps Load Error</p>}
             loading={<p>Maps Loading...</p>}
           >
-            <GlobalStyle />
-            <Layout>
-              <Routers />
-            </Layout>
-          </RenderAfterNavermapsLoaded>
+          </RenderAfterNavermapsLoaded> */}
+          <GlobalStyle />
+          <Layout>
+            <Routers />
+          </Layout>
         </ThemeProvider>
       </Provider>
     </React.StrictMode>

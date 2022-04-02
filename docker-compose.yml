@@ -1,0 +1,8 @@
+version: '2'
+services:
+  proxy:
+    container_name: react-deploy
+    image: react_nginx:latest
+    ports:
+      - '3000:80'
+# 젠킨스 컨테이너에 도커 컴포즈가 없어서 사용을 못한다.
