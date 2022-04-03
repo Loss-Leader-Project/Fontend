@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import { gray, lightDark, mobile, tab } from 'styles/theme';
-import { getData } from 'utils/api';
 
 const RecommandBox = () => {
   const [randomIndex, setRandomIndex] = useState(0);
@@ -13,9 +12,14 @@ const RecommandBox = () => {
   const [menuList, setMenuList] = useState('');
 
   useEffect(() => {
-    getData('/data/menuList.json').then(res => {
-      setMenuList(res.data.menuList);
-    });
+    fetch('/data/menuList.json')
+      .then(res => {
+        const result = res.json();
+        return result;
+      })
+      .then(data => {
+        setMenuList(data.menuList);
+      });
   }, []);
 
   useEffect(() => {
