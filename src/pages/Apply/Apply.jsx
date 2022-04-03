@@ -114,7 +114,6 @@ function Apply() {
         resultValue = value;
         break;
     }
-
     setApplyPostData(previousState => {
       return { ...previousState, [name]: resultValue };
     });
