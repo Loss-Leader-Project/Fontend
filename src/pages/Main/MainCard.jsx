@@ -15,6 +15,9 @@ const MainCard = props => {
     history.push(`/product/${id}/review`);
   };
 
+  console.log(props.reviewTitle);
+  console.log(props.reviewTitle?.replace(/</g, '&lt;'));
+
   return (
     <CardWrapper>
       {props.name === 'hotplace' && (
@@ -41,7 +44,9 @@ const MainCard = props => {
               moveReview(props.storeId);
             }}
           >
-            <NoReviewTitle>{props.reviewTitle}</NoReviewTitle>
+            <NoReviewTitle
+              dangerouslySetInnerHTML={{ __html: props.reviewTitle?.replace(/&lt;/g, '<') }}
+            ></NoReviewTitle>
             <CardSpan>{props.userName}</CardSpan>
             <div>
               <CustomRating
@@ -53,7 +58,9 @@ const MainCard = props => {
                 readOnly
               />
             </div>
-            <NoReviewImgContent>{props.reviewContent}</NoReviewImgContent>
+            <NoReviewImgContent
+              dangerouslySetInnerHTML={{ __html: props.reviewContent?.replace(/&lt;/g, '<') }}
+            ></NoReviewImgContent>
           </NoReviewImgWrap>
         ) : (
           <div
@@ -65,7 +72,10 @@ const MainCard = props => {
               <CardImg src={`${process.env.REACT_APP_REVIEW_IMG_URL}/${props.reviewImage}`} alt='cardImg' />
             </div>
             <div>
-              <CardContent name={props.name}>{props.reviewContent}</CardContent>
+              <CardContent
+                name={props.name}
+                dangerouslySetInnerHTML={{ __html: props.reviewContent?.replace(/&lt;/g, '<') }}
+              ></CardContent>
               <CardContent>
                 <CustomRating
                   name='rating'
