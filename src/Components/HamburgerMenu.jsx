@@ -164,7 +164,6 @@ const GridText = styled.p`
   color: ${lightDark};
   font-weight: bold;
   margin-bottom: 20px;
-  cursor: pointer;
 `;
 
 const Box = styled(Grid)`
