@@ -53,6 +53,8 @@ export const listApiURL = {
  */
 export const myApiURL = {
   GET_USER_INFO: `/user/info`,
+  // 마일리지 받아오는 url 추가
+  GET_USER_INFO_ORDERLIST: `/user/info/order-listing`,
   GET_USER_INFO_UPDATE: `/user/info`,
   POST_CREATE_REVIEW: `/review`,
   GET_BUYS: '/order/product/history',
