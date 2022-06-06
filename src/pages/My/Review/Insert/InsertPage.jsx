@@ -104,8 +104,9 @@ const InsertPage = () => {
         return ApiRq('post', end_point, null, payload, headers);
       });
 
-      alert(data);
-      if (/리뷰 작성 완료/gi.test(data)) return history.replace('/my/review');
+      // alert(data);
+      // if (/리뷰 작성 완료/gi.test(data)) return history.replace('/my/review');
+      return history.replace('/my/review');
     } catch (error) {
       if ('data' in error) {
         const { code, message } = error.data;
@@ -158,7 +159,7 @@ const InsertPage = () => {
             <ReviewImgWrapper>
               <ReviewImg
                 className='reviewImg'
-                src={`http://114.202.45.254:9000/review/${image}`}
+                src={`${process.env.REACT_APP_REVIEW_IMG_URL}/${image}`}
                 alt='reviewImg'
                 onClick={handleImgRemove(image)}
               />

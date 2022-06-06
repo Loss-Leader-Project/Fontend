@@ -3,12 +3,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { mobile } from 'styles/theme';
 import { ApiRq } from 'utils/apiConfig';
-import { myApiURL } from 'utils/apiUrl';
+import { myApiURL, GET_USER_INFO_ORDERLIST } from 'utils/apiUrl';
 import BuyItem from './BuysItem';
 import BuysHead from './BuysHead';
 import UserInfo from './UserInfo';
 import { useHistory } from 'react-router-dom';
-import TokenCheck from 'utils/TokenCheck'
+import TokenCheck from 'utils/TokenCheck';
 import Validation from 'utils/validation';
 import Empty from 'Components/Empty';
 
@@ -46,8 +46,14 @@ const BuyPage = () => {
   useEffect(() => {
     async function fetchUserInfo() {
       try {
+        const accessToken = localStorage.getItem('access-token');
         const { data } = await TokenCheck(null, history);
-        setUserInfo(prevUserInfo => ({ ...prevUserInfo, ...data }));
+        const userData = await ApiRq('get', myApiURL.GET_USER_INFO_ORDERLIST, null, null, {
+          Authorization: accessToken,
+        });
+
+        const { mileage } = userData.data;
+        setUserInfo(prevUserInfo => ({ ...prevUserInfo, ...data, mileage }));
       } catch (error) {
         handleError('에러가 발생했습니다.');
       }

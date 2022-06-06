@@ -34,7 +34,7 @@ const SignUpEmail = ({ email, flag, handleValue, mailHandleChange, helpTextEmail
           >
             <MenuItem value={'직접입력'}>직접입력</MenuItem>
             <MenuItem value={'naver.com'}>naver.com</MenuItem>
-            <MenuItem value={'google.com'}>google.com</MenuItem>
+            <MenuItem value={'google.com'}>gmail.com</MenuItem>
             <MenuItem value={'daum.net'}>daum.net</MenuItem>
           </Select>
           {flag.email && <FormHelperText>메일주소를 선택해주세요</FormHelperText>}

@@ -72,10 +72,18 @@ const HamburgerMenu = ({ menuopen, setMenuOpen }) => {
         <Grid item>
           <GridText>오늘은 뭐먹지</GridText>
           <CustomUl>
-            <CustomLi>
+            <CustomLi
+              onClick={() => {
+                historyMove('/list?tier=gold&sorting=desc');
+              }}
+            >
               <span>골드</span> 매장할인 해드려요
             </CustomLi>
-            <CustomLi>
+            <CustomLi
+              onClick={() => {
+                historyMove('/list?tier=silver&sorting=desc');
+              }}
+            >
               <span>실버</span> 매장상품 제공해드려요
             </CustomLi>
           </CustomUl>
@@ -157,6 +165,7 @@ const CustomLi = styled.li`
   span {
     color: ${lightDark};
     font-weight: bold;
+    cursor: pointer;
   }
 `;
 
@@ -164,7 +173,6 @@ const GridText = styled.p`
   color: ${lightDark};
   font-weight: bold;
   margin-bottom: 20px;
-  cursor: pointer;
 `;
 
 const Box = styled(Grid)`
