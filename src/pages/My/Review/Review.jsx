@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom';
 const Review = ({ content, star, userName, imageIdentifyList, storeId, storeName, briefAddress }) => {
   const [image] = imageIdentifyList;
   const url = `${process.env.REACT_APP_REVIEW_IMG_URL}/${image?.imageIdentify ?? 'noimg.jpg'}`;
-  const producPath = `/product/${storeId}`;
+  // 리뷰 페이지로 이동하게 /review 추가
+  const producPath = `/product/${storeId}/review`;
   const html = content.replace(/&lt;/g, '<');
   return (
     <ReviewWrapper to={producPath}>

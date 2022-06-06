@@ -17,18 +17,14 @@ function Detail() {
   const [subImages, setSubImages] = useState([]);
   const param = useParams();
   const history = useHistory();
-  const accessToken = localStorage.getItem('access-token');
+  // const accessToken = localStorage.getItem('access-token');
 
   useEffect(() => {
-    TokenCheck(
-      accessToken =>
-        ApiRq('GET', detailApiURL.LOCAL_GET_DETAIL, { storeId: param.productId }, null, { Authorization: accessToken }),
-      null
-    ).then(data => {
+    ApiRq('GET', detailApiURL.LOCAL_GET_DETAIL, { storeId: param.productId }, null, null).then(data => {
       setProductData(data?.data);
       imageFirstSetting(data?.data);
     });
-  }, [param.productId, accessToken]);
+  }, [param.productId]);
 
   const imageFirstSetting = productData => {
     const imageUrles = changeImageUrl(productData?.storeTopData?.storeFoodImageResponseList, '업체');
