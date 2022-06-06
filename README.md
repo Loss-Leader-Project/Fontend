@@ -157,4 +157,4 @@
 
 - [깃허브 (backend)](https://github.com/Loss-Leader-Project/Backend)
 
-- [로스리더 사이트](http://114.202.45.254:3000/)
+- [로스리더 사이트](http://218.55.129.211:3000/)
