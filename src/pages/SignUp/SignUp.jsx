@@ -169,6 +169,8 @@ const SignUp = props => {
         history.push('/login');
       })
       .catch(res => {
+        alert('회원가입에 실패하셨습니다.');
+
         switch (res.data.status) {
           case 409:
             sethelpTextID(res.data.message);
